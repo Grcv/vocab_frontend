@@ -1,0 +1,28 @@
+.sound-breakdown-page {
+  max-width: 420px;
+  margin: auto;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.word {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+.sounds {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.sound-chip {
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  background: #e9f2ff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: 2px solid #0d6efd;
+}

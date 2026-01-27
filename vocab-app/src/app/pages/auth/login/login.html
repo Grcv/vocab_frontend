@@ -1,0 +1,68 @@
+<div class="login-page">
+
+  <div class="login-card">
+
+    <div class="text-center mb-4">
+      <i class="fas fa-language fa-3x text-primary mb-3"></i>
+      <h3 class="fw-bold">Iniciar sesión</h3>
+      <p class="text-muted">
+        Continúa entrenando tu inglés
+      </p>
+    </div>
+
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+
+      <div class="mb-3">
+        <label class="form-label">Correo electrónico</label>
+        <input
+          type="email"
+          class="form-control"
+          required
+          [(ngModel)]="email"
+          name="email"
+          placeholder="correo@ejemplo.com">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        <input
+          type="password"
+          class="form-control"
+          required
+          [(ngModel)]="password"
+          name="password"
+          placeholder="••••••••">
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger py-2">
+        {{ error }}
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary w-100 btn-lg"
+        [disabled]="loading">
+
+        <span *ngIf="!loading">Entrar</span>
+        <span *ngIf="loading">
+          <span class="spinner-border spinner-border-sm me-2"></span>
+          Verificando...
+        </span>
+      </button>
+
+    </form>
+
+    <div class="text-center mt-4">
+      <small class="text-muted">
+        ¿No tienes cuenta?
+        <a
+        routerLink="/get-started"
+        class="text-primary fw-semibold">
+        Empieza gratis
+        </a>
+      </small>
+    </div>
+
+  </div>
+
+</div>

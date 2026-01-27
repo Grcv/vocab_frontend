@@ -1,0 +1,45 @@
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+}
+
+.navbar-brand {
+  font-weight: 600;
+}
+
+.nav-link {
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  &.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    font-weight: 500;
+  }
+}
+
+.progress {
+  width: 100px;
+  height: 8px;
+}
+
+.footer {
+  margin-top: auto;
+  padding: 1rem;
+  background: #f1f1f1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar,
+.navbar-collapse {
+  overflow: visible;
+}

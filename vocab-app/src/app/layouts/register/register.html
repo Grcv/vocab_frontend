@@ -1,0 +1,89 @@
+<div class="container py-5" style="max-width: 420px;">
+
+  <h2 class="fw-bold text-center mb-4">
+    Empieza gratis
+  </h2>
+
+  <form (ngSubmit)="register()" #form="ngForm">
+
+    <!-- NOMBRE -->
+    <div class="mb-3">
+      <label class="form-label">Nombre</label>
+      <input
+        type="text"
+        class="form-control"
+        required
+        [(ngModel)]="user.name"
+        name="name">
+    </div>
+
+    <!-- EMAIL -->
+    <div class="mb-3">
+      <label class="form-label">Correo electrónico</label>
+      <input
+        type="email"
+        class="form-control"
+        required
+        [(ngModel)]="user.email"
+        name="email">
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="mb-3">
+      <label class="form-label">Contraseña</label>
+      <input
+        type="password"
+        class="form-control"
+        required
+        minlength="6"
+        [(ngModel)]="user.password"
+        name="password">
+    </div>
+
+    <!-- PERFIL DE APRENDIZAJE -->
+    <div class="mb-4">
+      <label class="form-label">¿Cómo quieres aprender?</label>
+      <select
+        class="form-select"
+        [(ngModel)]="user.learningProfile"
+        name="learningProfile"
+        required>
+
+        <option value="normal">Normal (recomendado)</option>
+        <option value="casual">Casual (repaso)</option>
+        <option value="intensive">Intensivo (rápido)</option>
+        <option value="automatic">Automático (adaptativo)</option>
+
+      </select>
+
+      <small class="text-muted d-block mt-1">
+        Puedes cambiar esto después en ajustes
+      </small>
+    </div>
+
+    <!-- ERROR -->
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+
+    <!-- SUBMIT -->
+    <button
+      class="btn btn-primary w-100"
+      [disabled]="loading || !form.valid">
+
+      <span *ngIf="!loading">Crear cuenta</span>
+      <span *ngIf="loading">Creando cuenta...</span>
+    </button>
+
+  </form>
+
+  <div class="text-center mt-4">
+    <small class="text-muted">
+      ¿Ya tienes cuenta?
+      <a routerLink="/login" class="fw-semibold">
+        Inicia sesión
+      </a>
+    </small>
+  </div>
+
+</div>

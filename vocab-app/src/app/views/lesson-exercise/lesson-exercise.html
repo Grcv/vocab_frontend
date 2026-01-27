@@ -1,0 +1,41 @@
+<div *ngIf="word" class="lesson-card fade-in">
+
+  <span class="badge">Nueva palabra</span>
+
+  <h2 class="english-word">
+    {{ word.word }}
+  </h2>
+
+  <p class="ipa" *ngIf="word.ipa">
+    /{{ word.ipa }}/
+  </p>
+
+  <div class="image-container" *ngIf="word.image">
+    <img [src]="word.image" alt="word image" />
+  </div>
+
+  <p class="translation">
+    {{ word.translation }}
+  </p>
+
+  <!-- AUDIO -->
+  <button
+    class="audio-btn"
+    [class.playing]="isPlaying"
+    (click)="playAudio()">
+    🔊 Escuchar pronunciación
+  </button>
+
+  <!-- MARCAR -->
+  <button
+    class="learned-btn"
+    [class.active]="markedAsLearned"
+    (click)="markAsLearned()">
+    ✔ {{ markedAsLearned ? 'Aprendida' : 'Marcar como aprendida' }}
+  </button>
+
+  <button class="continue-btn" (click)="continue()">
+    Continuar →
+  </button>
+
+</div>

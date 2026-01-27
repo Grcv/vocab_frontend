@@ -1,0 +1,54 @@
+<div class="exercises-container">
+
+  @if (loading) {
+    <p class="loading">⏳ Cargando ejercicio...</p>
+  }
+
+  @if (!loading && finished) {
+    <app-finished-lesson
+      (restart)="restartSession()"
+      (goToDashboard)="goToDashboard()"
+    />
+  }
+
+  @if (!loading && !finished && currentExercise && currentWord) {
+
+    @if (currentExercise === 'lesson') {
+      <app-lesson-exercise
+        [word]="currentWord"
+        (completed)="onExerciseCompleted($event)" />
+    }
+
+    @if (currentExercise === 'translation') {
+      <app-translation-exercise
+        [word]="currentWord"
+        (completed)="onExerciseCompleted($event)" />
+    }
+
+    @if (currentExercise === 'audio') {
+      <app-audio-match-exercise
+        [word]="currentWord"
+        (completed)="onExerciseCompleted($event)" />
+    }
+
+    @if (currentExercise === 'audiotoaudio') {
+      <app-audio-to-audio-exercise
+        [word]="currentWord"
+        (completed)="onExerciseCompleted($event)" />
+    }
+
+    @if (currentExercise === 'pronunciation') {
+      <app-pronunciation-exercise
+        [word]="currentWord"
+        (completed)="onExerciseCompleted($event)" />
+    }
+
+    @if (currentExercise === 'spelling') {
+      <app-spelling-exercise
+        [word]="currentWord"
+        (completed)="onExerciseCompleted($event)" />
+    }
+
+  }
+
+</div>

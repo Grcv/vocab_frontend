@@ -1,0 +1,32 @@
+<div class="word-card" [class.learned]="word.learned">
+
+
+  <!-- Palabra -->
+  <h3 class="word-english">
+    {{ word.word }}
+  </h3>
+
+  <!-- Significado -->
+  <p class="word-spanish">
+    {{ word.translation }}
+  </p>
+
+  <!-- Acciones -->
+  <div class="actions">
+
+    <button
+      *ngIf="word.audio"
+      class="btn btn-audio"
+      (click)="playAudio()">
+      🔊 Escuchar
+    </button>
+    <button
+      class="btn btn-learned"
+      [class.active]="word.learned"
+      (click)="onToggleLearned()">
+      {{ word.learned ? '✔ Aprendida' : 'Marcar aprendida' }}
+    </button>
+
+  </div>
+
+</div>

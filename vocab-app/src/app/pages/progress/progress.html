@@ -1,0 +1,53 @@
+<div class="progress-page" *ngIf="data">
+
+  <h1>📈 Tu progreso</h1>
+  <p class="welcome">Estudiante: <strong>{{ data.user_name }}</strong></p>
+  <p class="cefr">Nivel actual: <strong>{{ data.cefr }}</strong></p>
+
+  <!-- 📊 RESUMEN -->
+  <div class="cards">
+    <div class="card">
+      <span>Total</span>
+      <h2>{{ data.total }}</h2>
+    </div>
+
+    <div class="card success">
+      <span>Aprendidas</span>
+      <h2>{{ data.learned }}</h2>
+    </div>
+
+    <div class="card warning">
+      <span>Pendientes</span>
+      <h2>{{ data.pending }}</h2>
+    </div>
+  </div>
+
+  <!-- 🎯 PROGRESO GENERAL -->
+  <div class="progress-box">
+    <h3>Progreso general</h3>
+
+    <div class="progress-bar">
+      <div
+        class="progress-fill"
+        [style.width.%]="progressPercent()">
+      </div>
+    </div>
+
+    <p>{{ progressPercent() }}% completado</p>
+  </div>
+
+  <!-- 🧭 PROGRESO POR ETAPA -->
+  <div class="stages">
+    <h3>Etapas de aprendizaje</h3>
+
+    <div class="stage-grid">
+      <div class="stage-card" *ngFor="let stage of stages()">
+        <span class="stage-name">{{ stage }}</span>
+        <span class="stage-number">
+          {{ data.by_stage[stage] }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+</div>

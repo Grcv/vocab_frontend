@@ -1,0 +1,57 @@
+<div class="spelling-exercise">
+
+  <p class="instruction instruction--emphasis">
+    Escucha la palabra y escríbela correctamente
+  </p>
+
+  <!-- AUDIO -->
+  <div class="audio-box">
+    <button
+      class="audio-btn"
+      (click)="playAudio()"
+      [class.playing]="state.playing"
+      [disabled]="state.isCorrect">
+      🔊 Escuchar palabra
+    </button>
+  </div>
+
+  <!-- TARJETA DE LETRAS -->
+  <div class="letters-card" (click)="focusInput()" *ngIf="letters.length">
+    <div class="letters">
+      <div
+        class="letter-box"
+        *ngFor="let letter of letters; let i = index"
+        [class.filled]="state.input[i]"
+        [class.active]="i === state.input.length && !state.isCorrect"
+        [class.correct]="state.isCorrect"
+        [class.wrong]="!state.isCorrect && state.input.length === letters.length">
+        {{ state.input[i] || '' }}
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUT INVISIBLE -->
+  <input
+    #spellingInput
+    type="text"
+    class="hidden-input"
+    autocomplete="off"
+    autocorrect="off"
+    autocapitalize="off"
+    spellcheck="false"
+    [value]="state.input"
+    [attr.maxlength]="letters.length"
+    (input)="onInputChange($any($event.target).value)"
+    [disabled]="state.isCorrect"
+  />
+
+  <!-- FEEDBACK -->
+  <p
+    class="feedback"
+    *ngIf="state.input.length === letters.length"
+    [class.correct]="state.isCorrect"
+    [class.wrong]="!state.isCorrect">
+    {{ state.isCorrect ? '¡Correcto!' : 'Intenta de nuevo' }}
+  </p>
+
+</div>

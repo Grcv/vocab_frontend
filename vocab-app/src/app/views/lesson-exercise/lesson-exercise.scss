@@ -1,0 +1,133 @@
+.lesson-card {
+  max-width: 420px;
+  margin: 2rem auto;
+  padding: 2rem 1.5rem;
+  border-radius: 26px;
+  background: linear-gradient(180deg, #ffffff, #f8f9fa);
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,.6);
+  text-align: center;
+  position: relative;
+}
+
+/* Entrada suave */
+.fade-in {
+  animation: fadeUp .4s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Badge */
+.badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0d6efd;
+  color: white;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 600;
+}
+
+/* Word */
+.english-word {
+  font-size: 2.6rem;
+  font-weight: 800;
+  margin: 1.2rem 0 0.5rem;
+}
+
+/* IPA */
+.ipa {
+  font-size: 1.25rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+/* Image */
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin: 1.4rem 0;
+
+  img {
+    width: 190px;
+    height: 190px;
+    object-fit: contain;
+    border-radius: 22px;
+    background: white;
+    box-shadow: 0 12px 30px rgba(0,0,0,.15);
+    transition: transform .25s ease;
+  }
+
+  img:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Translation */
+.translation {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #198754;
+  margin-bottom: 1.5rem;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  border-radius: 16px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .25s ease;
+}
+
+/* Audio */
+.audio-btn {
+  margin-bottom: .9rem;
+  padding: .75rem;
+  border: 2px solid #0d6efd;
+  background: transparent;
+  color: #0d6efd;
+
+  &.playing {
+    background: #0d6efd;
+    color: white;
+    box-shadow: 0 10px 25px rgba(13,110,253,.45);
+  }
+}
+
+/* Learned */
+.learned-btn {
+  margin-bottom: 1rem;
+  padding: .8rem;
+  border: 2px solid #198754;
+  background: transparent;
+  color: #198754;
+
+  &.active {
+    background: #198754;
+    color: white;
+    box-shadow: 0 10px 25px rgba(25,135,84,.45);
+  }
+}
+
+/* Continue */
+.continue-btn {
+  padding: .9rem;
+  background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+  color: white;
+  border: none;
+}

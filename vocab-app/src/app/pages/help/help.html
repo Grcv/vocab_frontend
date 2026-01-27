@@ -1,0 +1,42 @@
+<div class="help-page">
+
+  <h1>❓ Ayuda</h1>
+  <p class="subtitle">
+    Encuentra respuestas rápidas y consejos para aprovechar mejor la plataforma
+  </p>
+
+  <!-- 📘 Guía rápida -->
+  <section class="help-section">
+    <h2>📘 Guía rápida</h2>
+    <ul>
+      <li>📚 Estudia las palabras una por una</li>
+      <li>🔊 Escucha la pronunciación</li>
+      <li>✅ Marca las palabras que ya domines</li>
+      <li>📈 Revisa tu progreso en el dashboard</li>
+    </ul>
+  </section>
+
+  <!-- ❓ FAQ -->
+  <section class="help-section">
+    <h2>Preguntas frecuentes</h2>
+
+    <div class="faq-item" *ngFor="let faq of faqs">
+      <h3>{{ faq.question }}</h3>
+      <p>{{ faq.answer }}</p>
+    </div>
+  </section>
+
+  <!-- 🆘 Soporte -->
+  <section class="help-section support">
+    <h2>🆘 Soporte</h2>
+    <p>
+      Si tienes algún problema técnico o duda, puedes contactar al soporte:
+    </p>
+
+    <p class="contact">
+      📧 soporte@tudominio.com<br />
+      💬 WhatsApp: +52 55 0000 0000
+    </p>
+  </section>
+
+</div>

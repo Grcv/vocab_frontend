@@ -1,0 +1,61 @@
+<div class="word-card" [class.learned]="word.learned">
+
+  <!-- Imagen -->
+  <div class="image-wrapper">
+    <img
+      [src]="word.imageUrl"
+      [alt]="word.english"
+      loading="lazy" />
+  </div>
+
+  <!-- Meta -->
+  <div class="meta">
+    <span class="category">{{ word.category }}</span>
+
+    <span
+      class="badge difficulty"
+      [ngClass]="'bg-' + getDifficultyColor()">
+      {{ word.difficulty | titlecase }}
+    </span>
+  </div>
+
+  <!-- Palabra -->
+  <h3 class="word-english">
+    {{ word.english }}
+  </h3>
+
+  <!-- Fonética -->
+  <small *ngIf="word.phonetic" class="phonetic">
+    /{{ word.phonetic }}/
+  </small>
+
+  <!-- Significado -->
+  <p class="word-spanish">
+    {{ word.spanish }}
+  </p>
+
+  <!-- Ejemplo -->
+  <p *ngIf="word.examples.length" class="example">
+    “{{ word.examples[0] }}”
+  </p>
+
+  <!-- Acciones -->
+  <div class="actions">
+
+    <button
+      *ngIf="word.audioUrl"
+      class="btn btn-audio"
+      (click)="playAudio()">
+      🔊 Escuchar
+    </button>
+
+    <button
+      class="btn btn-learned"
+      [class.active]="word.learned"
+      (click)="onToggleLearned()">
+      {{ word.learned ? '✔ Aprendida' : 'Marcar aprendida' }}
+    </button>
+
+  </div>
+
+</div>

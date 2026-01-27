@@ -1,0 +1,182 @@
+.audio-choice-card {
+  max-width: 420px;
+  margin: 2rem auto;
+  padding: 2rem 1.5rem 2.3rem;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #ffffff, #f8f9fa);
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,.6);
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  position: relative;
+}
+
+/* Entrada */
+.fade-in {
+  animation: fadeUp .4s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Badge */
+.mode-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #6610f2, #845ef7);
+  color: white;
+  padding: .35rem .95rem;
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+
+/* Instrucción */
+.instruction {
+  text-align: center;
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+.instruction--emphasis {
+  font-weight: 600;
+}
+
+/* AUDIO OBJETIVO */
+.target-audio {
+  display: flex;
+  justify-content: center;
+}
+
+.target-audio-btn {
+  padding: 0.9rem 1.6rem;
+  border-radius: 18px;
+  border: none;
+  background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .25s ease;
+  box-shadow: 0 10px 25px rgba(13,110,253,.35);
+}
+
+.target-audio-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(13,110,253,.45);
+}
+
+/* OPCIONES */
+.options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+/* TARJETA */
+.option-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: .6rem;
+
+  padding: .8rem;
+  border-radius: 18px;
+  background: #f8f9fa;
+  border: 2px solid transparent;
+  box-shadow: 0 8px 18px rgba(0,0,0,.08);
+  transition: all .22s ease;
+}
+
+.option-card:hover:not(.correct):not(.wrong) {
+  transform: translateY(-3px);
+}
+
+/* Botón play */
+.option-play-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,.15);
+}
+
+.option-play-btn:hover {
+  background: #eef2f7;
+}
+
+/* Texto */
+.option-label {
+  font-weight: 600;
+  color: #212529;
+}
+
+/* Confirmar */
+.confirm-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  background: #e9ecef;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.confirm-btn:hover:not(:disabled) {
+  background: #ced4da;
+}
+
+.confirm-btn:disabled {
+  opacity: .5;
+  cursor: default;
+}
+
+/* Estados */
+.option-card.selected {
+  border-color: #0d6efd;
+}
+
+.option-card.correct {
+  background: #d1e7dd;
+  border-color: #198754;
+  animation: successPulse .4s ease;
+}
+
+.option-card.wrong {
+  background: #f8d7da;
+  border-color: #dc3545;
+  animation: errorShake .3s ease;
+}
+
+/* Animaciones feedback */
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+@keyframes errorShake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+/* Responsive */
+@media (max-width: 420px) {
+  .options {
+    grid-template-columns: 1fr;
+  }
+}

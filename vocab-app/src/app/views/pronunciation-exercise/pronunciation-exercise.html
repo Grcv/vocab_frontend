@@ -1,0 +1,72 @@
+<div class="pronunciation-exercise" *ngIf="word">
+
+  <div class="exercise-card fade-in">
+
+    <span class="mode-badge">Pronunciación</span>
+
+    <!-- INSTRUCCIÓN -->
+    <p class="instruction instruction--emphasis">
+      Escucha y pronuncia la palabra
+    </p>
+
+    <!-- PALABRA -->
+    <div class="word-card">
+      <h2>{{ word.prompt }}</h2>
+
+      <button
+        class="play-word-btn"
+        (click)="playAudio()"
+        [disabled]="state.listening || state.locked">
+        🔊 Escuchar
+      </button>
+    </div>
+
+    <!-- MIC -->
+    <div class="mic-zone">
+      <div
+        class="mic-ring"
+        [class.listening]="state.listening"
+        [class.locked]="state.locked"
+        (click)="startListening()">
+
+        <div class="mic-core">
+          🎤
+        </div>
+
+      </div>
+    </div>
+
+    <!-- AYUDA -->
+    <p class="hint" *ngIf="state.listening">
+      Habla ahora…
+    </p>
+
+    <p class="hint" *ngIf="!state.listening && !state.feedbackVisible">
+      Presiona el micrófono y pronuncia la palabra
+    </p>
+
+    <!-- RESULTADO -->
+    <div class="result" *ngIf="state.feedbackVisible">
+
+      <div class="score">
+        {{ state.score | number:'1.0-0' }}%
+      </div>
+
+      <p
+        class="feedback"
+        [class.correct]="state.isCorrect"
+        [class.wrong]="!state.isCorrect">
+        {{ state.isCorrect ? '¡Excelente pronunciación!' : 'Intenta nuevamente' }}
+      </p>
+
+      <div *ngIf="state.locked && !state.isCorrect" class="locked-message">
+        <small>
+          🔎 Pronunciación correcta:
+          <strong>{{ word.prompt }}</strong>
+        </small>
+      </div>
+
+    </div>
+
+  </div>
+</div>

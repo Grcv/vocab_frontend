@@ -1,0 +1,76 @@
+<div class="home-container">
+
+  <!-- HERO -->
+  <div class="card hero mb-4">
+    <div class="card-body text-center">
+      <h2 class="mb-2">
+        👋 Bienvenido a <strong>Pronuncia</strong>
+      </h2>
+      <p class="text-muted mb-3">
+        Aprende vocabulario, mejora tu pronunciación y domina el inglés paso a paso
+      </p>
+
+      <a routerLink="/vocabulary" class="btn btn-primary me-2">
+        📘 Aprender palabras
+      </a>
+
+      <a routerLink="/exercises" class="btn btn-outline-primary">
+        🧠 Practicar ejercicios
+      </a>
+    </div>
+  </div>
+
+  <!-- PROGRESO -->
+  <div class="row g-3 mb-4">
+
+    <div class="col-md-4">
+      <div class="card stat-card">
+        <div class="card-body text-center">
+          <h6 class="text-muted">Nivel actual</h6>
+          <h3 class="text-primary">{{ level }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card stat-card">
+        <div class="card-body text-center">
+          <h6 class="text-muted">Racha</h6>
+          <h3 class="text-success">🔥 {{ streakDays }} días</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card stat-card">
+        <div class="card-body text-center">
+          <h6 class="text-muted">Progreso</h6>
+          <h3>{{ progress }}%</h3>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ACCIONES -->
+  <div class="card">
+    <div class="card-body">
+      <h5 class="mb-3">¿Qué quieres hacer hoy?</h5>
+
+      <div class="action-list">
+        <a routerLink="/pronunciation" class="action-item">
+          🔊 Practicar pronunciación
+        </a>
+
+        <a routerLink="/grammar" class="action-item">
+          ✏️ Repasar gramática
+        </a>
+
+        <a routerLink="/vocabulary" class="action-item">
+          📖 Aprender nuevo vocabulario
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>

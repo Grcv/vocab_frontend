@@ -1,0 +1,47 @@
+<div class="audio-choice-card fade-in">
+
+  <span class="mode-badge">Escucha</span>
+
+  <p class="instruction instruction--emphasis">
+    Escucha y selecciona el audio correcto
+  </p>
+
+  <!-- AUDIO OBJETIVO -->
+  <div class="target-audio">
+    <button
+      class="target-audio-btn"
+      (click)="playTargetAudio()">
+      🔊 Escuchar palabra
+    </button>
+  </div>
+
+  <!-- OPCIONES -->
+  <div class="options">
+    <div
+      *ngFor="let option of word.audio_options; let i = index"
+      class="option-card"
+      [class.selected]="state.selected === i"
+      [class.correct]="state.selected !== undefined && i === word.correct_index"
+      [class.wrong]="state.selected === i && i !== word.correct_index">
+
+      <button
+        class="option-play-btn"
+        (click)="previewOption(i)">
+        🔊
+      </button>
+
+      <span class="option-label">
+        Opción {{ i + 1 }}
+      </span>
+
+      <button
+        class="confirm-btn"
+        [disabled]="state.isCorrect"
+        (click)="confirmOption(i)">
+        ✔
+      </button>
+
+    </div>
+  </div>
+
+</div>

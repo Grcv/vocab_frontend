@@ -1,0 +1,45 @@
+.home-container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.hero {
+  background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+  color: white;
+
+  p {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .btn {
+    min-width: 180px;
+  }
+}
+
+.stat-card {
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.action-item {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  background: #f8f9fa;
+  text-decoration: none;
+  color: #212529;
+  font-weight: 500;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #e9ecef;
+  }
+}

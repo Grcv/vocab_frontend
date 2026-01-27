@@ -1,0 +1,23 @@
+<div class="sound-breakdown-page">
+
+  <h2>🔍 Pronunciemos la palabra</h2>
+
+  <div class="word">
+    {{ word }}
+  </div>
+
+  <p class="instruction">
+    Escucha y practica cada sonido por separado:
+  </p>
+
+  <div class="sounds">
+    <span class="sound-chip" *ngFor="let sound of soundGroups">
+      {{ sound }}
+    </span>
+  </div>
+
+  <button class="btn btn-primary mt-4" (click)="goBack()">
+    🔁 Volver a practicar
+  </button>
+
+</div>

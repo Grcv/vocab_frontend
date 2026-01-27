@@ -1,0 +1,19 @@
+<div class="finished-container">
+  <div class="card">
+    <h2>🎉 ¡Sesión completada!</h2>
+
+    <p class="subtitle">
+      Excelente trabajo. No hay más ejercicios por hoy.
+    </p>
+
+    <div class="actions">
+      <button class="primary" (click)="restart.emit()">
+        🔄 Nueva sesión
+      </button>
+
+      <button class="secondary" (click)="goToDashboard.emit()">
+        🏠 Ir al resumen
+      </button>
+    </div>
+  </div>
+</div>

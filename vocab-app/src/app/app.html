@@ -1,0 +1,7 @@
+<ng-container *ngIf="isAuthenticated; else public">
+  <app-private-layout></app-private-layout>
+</ng-container>
+
+<ng-template #public>
+  <app-public-layout></app-public-layout>
+</ng-template>

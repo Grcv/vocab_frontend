@@ -1,0 +1,49 @@
+<div class="dashboard">
+  <h1>📘 Dashboard de Vocabulario</h1>
+
+  <p class="welcome">
+    Bienvenido,
+    <span class="user-name">{{ userName }}</span>
+
+    <!-- 👇 NUEVA LEYENDA CEFR -->
+    <span class="cefr-badge">
+      Nivel {{ stats.cefr }}
+    </span>
+  </p>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Total de palabras</h3>
+      <p class="number">{{ stats.total }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Aprendidas</h3>
+      <p class="number success">{{ stats.learned }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Pendientes</h3>
+      <p class="number warning">{{ stats.pending }}</p>
+    </div>
+  </div>
+
+  <div class="progress-section">
+    <h2>Progreso general</h2>
+    <div class="progress-bar">
+      <div class="progress" [style.width.%]="progress()"></div>
+    </div>
+    <p>{{ progress() }}% completado</p>
+  </div>
+
+  <div class="chart-section">
+    <h2>Distribución por tipo de ejercicio</h2>
+    <canvas id="progressPie"></canvas>
+  </div>
+
+  <div class="lesson-action">
+    <button class="start-btn" (click)="startLesson()">
+      ▶ Comenzar lección
+    </button>
+  </div>
+</div>
