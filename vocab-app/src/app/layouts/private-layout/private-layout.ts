@@ -5,6 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbDropdownModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { Logo } from '../../shared/logo/logo'
 
 @Component({
   selector: 'app-private-layout',
@@ -14,7 +15,8 @@ import { AuthService } from '../../services/auth';
     RouterModule,
     FontAwesomeModule,
     NgbDropdownModule,
-    NgbCollapseModule
+    NgbCollapseModule,
+    Logo
   ],
   templateUrl: './private-layout.html',
   styleUrls: ['./private-layout.scss']
@@ -47,6 +49,11 @@ export class PrivateLayout implements OnInit {
     }
   }
 
+
+  goToVocabularySettings(): void {
+    //alert('Vista de progreso en desarrollo');
+    this.router.navigate(['/vocabulary_settings']);
+  }
 
   goToSettings(): void {
     //alert('Vista de progreso en desarrollo');

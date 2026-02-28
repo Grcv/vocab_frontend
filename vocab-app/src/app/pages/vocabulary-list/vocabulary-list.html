@@ -1,141 +1,104 @@
-<div class="vocabulary-page container-fluid">
+<div class="vocabulary-page">
 
   <!-- HEADER -->
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">
-      <i class="fas fa-book"></i>
-      Vocabulario pendiente
-    </h2>
-
-    <span class="badge bg-secondary">
-      {{ filteredWords.length }} palabras
-    </span>
-  </div>
-
-  <!-- CARD ÚNICA -->
-  <div class="card">
-
-    <!-- FILTROS (alineados con tabla) -->
-    <div class="table-responsive border-bottom">
-      <table class="table table-borderless mb-0 filter-table">
-        <thead>
-          <tr>
-            <th>
-              <input class="form-control form-control-sm"
-                     placeholder="Palabra"
-                     [(ngModel)]="filters.word"
-                     (input)="applyFilters()">
-            </th>
-
-            <th>
-              <input class="form-control form-control-sm"
-                     placeholder="Traducción"
-                     [(ngModel)]="filters.translation"
-                     (input)="applyFilters()">
-            </th>
-
-            <th>
-              <input class="form-control form-control-sm"
-                     placeholder="CEFR"
-                     [(ngModel)]="filters.cefr"
-                     (input)="applyFilters()">
-            </th>
-
-            <th>
-              <input class="form-control form-control-sm"
-                     placeholder="POS"
-                     [(ngModel)]="filters.pos"
-                     (input)="applyFilters()">
-            </th>
-
-            <th>
-              <input class="form-control form-control-sm"
-                     placeholder="Categoría"
-                     [(ngModel)]="filters.category"
-                     (input)="applyFilters()">
-            </th>
-
-            <th class="text-center">
-              <button class="btn btn-sm btn-outline-secondary"
-                      title="Limpiar filtros"
-                      (click)="resetFilters()">
-                ✕
-              </button>
-            </th>
-          </tr>
-        </thead>
-      </table>
+  <div class="page-header">
+    <div>
+      <h2>Contenido pendiente</h2>
+      <p class="subtitle">Gestiona los elementos que aún no dominas</p>
     </div>
 
-    <!-- TABLA -->
-    <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-light">
+    <div class="counter">
+      {{ filteredWords.length }} registros
+    </div>
+  </div>
+
+  <!-- MAIN CARD -->
+  <div class="modern-card">
+
+    <!-- FILTROS DINÁMICOS -->
+    <div class="filters-row">
+
+      <ng-container *ngFor="let filter of filters | keyvalue">
+        <input
+          class="filter-input"
+          [placeholder]="filter.key | titlecase"
+          [(ngModel)]="filters[filter.key]"
+          (input)="applyFilters()">
+      </ng-container>
+
+      <button class="clear-btn" (click)="resetFilters()">
+        Limpiar
+      </button>
+
+    </div>
+
+    <!-- TABLA DINÁMICA -->
+    <div class="table-wrapper">
+      <table class="modern-table">
+
+        <thead>
           <tr>
-            <th>Word</th>
-            <th>Translation</th>
-            <th>CEFR</th>
-            <th>POS</th>
-            <th>Categoría</th>
+            <th *ngFor="let column of columns">
+              {{ column | titlecase }}
+            </th>
             <th class="text-center">✔</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr *ngFor="let word of paginatedWords">
-            <td>{{ word.word }}</td>
-            <td>{{ word.translation }}</td>
-            <td>{{ word.cefr }}</td>
-            <td>{{ word.pos }}</td>
-            <td>{{ word.category }}</td>
-            <td class="text-center">
-              <input type="checkbox"
-                     [checked]="selectedWordIds.has(word.id)"
-                     (change)="toggleWord(word.id, $event)">
+          <tr *ngFor="let item of paginatedWords">
+
+            <td *ngFor="let column of columns">
+              {{ item[column] }}
             </td>
+
+            <td class="text-center">
+              <input
+                *ngIf="item.id"
+                type="checkbox"
+                class="modern-checkbox"
+                [checked]="selectedWordIds.has(item.id)"
+                (change)="toggleWord(item.id, $event)">
+            </td>
+
           </tr>
 
           <tr *ngIf="paginatedWords.length === 0">
-            <td colspan="6" class="text-center text-muted py-4">
+            <td [attr.colspan]="columns.length + 1" class="empty-state">
               No hay resultados
             </td>
           </tr>
+
         </tbody>
+
       </table>
     </div>
 
   </div>
 
   <!-- PAGINACIÓN -->
-  <div class="d-flex justify-content-between align-items-center mt-4">
+  <div class="pagination-bar">
 
-    <div class="d-flex align-items-center gap-2">
+    <div class="page-size">
       <span>Mostrar</span>
-      <select class="form-select form-select-sm w-auto"
-              [(ngModel)]="pageSize"
-              (change)="changePageSize()">
+      <select [(ngModel)]="pageSize" (change)="changePageSize()">
         <option *ngFor="let size of pageSizes" [value]="size">
           {{ size }}
         </option>
       </select>
     </div>
 
-    <div class="d-flex align-items-center gap-3">
-      <button class="btn btn-outline-primary btn-sm"
-              (click)="prevPage()"
-              [disabled]="currentPage === 1">←</button>
-
+    <div class="pager">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">←</button>
       <span>Página {{ currentPage }} de {{ totalPages }}</span>
-
-      <button class="btn btn-outline-primary btn-sm"
-              (click)="nextPage()"
-              [disabled]="currentPage === totalPages">→</button>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">→</button>
     </div>
 
-    <button class="btn btn-primary"
-            (click)="saveProgress()"
-            [disabled]="selectedWordIds.size === 0">
-      Guardar
+    <button
+      class="save-btn"
+      (click)="saveProgress()"
+      [disabled]="selectedWordIds.size === 0">
+      Guardar cambios
     </button>
 
   </div>

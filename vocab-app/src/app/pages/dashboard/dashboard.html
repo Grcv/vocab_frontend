@@ -1,49 +1,59 @@
-<div class="dashboard">
-  <h1>📘 Dashboard de Vocabulario</h1>
+<div class="dashboard-container">
 
-  <p class="welcome">
-    Bienvenido,
-    <span class="user-name">{{ userName }}</span>
-
-    <!-- 👇 NUEVA LEYENDA CEFR -->
-    <span class="cefr-badge">
-      Nivel {{ stats.cefr }}
-    </span>
-  </p>
-
-  <div class="cards">
-    <div class="card">
-      <h3>Total de palabras</h3>
-      <p class="number">{{ stats.total }}</p>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="title-section">
+      <h1>Dashboard General</h1>
+      <p class="subtitle">Resumen general de tu progreso</p>
     </div>
 
-    <div class="card">
-      <h3>Aprendidas</h3>
-      <p class="number success">{{ stats.learned }}</p>
-    </div>
+    <div class="global-progress-card">
+      <div class="progress-info">
+        <div>
+          <span class="label">Progreso Total</span>
+          <strong>{{ globalProgress }}%</strong>
+        </div>
+      </div>
 
-    <div class="card">
-      <h3>Pendientes</h3>
-      <p class="number warning">{{ stats.pending }}</p>
+      <div class="progress-bar">
+        <div class="progress"
+             [style.width.%]="globalProgress">
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="progress-section">
-    <h2>Progreso general</h2>
-    <div class="progress-bar">
-      <div class="progress" [style.width.%]="progress()"></div>
+  <!-- MODULES -->
+  <div class="modules-grid">
+    <div class="module-card" *ngFor="let module of modules">
+
+      <div class="card-top">
+        <div class="icon">{{ module.icon }}</div>
+        <div class="title-block">
+          <h2>{{ module.title }}</h2>
+          <span class="mini-progress">
+            {{ progress(module) }}%
+          </span>
+        </div>
+      </div>
+
+      <div class="stats">
+        <span>{{ module.completed }}</span>
+        <span class="divider">/</span>
+        <span>{{ module.total }}</span>
+      </div>
+
+      <div class="progress-bar small">
+        <div class="progress"
+             [style.width.%]="progress(module)">
+        </div>
+      </div>
+
+      <a [routerLink]="['/', module.route]" class="go-dashboard-btn">
+        Abrir módulo →
+      </a>
+
     </div>
-    <p>{{ progress() }}% completado</p>
   </div>
 
-  <div class="chart-section">
-    <h2>Distribución por tipo de ejercicio</h2>
-    <canvas id="progressPie"></canvas>
-  </div>
-
-  <div class="lesson-action">
-    <button class="start-btn" (click)="startLesson()">
-      ▶ Comenzar lección
-    </button>
-  </div>
 </div>

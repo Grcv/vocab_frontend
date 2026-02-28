@@ -10,12 +10,22 @@ import { AudioMatchExercise } from '../../views/audio-match-exercise/audio-match
 import { AudioToAudioExercise } from '../../views/audio-audio-exercise/audio-to-audio-exercise';
 import { PronunciationExercise } from '../../views/pronunciation-exercise/pronunciation-exercise';
 import { SpellingExercise } from '../../views/spelling-exercise/spelling-exercise';
-import {LessonExerciseComponent} from '../../views/lesson-exercise/lesson-exercise'
-import {FinishedLesson} from '../../views/finished-lesson/finished-lesson'
+import {LessonExerciseComponent} from '../../views/lesson-exercise/lesson-exercise';
+import {FinishedLesson} from '../../views/finished-lesson/finished-lesson';
+import {LessonGrammar} from '../../views/lesson-grammar/lesson-grammar';
+import {LessonListening} from '../../views/lesson-listening/lesson-listening';
+import {LessonPronunciation} from '../../views/lesson-pronunciation/lesson-pronunciation';
+import {TranslationPhonemeExercise} from '../../views/translation-phoneme-exercise/translation-phoneme-exercise'
+import {AudioMatchPhonemeExercise} from '../../views/audio-match-phoneme-exercise/audio-match-phoneme-exercise'
 type ExerciseType =
   | 'lesson'
+  | 'lesson_grammar'
+  | 'lesson_listening'
+  | 'lesson_pronunciation'
   | 'translation'
+  | 'translation_phoneme'
   | 'audio'
+  | 'audio_phoneme'
   | 'audiotoaudio'
   | 'pronunciation'
   | 'spelling';
@@ -32,6 +42,11 @@ type ExerciseType =
     SpellingExercise,
     LessonExerciseComponent,
     FinishedLesson,
+    LessonGrammar,
+    LessonListening,
+    LessonPronunciation,
+    TranslationPhonemeExercise,
+    AudioMatchPhonemeExercise
   ],
   templateUrl: './exercises.html',
   styleUrls: ['./exercises.scss']
@@ -43,19 +58,27 @@ export class Exercises implements OnInit {
 
   loading = false;
   finished = false;
-
+  type: string = '';
+  seccion_type: string = '';
   constructor(private progressService: ProgressService,private router: Router) {}
 
   ngOnInit(): void {
     console.log('Exercises init');
     this.loadNextExercise();
+    this.recover();
   }
+
+recover(): void {
+  const seccion_type = localStorage.getItem('section');
+  this.progressService.recoverStage(seccion_type)
+
+}
 
   /** 🔄 Pedir al backend el siguiente ejercicio */
 loadNextExercise(): void {
+  const seccion_type = localStorage.getItem('section');
   this.loading = true;
-
-  this.progressService.getNextExercise().subscribe({
+  this.progressService.getNextExercise(seccion_type).subscribe({
     next: (data: any) => {
       console.log('Respuesta backend:', data);
 
@@ -69,6 +92,7 @@ loadNextExercise(): void {
       }
 
       // 🟢 CASO EJERCICIO NORMAL
+      this.type= data.type
       this.finished = false;
       this.currentExercise = data.exercise as ExerciseType;
       this.currentWord = data;
@@ -90,7 +114,7 @@ loadNextExercise(): void {
     if (!this.currentWord) return;
 
     this.progressService
-      .submitAnswer(this.currentWord.word_id, correct)
+      .submitAnswer(this.currentWord.word_id, correct,this.type)
       .subscribe(() => {
         this.loadNextExercise();
       });
@@ -108,8 +132,18 @@ restart() {
 }
 
 goToDashboard() {
-  this.router.navigate(['/dashboard']);
+  const sectionType = localStorage.getItem('section');
+  console.log("sectionType:",sectionType)
+  localStorage.removeItem('section');
+
+  if (sectionType) {
+    this.router.navigate([`/${sectionType}`]);
+  } else {
+    this.router.navigate(['/dashboard']);
+  }
+
   console.log('Go to dashboard');
 }
+
   
 }

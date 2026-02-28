@@ -1,0 +1,33 @@
+<div class="translation-card fade-in">
+
+  <span class="mode-badge">Traducción</span>
+
+  <p class="instruction">
+    Traduce la palabra al español
+  </p>
+
+  <!-- Word -->
+  <div class="word-card">
+    <span class="label">English</span>
+    <h2 class="english-word">
+      {{ word.prompt }}
+    </h2>
+  </div>
+
+  <!-- Options -->
+  <div class="options">
+    <button
+      *ngFor="let option of word.options"
+      class="option-btn"
+      [class.selected]="state.selected === option"
+      [class.correct]="state.isCorrect && option === word.correct"
+      [class.wrong]="state.selected === option && option !== word.correct"
+      (click)="selectOption(option)">
+
+
+      <span class="option-text">{{ option }}</span>
+
+    </button>
+  </div>
+
+</div>

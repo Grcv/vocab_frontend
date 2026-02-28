@@ -1,0 +1,126 @@
+.lesson-card {
+  max-width: 520px;
+  margin: 2rem auto;
+  padding: 2.2rem;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #ffffff, #f8f9fa);
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,.7);
+  text-align: center;
+  position: relative;
+}
+
+/* Animación */
+.fade-in {
+  animation: fadeUp .4s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Badge */
+.badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #dc3545;
+  color: white;
+  padding: 0.35rem 1.1rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 600;
+}
+
+/* Fonema grande */
+.phoneme-box {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #dc3545;
+  margin: 1.6rem 0 1rem;
+}
+
+/* Word */
+.word {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: .5rem;
+}
+
+/* IPA */
+.ipa {
+  font-size: 1.2rem;
+  color: #6c757d;
+  margin-bottom: 1.4rem;
+  font-style: italic;
+}
+
+/* Translation */
+.word-box {
+  background: #e9ecef;
+  padding: 1rem;
+  border-radius: 18px;
+  font-size: 1.1rem;
+  margin-top: 1.2rem;
+  margin-bottom: 1.4rem;
+}
+
+/* Botones */
+button {
+  width: 100%;
+  border-radius: 18px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .25s ease;
+}
+
+/* Audio */
+.audio-btn {
+  margin-bottom: 1rem;
+  padding: .9rem;
+  border: 2px solid #dc3545;
+  background: transparent;
+  color: #dc3545;
+
+  &.playing {
+    background: #dc3545;
+    color: white;
+    box-shadow: 0 12px 25px rgba(220,53,69,.4);
+  }
+}
+
+/* Continue */
+.continue-btn {
+  margin-top: 1.4rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+  color: white;
+  border: none;
+  box-shadow: 0 12px 25px rgba(13,110,253,.35);
+}
+
+::ng-deep .highlight {
+  color: #dc3545;
+  font-weight: 800;
+
+}
+
+.translation-box {
+  background: #e7f1ff;
+  padding: 1rem;
+  border-radius: 18px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0d6efd;
+  margin-bottom: 1.5rem;
+}
+
+.english-word {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 1.3rem 0 .4rem;
+}

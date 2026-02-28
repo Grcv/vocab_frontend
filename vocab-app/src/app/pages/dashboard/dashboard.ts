@@ -1,119 +1,123 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { ProgressService } from '../../services/user-progress';
-import { Chart } from 'chart.js/auto';
+import { RouterModule } from '@angular/router';
 
-interface StageStats {
-  [key: string]: number;
-}
-
-interface WordStat {
-  cefr: string;
-  user_name:string;
+export interface ModuleStats {
+  title: string;
+  icon: string;
   total: number;
-  learned: number;
-  pending: number;
-  by_stage: StageStats;
+  completed: number;
+  route?: string;
 }
 
-/* 👇 Nueva interfaz para el response */
-interface DashboardResponse extends WordStat {
-  user_name: string;
-}
+export interface Data {
+  completed: number
+  icon: string
+  title: string
+  total: number
+  }
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterModule],
   templateUrl: './dashboard.html',
-  styleUrls: ['./dashboard.scss']
+  styleUrl: './dashboard.scss',
 })
-export class Dashboard implements AfterViewInit {
+export class Dashboard implements OnInit{
+  modules: ModuleStats[] = [];
+
+  globalProgress = 0;
 
   constructor(
-    private router: Router,
     private progressService: ProgressService
   ) {}
 
-  userName = '';
-
-  stats: WordStat = {
-    cefr: '',
-    user_name: '',
-    total: 0,
-    learned: 0,
-    pending: 0,
-    by_stage: {}
-  };
-
   ngOnInit(): void {
-    this.loadData();
+    this.loadSummary();
   }
 
-  ngAfterViewInit(): void {}
+  calculateGlobalProgress() {
+    const total = this.modules.reduce((acc, m) => acc + m.total, 0);
+    const completed = this.modules.reduce((acc, m) => acc + m.completed, 0);
 
-  loadData(): void {
-    this.progressService.getSummary().subscribe({
-      next: (data: DashboardResponse) => {
-        console.log('Respuesta backend:', data);
-
-        /* 👇 nombre del estudiante */
-        this.userName = data.user_name;
-        
-        /* 👇 stats */
-        this.stats = {
-          user_name: data.user_name,
-          cefr: data.cefr,
-          total: data.total,
-          learned: data.learned,
-          pending: data.pending,
-          by_stage: {
-            ...data.by_stage,
-            new: data.pending   
-          }
-        };
-
-        this.renderPieChart();
-      },
-      error: err => console.error('Error loading summary', err)
-    });
+    this.globalProgress = total > 0
+      ? Math.round((completed / total) * 100)
+      : 0;
   }
 
-  renderPieChart(): void {
-    const labels = Object.keys(this.stats.by_stage);
-    const values = Object.values(this.stats.by_stage);
+  progress(module: ModuleStats): number {
+    return module.total > 0
+      ? Math.round((module.completed / module.total) * 100)
+      : 0;
+  }
 
-    const ctx = document.getElementById('progressPie') as HTMLCanvasElement;
-    if (!ctx) return;
+  capitalize(text: string): string {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
 
-    new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels,
-        datasets: [
-          {
-            data: values
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'bottom'
-          }
+  getIcon(type: string): string {
+    const icons: any = {
+      dashboard: '📊',
+
+      vocabulary: '📚',
+      pronunciation: '🗣️',
+      grammar: '✍️',
+
+      verbs: '🔤',
+      phrasal_verbs: '🧩',
+
+      contractions: '➗',
+      'connected-speech': '🔗',
+
+      idioms: '💡',
+      listening: '🎧'
+    };
+
+    return icons[type] || '📚';
+  }
+
+  get_tittle(type:string){
+    const titles: Record<string, string> = {
+      vocabulary: 'Vocabulario',
+      verbs: 'Verbos',
+      'connected-speech': 'Connected Speech',
+      idioms: 'Idioms',
+      listening: 'Listening',
+      contractions: 'Contracciones',
+      pronunciation: 'Pronunciación',
+      grammar: 'Gramática',
+      phrasal_verbs: 'Verbos Frasales'
+    };
+    let sectionTitle = titles[type ] 
+    return sectionTitle
+  }
+
+  loadSummary(){
+   this.progressService.getGeneral().subscribe({
+      next: (data: any) => {
+          Object.keys(data).forEach((type: string) => {
+            //console.log(data[type])
+            const module: ModuleStats = {
+              route: type,
+              title: this.get_tittle(type),
+              icon: this.getIcon(type),
+              total: data[type].total,
+              completed: data[type].learned
+            };
+            this.modules.push(module);
+          });
+
+
+          this.calculateGlobalProgress();
+
+        },
+        error: (err) => {
+          console.error('Error loading summary', err);
+
         }
-      }
-    });
+      });
   }
 
-  progress(): number {
-    if (this.stats.total === 0) return 0;
-    return Math.round((this.stats.learned / this.stats.total) * 100);
-  }
-
-  startLesson(): void {
-    this.router.navigate(['/exercises']);
-  }
 }

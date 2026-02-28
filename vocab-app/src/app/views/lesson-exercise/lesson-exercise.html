@@ -1,6 +1,6 @@
 <div *ngIf="word" class="lesson-card fade-in">
 
-  <span class="badge">Nueva palabra</span>
+  <span class="badge">Vocabulary</span>
 
   <h2 class="english-word">
     {{ word.word }}
@@ -14,9 +14,10 @@
     <img [src]="word.image" alt="word image" />
   </div>
 
-  <p class="translation">
+  <!-- Translation Box -->
+  <div class="translation-box">
     {{ word.translation }}
-  </p>
+  </div>
 
   <!-- AUDIO -->
   <button

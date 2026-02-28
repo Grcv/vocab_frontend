@@ -4,7 +4,7 @@
     Empieza gratis
   </h2>
 
-  <form (ngSubmit)="register()" #form="ngForm">
+  <form (ngSubmit)="register(form)" #form="ngForm" novalidate>
 
     <!-- NOMBRE -->
     <div class="mb-3">
@@ -14,7 +14,12 @@
         class="form-control"
         required
         [(ngModel)]="user.name"
-        name="name">
+        name="name"
+        #nameField="ngModel">
+
+      <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="text-danger mt-1">
+        El nombre es obligatorio
+      </div>
     </div>
 
     <!-- EMAIL -->
@@ -24,8 +29,15 @@
         type="email"
         class="form-control"
         required
+        email
         [(ngModel)]="user.email"
-        name="email">
+        name="email"
+        #emailField="ngModel">
+
+      <div *ngIf="emailField.invalid && (emailField.dirty || emailField.touched)" class="text-danger mt-1">
+        <div *ngIf="emailField.errors?.['required']">El email es obligatorio</div>
+        <div *ngIf="emailField.errors?.['email']">Email inválido</div>
+      </div>
     </div>
 
     <!-- PASSWORD -->
@@ -37,8 +49,39 @@
         required
         minlength="6"
         [(ngModel)]="user.password"
-        name="password">
+        name="password"
+        #passwordField="ngModel">
+
+      <div *ngIf="passwordField.invalid && (passwordField.dirty || passwordField.touched)" class="text-danger mt-1">
+        <div *ngIf="passwordField.errors?.['required']">La contraseña es obligatoria</div>
+        <div *ngIf="passwordField.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</div>
+      </div>
     </div>
+
+
+    <!-- CONFIRMAR PASSWORD -->
+    <div class="mb-3">
+      <label class="form-label">Confirmar Contraseña</label>
+      <input
+        type="password"
+        class="form-control"
+        required
+        minlength="6"
+        [(ngModel)]="user.confirmPassword"
+        name="confirmPassword"
+        #confirmPasswordField="ngModel">
+
+      <div *ngIf="confirmPasswordField.invalid && (confirmPasswordField.dirty || confirmPasswordField.touched)" class="text-danger mt-1">
+        <div *ngIf="confirmPasswordField.errors?.['required']">Debes confirmar la contraseña</div>
+        <div *ngIf="confirmPasswordField.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</div>
+      </div>
+
+      <div *ngIf="user.password && user.confirmPassword && user.password !== user.confirmPassword && (confirmPasswordField.dirty || confirmPasswordField.touched)" class="text-danger mt-1">
+        Las contraseñas no coinciden
+      </div>
+    </div>
+
+
 
     <!-- PERFIL DE APRENDIZAJE -->
     <div class="mb-4">
@@ -47,7 +90,8 @@
         class="form-select"
         [(ngModel)]="user.learningProfile"
         name="learningProfile"
-        required>
+        required
+        #profileField="ngModel">
 
         <option value="normal">Normal (recomendado)</option>
         <option value="casual">Casual (repaso)</option>
@@ -56,12 +100,16 @@
 
       </select>
 
+      <div *ngIf="profileField.invalid && (profileField.dirty || profileField.touched)" class="text-danger mt-1">
+        Selecciona un perfil de aprendizaje
+      </div>
+
       <small class="text-muted d-block mt-1">
         Puedes cambiar esto después en ajustes
       </small>
     </div>
 
-    <!-- ERROR -->
+    <!-- ERROR GLOBAL -->
     <div *ngIf="error" class="alert alert-danger">
       {{ error }}
     </div>

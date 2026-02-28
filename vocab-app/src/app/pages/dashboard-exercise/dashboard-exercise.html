@@ -1,0 +1,78 @@
+<div class="dashboard">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <h1>Dashboard de {{ sectionTitle }}</h1>
+
+      <p class="welcome">
+        Bienvenido,
+        <span class="user-name">{{ userName }}</span>
+      </p>
+    </div>
+
+    <div class="cefr-container">
+      <span class="cefr-label">Nivel</span>
+      <span class="cefr-badge">{{ stats.cefr }}</span>
+    </div>
+  </div>
+
+  <!-- METRICS -->
+  <div class="cards">
+    <div class="card total">
+      <div class="card-info">
+        <h3>Total</h3>
+        <p class="number">{{ stats.total }}</p>
+      </div>
+    </div>
+
+    <div class="card success-card">
+      <div class="card-info">
+        <h3>Aprendidas</h3>
+        <p class="number success">{{ stats.learned }}</p>
+      </div>
+    </div>
+
+    <div class="card warning-card">
+      <div class="card-info">
+        <h3>Pendientes</h3>
+        <p class="number warning">{{ stats.pending }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-section">
+    <div class="progress-header">
+      <div>
+        <h2>Progreso</h2>
+        <span class="progress-subtitle">Avance general del módulo</span>
+      </div>
+
+      <div class="progress-percentage">
+        {{ progress() }}%
+      </div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress" [style.width.%]="progress()"></div>
+    </div>
+  </div>
+
+  <!-- CHART -->
+  <div class="chart-section">
+    <div class="chart-header">
+      <h2>Distribución por tipo de ejercicio</h2>
+    </div>
+
+    <canvas id="progressPie"></canvas>
+  </div>
+
+  <!-- CTA -->
+  <div class="lesson-action">
+    <button class="start-btn" (click)="startLesson()">
+      Comenzar lección →
+    </button>
+  </div>
+
+</div>

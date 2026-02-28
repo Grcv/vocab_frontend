@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input,OnChanges, SimpleChanges  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProgressService } from '../../services/user-progress';
@@ -7,11 +7,7 @@ interface Word {
   id: number;
   word: string;
   translation: string;
-  cefr: string;
-  category: string;
-  pos: string;
-  ipa?: string;
-  has_audio?: boolean;
+  [key: string]: any; // 👈 agrega esto
 }
 
 @Component({
@@ -25,19 +21,15 @@ interface Word {
   styleUrls: ['./vocabulary-list.scss']
 })
 
-export class VocabularyList implements OnInit {
+export class VocabularyList implements OnChanges  {
+  @Input() type!: 'vocabulary' | 'verbs' | 'pronunciation' | 'phrasal_verbs' | 'grammar' | 'contractions' | 'connected_speech' | 'idioms' | 'listening';
+
   words: Word[] = [];
   filteredWords: Word[] = [];
   selectedWordIds = new Set<number>();
 
-  filters = {
-    word: '',
-    translation: '',
-    cefr: '',
-    pos: '',
-    category: ''
-  };
-
+  filters: Record<string, string> = {};
+  columns: string[] = [];
   // ✅ paginación configurable
   pageSizes = [10, 20, 50, 100];
   pageSize = 10;
@@ -45,13 +37,27 @@ export class VocabularyList implements OnInit {
 
   constructor(private progressService: ProgressService) {}
 
-  ngOnInit(): void {
+
+  ngOnChanges(): void {
+    this.filters = {}
+    console.log("type:",this.type)
     this.loadPendingWords();
   }
 
+  initializeColumns(data: any[]) {
+    if (!data?.length) return;
+
+    this.columns = Object.keys(data[0]).filter(key => key !== 'id');
+    console.log("columns:",this.columns)
+  }
+
   loadPendingWords(): void {
-    this.progressService.getPending().subscribe({
+    this.progressService.getPending(this.type).subscribe({
       next: (data: any) => {
+        console.log("data.pending_words:",data.pending_words[0])
+        Object.entries(data.pending_words[0]).forEach(([key]) => {
+          this.filters[key] = '';
+        });
         this.words = data.pending_words ?? [];
         this.selectedWordIds.clear();
         this.applyFilters();
@@ -60,35 +66,27 @@ export class VocabularyList implements OnInit {
   }
 
   applyFilters(): void {
-  const f = {
-    word: this.filters.word.toLowerCase(),
-    translation: this.filters.translation.toLowerCase(),
-    cefr: this.filters.cefr.toLowerCase(),
-    pos: this.filters.pos.toLowerCase(),
-    category: this.filters.category.toLowerCase()
-  };
+    this.filteredWords = this.words.filter(word => {
 
-  this.filteredWords = this.words.filter(w => {
-    const word = (w.word ?? '').toLowerCase();
-    const translation = (w.translation ?? '').toLowerCase();
-    const cefr = (w.cefr ?? '').toLowerCase();
-    const pos = (w.pos ?? '').toLowerCase();
-    const category = (w.category ?? '').toLowerCase();
+      return Object.keys(this.filters).every(key => {
 
-    return (
-      word.includes(f.word) &&
-      translation.includes(f.translation) &&
-      cefr.includes(f.cefr) &&
-      pos.includes(f.pos) &&
-      category.includes(f.category)
-    );
-  });
+        const filterValue = (this.filters[key] ?? '').toString().toLowerCase().trim();
 
-  this.currentPage = 1;
-}
+        // Si el filtro está vacío, no filtra
+        if (!filterValue) return true;
+
+        const wordValue = (word[key] ?? '').toString().toLowerCase();
+
+        return wordValue.includes(filterValue);
+      });
+
+    });
+    this.initializeColumns(this.words);
+    this.currentPage = 1;
+  }
 
   resetFilters(): void {
-    this.filters = { word: '', translation: '', cefr: '', pos: '', category: '' };
+    //this.filters = { word: '', translation: '', cefr: '', pos: '', category: '' };
     this.applyFilters();
   }
 

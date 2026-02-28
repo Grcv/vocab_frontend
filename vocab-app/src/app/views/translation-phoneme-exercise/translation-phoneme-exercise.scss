@@ -1,0 +1,170 @@
+.translation-card {
+  max-width: 520px;
+  margin: 2rem auto;
+  padding: 2rem 1.5rem 2.2rem;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #ffffff, #f8f9fa);
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,.6);
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  position: relative;
+}
+
+/* Animación entrada */
+.fade-in {
+  animation: fadeUp .4s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Badge */
+.mode-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+  color: white;
+  padding: .35rem .9rem;
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+
+/* Instrucción */
+.instruction {
+  text-align: center;
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+/* Word card */
+.word-card {
+  background: white;
+  border-radius: 20px;
+  padding: 1.6rem 1.4rem;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+.label {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #adb5bd;
+  margin-bottom: 0.5rem;
+}
+
+.english-word {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #212529;
+}
+
+/* Options grid */
+.options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+/* Option button */
+.option-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: 1rem .9rem;
+  border-radius: 16px;
+  border: 2px solid #dee2e6;
+  background: #f8f9fa;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #212529;
+  cursor: pointer;
+  transition: all .22s ease;
+}
+
+/* Dot */
+.option-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #adb5bd;
+  transition: all .25s ease;
+}
+
+/* Hover */
+.option-btn:hover:not(.correct):not(.wrong) {
+  transform: translateY(-3px);
+  background: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,.1);
+}
+
+/* Selected */
+.option-btn.selected {
+  border-color: #0d6efd;
+  background: #eef4ff;
+}
+
+.option-btn.selected .option-dot {
+  background: #0d6efd;
+}
+
+/* Correct */
+.option-btn.correct {
+  background: #d1e7dd;
+  border-color: #198754;
+  color: #0f5132;
+  animation: successPulse .4s ease;
+}
+
+.option-btn.correct .option-dot {
+  background: #198754;
+}
+
+/* Wrong */
+.option-btn.wrong {
+  background: #f8d7da;
+  border-color: #dc3545;
+  color: #842029;
+  animation: errorShake .3s ease;
+}
+
+.option-btn.wrong .option-dot {
+  background: #dc3545;
+}
+
+/* Animations */
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+@keyframes errorShake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+/* Responsive */
+@media (max-width: 420px) {
+  .options {
+    grid-template-columns: 1fr;
+  }
+
+  .english-word {
+    font-size: 2.1rem;
+  }
+}

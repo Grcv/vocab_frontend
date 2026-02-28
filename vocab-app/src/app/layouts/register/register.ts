@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule ,NgForm} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth';
 
@@ -21,7 +21,8 @@ export class Register {
     name: '',
     email: '',
     password: '',
-    learningProfile: 'normal' // default
+    learningProfile: 'normal' ,
+    confirmPassword: '',
   };
 
   loading = false;
@@ -32,13 +33,19 @@ export class Register {
     private authService: AuthService
   ) {}
 
-  register() {
+  register(form: NgForm) {
+    if (!form.valid) {
+      this.error = 'Por favor, completa todos los campos correctamente';
+      return;
+    }
+
     this.loading = true;
     this.error = '';
 
     this.authService.register({
       email: this.user.email,
       password: this.user.password,
+      password_confirm: this.user.confirmPassword,
       learning_profile: this.user.learningProfile
     }).subscribe({
       next: () => {
@@ -51,4 +58,7 @@ export class Register {
       }
     });
   }
+
+
+
 }

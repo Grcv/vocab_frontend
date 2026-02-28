@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input,OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProgressService } from '../../services/user-progress';
 
@@ -22,18 +22,18 @@ interface ProgressSummary {
   templateUrl: './progress.html',
   styleUrls: ['./progress.scss']
 })
-export class Progress implements OnInit {
-
+export class Progress implements OnChanges {
+  @Input() type!: 'vocabulary' | 'verbs' | 'pronunciation' | 'phrasal_verbs' | 'grammar' | 'contractions' | 'connected_speech' | 'idioms' | 'listening';
   data!: ProgressSummary;
-
+  //type="vocabulary";
   constructor(private progressService: ProgressService) {}
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.loadProgress();
   }
 
   loadProgress(): void {
-    this.progressService.getSummary().subscribe({
+    this.progressService.getSummary(this.type).subscribe({
       next: res => {
         this.data = res;
       },

@@ -23,6 +23,11 @@ export interface SummaryResponse {
   by_stage: Record<string, number>;
 }
 
+export interface recoverResponse {
+  message: string;
+  deleted: number;
+}
+
 export interface LessonExerciseResponse {
   exercise: 'lesson';
   stage: 'lesson';
@@ -45,6 +50,20 @@ export interface ReviewExerciseResponse {
   ipa?:string;
 }
 
+
+export interface PendingResponse {
+  count: number;
+  cefr: string;
+  pending_words: {
+    id: number;
+    word: string;
+    translation: string;
+    ipa?: string;
+    pos?: string;
+    cefr: string;
+    has_audio: boolean;
+  }
+}
 export type NextExerciseResponse =
   | LessonExerciseResponse
   | ReviewExerciseResponse
@@ -68,17 +87,20 @@ export class ProgressService {
      NEXT EXERCISE
      ========================= */
 
-  getNextExercise(): Observable<NextExerciseResponse> {
-    return this.http.get<NextExerciseResponse>(`${this.baseUrl}/next/`);
+  getNextExercise(seccion_type: string | null): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/next/`, {
+      type:seccion_type
+    });
   }
 
   /* =========================
      SUBMIT ANSWER
      ========================= */
 
-  submitAnswer(wordId: number, correct: boolean): Observable<void> {
+  submitAnswer(wordId: number, correct: boolean,type:string): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/answer/`, {
       word_id: wordId,
+      type:type,
       correct
     });
   }
@@ -87,8 +109,8 @@ export class ProgressService {
      SUMMARY
      ========================= */
 
-  getSummary(): Observable<SummaryResponse> {
-    return this.http.get<SummaryResponse>(`${this.baseUrl}/summary/`);
+  getSummary(type: string): Observable<SummaryResponse> {
+    return this.http.post<SummaryResponse>(`${this.baseUrl}/summary/`,{type:type});
   }
 
   /* =========================
@@ -106,32 +128,8 @@ export class ProgressService {
      PENDING WORDS
      ========================= */
 
-  getPending(): Observable<{
-    count: number;
-    cefr: string;
-    pending_words: {
-      id: number;
-      word: string;
-      translation: string;
-      ipa?: string;
-      pos?: string;
-      cefr: string;
-      has_audio: boolean;
-    }[];
-  }> {
-    return this.http.get<{
-      count: number;
-      cefr: string;
-      pending_words: {
-        id: number;
-        word: string;
-        translation: string;
-        ipa?: string;
-        pos?: string;
-        cefr: string;
-        has_audio: boolean;
-      }[];
-    }>(`${this.baseUrl}/pending/`);
+  getPending(type:string | undefined): Observable<PendingResponse> {
+    return this.http.post<PendingResponse>(`${this.baseUrl}/pending/`,{type:type});
   }
 
   /* =========================
@@ -199,5 +197,19 @@ compareAudio(
     formData
   );
 }
+
+  /* =========================
+     Recover
+     ========================= */
+
+  recoverStage(type: string | null): Observable<recoverResponse> {
+    return this.http.post<recoverResponse>(`${this.baseUrl}/recover/`,{type:type});
+  }
+
+  getGeneral(): Observable<SummaryResponse[]> {
+    return this.http.get<SummaryResponse[]>(
+      `${this.baseUrl}/general/`
+    );
+  }
 
 }

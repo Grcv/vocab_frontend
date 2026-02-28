@@ -22,6 +22,7 @@ export class AuthService {
     email: string;
     password: string
     learning_profile: string;
+    password_confirm: string;
   }) {
     return this.http.post<any>(`${this.API}/register`, data)
       .pipe(

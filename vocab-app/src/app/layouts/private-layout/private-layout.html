@@ -1,104 +1,118 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="container-fluid">
+<nav class="topbar">
 
-    <a class="navbar-brand" routerLink="/dashboard">
-      <i class="fas fa-language me-2"></i>
-      Pronuncia
+  <!-- LEFT -->
+  <div class="left-section">
+    <a class="brand" routerLink="/dashboard">
+      <app-logo size="md"></app-logo>
     </a>
+  </div>
+  
+  <!-- RIGHT -->
+  <div class="right-section">
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      (click)="isNavbarCollapsed = !isNavbarCollapsed">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <!-- MAIN MENU DROPDOWN -->
+    <div ngbDropdown class="menu-dropdown">
 
-    <div
-      class="collapse navbar-collapse"
-      [class.show]="!isNavbarCollapsed">
+      <button
+        class="menu-btn"
+        ngbDropdownToggle>
+        <i class="fas fa-bars me-2"></i>
+        Menú
+      </button>
 
-      <ul class="navbar-nav me-auto">
-        <li
-          class="nav-item"
+      <div
+        ngbDropdownMenu
+        class="menu-panel shadow-lg"
+        container="body">
+
+        <button
+          class="menu-item"
           *ngFor="let page of [
             ['dashboard','tachometer-alt','Dashboard'],
             ['vocabulary','book','Vocabulario'],
             ['pronunciation','volume-up','Pronunciación'],
-            ['grammar','pencil-alt','Gramática']
-          ]">
+            ['grammar','pencil-alt','Gramática'],
+            ['verbs','exchange-alt','Verbos'],
+            ['phrasal_verbs','random','Verbos frasales'],
+            ['contractions','compress-alt','Contracciones'],
+            ['connected-speech','link','Connected Speech'],
+            ['idioms','comments','Idioms'],
+            ['listening','headphones','Listening']
+          ]"
+          routerLink="/{{ page[0] }}"
+          routerLinkActive="active"
+          ngbDropdownItem>
 
-          <a
-            class="nav-link"
-            routerLink="/{{ page[0] }}"
-            routerLinkActive="active"
-            (click)="isNavbarCollapsed = true">
-            <i class="fas fa-{{ page[1] }} me-1"></i>
-            {{ page[2] }}
-          </a>
+          <i class="fas fa-{{ page[1] }}"></i>
+          {{ page[2] }}
 
-        </li>
-      </ul>
-
-      <!-- USER MENU -->
-      <div class="navbar-text d-flex align-items-center text-white">
-
-        <div ngbDropdown>
-
-          <button
-            class="btn btn-outline-light btn-sm user-btn-square"
-            ngbDropdownToggle>
-            <i class="fas fa-user"></i>
-          </button>
-
-          <ul
-            ngbDropdownMenu
-            class="dropdown-menu dropdown-menu-end shadow"
-            container="body">
-
-            <li class="px-3 py-2">
-              <div class="fw-semibold">Mi cuenta</div>
-            </li>
-
-            <li><hr class="dropdown-divider"></li>
-
-            <li>
-              <button class="dropdown-item" (click)="goToSettings()">
-                <i class="fas fa-cog me-2"></i>
-                Ajustes
-              </button>
-            </li>
-
-            <li>
-              <button class="dropdown-item" (click)="viewProgress()">
-                <i class="fas fa-chart-line me-2"></i>
-                Progreso
-              </button>
-            </li>
-
-            <li>
-              <button class="dropdown-item" (click)="openHelp()">
-                <i class="fas fa-question-circle me-2"></i>
-                Ayuda
-              </button>
-            </li>
-
-            <li><hr class="dropdown-divider"></li>
-
-            <li>
-              <button
-                class="dropdown-item text-danger"
-                (click)="logout()">
-                <i class="fas fa-sign-out-alt me-2"></i>
-                Cerrar sesión
-              </button>
-            </li>
-
-          </ul>
-        </div>
+        </button>
 
       </div>
-
     </div>
+
+    <!-- USER MENU -->
+    <div ngbDropdown>
+
+      <button
+        class="user-btn-square"
+        ngbDropdownToggle>
+        <i class="fas fa-user"></i>
+      </button>
+
+      <ul
+        ngbDropdownMenu
+        class="dropdown-menu dropdown-menu-end shadow"
+        container="body">
+
+        <li class="px-3 py-2">
+          <div class="fw-semibold">Mi cuenta</div>
+        </li>
+
+        <li><hr class="dropdown-divider"></li>
+
+        <li>
+          <button class="dropdown-item" (click)="goToSettings()">
+            <i class="fas fa-cog me-2"></i>
+            Ajustes de cuenta
+          </button>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+          <button class="dropdown-item" (click)="goToVocabularySettings()">
+            <i class="fas fa-book me-2"></i>
+            Ajustes de Vocabulario
+          </button>
+        </li>
+
+        <li>
+          <button class="dropdown-item" (click)="viewProgress()">
+            <i class="fas fa-chart-line me-2"></i>
+            Progreso
+          </button>
+        </li>
+
+        <li>
+          <button class="dropdown-item" (click)="openHelp()">
+            <i class="fas fa-question-circle me-2"></i>
+            Ayuda
+          </button>
+        </li>
+
+        <li><hr class="dropdown-divider"></li>
+
+        <li>
+          <button
+            class="dropdown-item text-danger"
+            (click)="logout()">
+            <i class="fas fa-sign-out-alt me-2"></i>
+            Cerrar sesión
+          </button>
+        </li>
+
+      </ul>
+    </div>
+
   </div>
 </nav>
 

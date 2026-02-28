@@ -1,0 +1,46 @@
+<div *ngIf="listening" class="lesson-card fade-in">
+
+  <span class="badge">
+    Listening • {{ listening.cefr }}
+  </span>
+
+  <h2 class="theme">
+    {{ listening.theme }}
+  </h2>
+
+  <p class="meta">
+    {{ listening.situation }} • {{ listening.story_type }}
+  </p>
+
+  <!-- AUDIO PLAYER -->
+  <button
+    class="audio-btn"
+    [class.playing]="isPlaying"
+    (click)="playAudio()">
+    🎧 Escuchar audio
+  </button>
+
+  <!-- TEXT -->
+  <div class="text-box">
+    {{ listening.word }}
+  </div>
+
+  <!-- IPA -->
+  <div class="ipa-box" *ngIf="listening.ipa">
+    {{ listening.ipa }}
+  </div>
+
+  <!-- TRANSLATION -->
+  <button class="toggle-btn" (click)="toggleTranslation()">
+    {{ showTranslation ? 'Ocultar traducción' : 'Mostrar traducción' }}
+  </button>
+
+  <div class="translation-box" *ngIf="showTranslation">
+    {{ listening.translation }}
+  </div>
+
+  <button class="continue-btn" (click)="continue()" [disabled]="isPlaying">
+    Continuar →
+  </button>
+
+</div>

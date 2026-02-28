@@ -1,0 +1,128 @@
+.lesson-card {
+  max-width: 650px;
+  margin: 2rem auto;
+  padding: 2.2rem;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #ffffff, #f8f9fa);
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,.7);
+  text-align: center;
+  position: relative;
+}
+
+/* Animación */
+.fade-in {
+  animation: fadeUp .4s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Badge */
+.badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fd7e14;
+  color: white;
+  padding: 0.35rem 1.1rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 600;
+}
+
+/* Theme */
+.theme {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 1.5rem 0 .3rem;
+}
+
+/* Meta */
+.meta {
+  font-size: 1rem;
+  color: #6c757d;
+  margin-bottom: 1.4rem;
+}
+
+/* Text */
+.explain-box {
+  background: #f1f3f5;
+  padding: 1rem;
+  border-radius: 16px;
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+/* IPA */
+.ipa-box {
+  font-size: 1rem;
+  color: #6c757d;
+  margin-bottom: 1.3rem;
+  font-style: italic;
+}
+
+/* Translation */
+.translation-box {
+  background: #e7f1ff;
+  padding: 1rem;
+  border-radius: 18px;
+  font-size: 1.05rem;
+  margin-top: 1rem;
+  color: #0d6efd;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  border-radius: 18px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .25s ease;
+}
+
+/* Audio */
+.audio-btn {
+  margin-bottom: 1rem;
+  padding: .9rem;
+  border: 2px solid #fd7e14;
+  background: transparent;
+  color: #fd7e14;
+
+  &.playing {
+    background: #fd7e14;
+    color: white;
+    box-shadow: 0 12px 25px rgba(253,126,20,.4);
+  }
+}
+
+/* Toggle */
+.toggle-btn {
+  margin-top: .8rem;
+  padding: .8rem;
+  border: 2px solid #0d6efd;
+  background: transparent;
+  color: #0d6efd;
+}
+
+/* Continue */
+.continue-btn {
+  margin-top: 1.4rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+  color: white;
+  border: none;
+  box-shadow: 0 12px 25px rgba(13,110,253,.35);
+}
+
+.continue-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}

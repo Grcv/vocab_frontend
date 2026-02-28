@@ -108,6 +108,7 @@ export class TranslationExercise implements OnChanges {
   }
 
   selectOption(option: string): void {
+    this.stopAudio();
     if (this.state.selected) return;
 
     this.state.selected = option;
