@@ -21,6 +21,7 @@
           [ngModel]="userName"
           disabled
           class="input readonly"
+          (ngModelChange)="onChange()"
         />
       </div>
     </section>
@@ -44,8 +45,23 @@
       <button
         *ngIf="!isPremium"
         class="upgrade-btn"
-        (click)="goPremium()">
-        Mejorar a Premium
+        (click)="goPremium()"
+        [disabled]="isLoading">
+
+        <span *ngIf="!isLoading">Mejorar a Premium</span>
+        <span *ngIf="isLoading">Procesando...</span>
+
+      </button>
+
+      <p *ngIf="errorMessage" class="error-msg">
+        {{ errorMessage }}
+      </p>
+
+      <button
+        *ngIf="isPremium"
+        class="downgrade-btn"
+        (click)="cancelPremium()">
+        Cancelar suscripción
       </button>
     </section>
 
@@ -55,7 +71,7 @@
         <h2>Modo de aprendizaje</h2>
       </div>
 
-      <select class="input" [(ngModel)]="learningProfile">
+      <select class="input" [(ngModel)]="learningProfile" (ngModelChange)="onChange()">
         <option value="casual">Casual (repaso)</option>
         <option value="normal">Normal (recomendado)</option>
         <option value="intensive">Intensivo (rápido)</option>
@@ -76,7 +92,7 @@
       <div class="toggle-row">
         <span>Reproducir audio automáticamente</span>
         <label class="switch">
-          <input type="checkbox" [(ngModel)]="autoPlayAudio">
+          <input type="checkbox" [(ngModel)]="autoPlayAudio" (ngModelChange)="onChange()" >
           <span class="slider"></span>
         </label>
       </div>
@@ -95,6 +111,7 @@
           [(ngModel)]="speechRate"
           [disabled]="!isPremium"
           class="range"
+          (ngModelChange)="onChange()"
         />
 
         <small *ngIf="!isPremium" class="muted">
@@ -109,7 +126,7 @@
         <h2>Nivel</h2>
       </div>
 
-      <select class="input" [(ngModel)]="cefrLevel">
+      <select class="input" [(ngModel)]="cefrLevel" (ngModelChange)="onChange()">
         <option value="A1">A1 – Básico</option>
         <option value="A2">A2 – Básico avanzado</option>
         <option value="B1">B1 – Intermedio</option>
@@ -119,9 +136,12 @@
     </section>
 
     <!-- SAVE -->
-    <button class="save-btn" (click)="save()">
+    <button class="save-btn" (click)="save() " [disabled]="!isPremium || !hasChanges">
       Guardar cambios
     </button>
-
+    <!-- Leyenda Premium -->
+    <p *ngIf="!isPremium" class="premium-legend">
+      🔒 Solo los usuarios Premium pueden modificar la configuración.
+    </p>
   </div>
 </div>

@@ -119,6 +119,21 @@
     transform: translateY(-2px);
     box-shadow: 0 12px 24px rgba(99,102,241,0.4);
   }
+
+  /* 🔒 Estado deshabilitado */
+  &:disabled {
+    background: linear-gradient(135deg, #c7c9f7, #a5a7f5);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.7;
+  }
+
+  /* Evita hover cuando está disabled */
+  &:disabled:hover {
+    transform: none;
+    box-shadow: none;
+  }
 }
 
 .upgrade-btn {
@@ -198,4 +213,45 @@ input:checked + .slider:before {
   font-size: 12px;
   color: #6b7280;
   margin-left: 6px;
+}
+
+  /* ===================== */
+  /* ESTADO DISABLED */
+  /* ===================== */
+
+  input:disabled + .slider {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  input:disabled + .slider::before {
+    background-color: #bdbdbd;
+  }
+
+  .premium-legend {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #6b7280;
+  text-align: center;
+  font-weight: 500;
+}
+
+.downgrade-btn {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  background: #ef4444;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(239,68,68,0.4);
+  }
 }

@@ -3,11 +3,7 @@
   <div class="login-card">
 
     <div class="text-center mb-4">
-      <i class="fas fa-language fa-3x text-primary mb-3"></i>
       <h3 class="fw-bold">Iniciar sesión</h3>
-      <p class="text-muted">
-        Continúa entrenando tu inglés
-      </p>
     </div>
 
     <form (ngSubmit)="login()" #loginForm="ngForm">
@@ -49,7 +45,9 @@
           Verificando...
         </span>
       </button>
-
+      <p class="forgot-password" (click)="goToRecover()">
+        ¿Olvidaste tu contraseña?
+      </p>
     </form>
 
     <div class="text-center mt-4">

@@ -1,7 +1,7 @@
 <div class="tabs-container">
 
-  <!-- TABS HEADER -->
-  <div class="tabs-header">
+  <!-- CONTENT -->
+  <div class="tabs-content">
 
     <button
       *ngFor="let tab of tabs"
@@ -12,12 +12,6 @@
       {{ tab.label }}
 
     </button>
-
-  </div>
-
-  <!-- CONTENT -->
-  <div class="tabs-content">
-
     <app-vocabulary-list
       [type]="activeTab">
     </app-vocabulary-list>

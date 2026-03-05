@@ -1,0 +1,111 @@
+.conversation-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.conversation-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 2rem 1.5rem 2.4rem;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #ffffff, #f8f9fa);
+  box-shadow: 0 18px 40px rgba(0,0,0,.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+  position: relative;
+}
+
+.mode-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #6f42c1, #9b5de5);
+  color: white;
+  padding: .35rem .95rem;
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 700;
+}
+
+/* CHAT */
+.chat-window {
+  width: 100%;
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+.chat-bubble {
+  padding: .7rem 1rem;
+  border-radius: 18px;
+  font-size: .95rem;
+  position: relative;
+  max-width: 80%;
+}
+
+.chat-bubble.bot {
+  background: #e9ecef;
+  align-self: flex-start;
+}
+
+.chat-bubble.user {
+  background: linear-gradient(135deg, #0d6efd, #4dabf7);
+  color: white;
+  align-self: flex-end;
+}
+
+.mini-play {
+  margin-left: 6px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* MIC */
+.mic-ring {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #6c757d, #495057);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.mic-ring.listening {
+  background: radial-gradient(circle, #ff6b6b, #dc3545);
+  animation: pulse 1.4s infinite;
+}
+
+.mic-core {
+  font-size: 2rem;
+  color: white;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(220,53,69,.7); }
+  70% { box-shadow: 0 0 0 22px rgba(220,53,69,0); }
+  100% { box-shadow: 0 0 0 0 rgba(220,53,69,0); }
+}
+
+.hint {
+  font-size: .95rem;
+  color: #495057;
+}
+
+.fade-in {
+  animation: fadeUp .4s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}

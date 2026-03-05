@@ -72,7 +72,8 @@ export class Dashboard implements OnInit{
       'connected-speech': '🔗',
 
       idioms: '💡',
-      listening: '🎧'
+      listening: '🎧',
+      conversation: '💬'
     };
 
     return icons[type] || '📚';
@@ -88,7 +89,8 @@ export class Dashboard implements OnInit{
       contractions: 'Contracciones',
       pronunciation: 'Pronunciación',
       grammar: 'Gramática',
-      phrasal_verbs: 'Verbos Frasales'
+      phrasal_verbs: 'Verbos Frasales',
+      conversation: 'Conversación'
     };
     let sectionTitle = titles[type ] 
     return sectionTitle
@@ -118,6 +120,16 @@ export class Dashboard implements OnInit{
 
         }
       });
+
+    const module: ModuleStats = {
+      route: "conversation",
+      title: this.get_tittle("conversation"),
+      icon: this.getIcon("conversation"),
+      total: 0,
+      completed: 0
+    };
+    this.modules.push(module);      
+
   }
 
 }

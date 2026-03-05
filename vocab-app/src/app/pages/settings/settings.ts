@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProgressService } from '../../services/user-progress';
+import { SettingsService } from '../../services/settings';
 
 @Component({
   selector: 'app-settings',
@@ -29,17 +29,25 @@ export class Settings {
   speechRate = 1.0;
   cefrLevel = 'A1';
   learningProfile = 'normal';
-
+  isLoading = false;
+  errorMessage: string | null = null;
+  settings: any = {};
+  originalSettings: any = {};
+  hasChanges = false;
   constructor(
-    private progressService: ProgressService
+    private settingsservice: SettingsService
   ) {}
 
   ngOnInit(): void {
     this.loadData();
   }
 
+  onChange() {
+    this.hasChanges = true;
+  }
+
   loadData(): void {
-    this.progressService.getUserSettings().subscribe({
+    this.settingsservice.getUserSettings().subscribe({
       next: (data: any) => {
         this.userName = data.user;
         this.isPremium = data.premium;
@@ -63,7 +71,7 @@ export class Settings {
       payload.playback_speed = this.speechRate;
     }
 
-    this.progressService.updateProfile(payload).subscribe({
+    this.settingsservice.updateProfile(payload).subscribe({
       next: () => {
         alert('✅ Ajustes guardados correctamente');
       },
@@ -79,6 +87,40 @@ export class Settings {
   }
 
   goPremium(): void {
-    alert('🚀 Próximamente podrás mejorar tu plan');
+
+    this.isLoading = true;
+    this.errorMessage = null;
+
+    this.settingsservice.updatePremium(true).subscribe({
+      next: () => {
+        this.isPremium = true;
+        this.isLoading = false;
+
+        // opcional: redirigir
+        // this.router.navigate(['/dashboard']);
+
+        console.log("Premium activado correctamente");
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = 
+          "No pudimos activar tu suscripción en este momento. Intenta nuevamente más tarde.";
+        
+        console.error("Error activando premium:", err);
+      }
+    });
   }
+
+  cancelPremium(): void {
+    this.settingsservice.updatePremium(false).subscribe({
+      next: (res) => {
+        this.isPremium = false;
+        console.log("Suscripción cancelada");
+      },
+      error: (err) => {
+        console.error("Error al cancelar", err);
+      }
+    });
+  }
+
 }

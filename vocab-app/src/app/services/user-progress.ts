@@ -6,13 +6,6 @@ import { Observable } from 'rxjs';
    MODELOS
    ========================= */
 
-export interface UserSettings {
-  user_name: string;
-  cefr: string | null;
-  premium: boolean;
-  playback_speed: number;
-  audio_autoplay?: boolean;
-}
 
 export interface SummaryResponse {
   user_name: string;
@@ -79,7 +72,6 @@ export type NextExerciseResponse =
 export class ProgressService {
 
   private readonly baseUrl = '/api/progress';
-  private readonly authBaseUrl = '/api/auth';
 
   constructor(private http: HttpClient) {}
 
@@ -148,23 +140,6 @@ export class ProgressService {
     }>(`${this.baseUrl}/mark/`, {
       word_ids: wordIds
     });
-  }
-
-  /* =========================
-     USER SETTINGS
-     ========================= */
-
-  getUserSettings(): Observable<UserSettings> {
-    return this.http.get<UserSettings>(
-      `${this.authBaseUrl}/get_user_settings`
-    );
-  }
-
-  updateProfile(settings: Partial<UserSettings>): Observable<UserSettings> {
-    return this.http.post<UserSettings>(
-      `${this.authBaseUrl}/update_profile`,
-      settings
-    );
   }
 
   /* =========================

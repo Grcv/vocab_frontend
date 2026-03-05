@@ -1,8 +1,7 @@
 <div class="tabs-container">
 
-  <!-- TABS HEADER -->
-  <div class="tabs-header">
-
+  <!-- CONTENT -->
+  <div class="tabs-content">
     <button
       *ngFor="let tab of tabs"
       class="tab-btn"
@@ -12,12 +11,6 @@
       {{ tab.label }}
 
     </button>
-
-  </div>
-
-  <!-- CONTENT -->
-  <div class="tabs-content">
-
     <app-progress
       [type]="activeTab">
     </app-progress>

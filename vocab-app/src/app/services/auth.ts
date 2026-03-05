@@ -64,6 +64,25 @@ export class AuthService {
     return this.hasToken();
   }
 
-  
+  resetPassword(uid: string, token: string, password: string) {
+  return this.http.post(
+    `${this.API}/reset-password`,
+    { uid, token, password }
+  );
+}
+
+  confirmEmail(uid: string, token: string) {
+  return this.http.post(
+    `${this.API}/confirm-email`,
+    { uid, token  }
+  );
+  }
+
+  recoverPassword(email: string) {
+    return this.http.post(
+      `${this.API}/recover-password`,
+      { email }
+    );
+  }
 
 }

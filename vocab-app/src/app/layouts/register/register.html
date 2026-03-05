@@ -13,12 +13,18 @@
         type="text"
         class="form-control"
         required
+        minlength="2"
+        pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
         [(ngModel)]="user.name"
         name="name"
         #nameField="ngModel">
 
       <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="text-danger mt-1">
-        El nombre es obligatorio
+        <div *ngIf="nameField.errors?.['required']">El nombre es obligatorio</div>
+        <div *ngIf="nameField.errors?.['minlength']">Debe tener al menos 2 caracteres</div>
+        <div *ngIf="nameField.errors?.['pattern']">
+          Solo se permiten letras y espacios
+        </div>
       </div>
     </div>
 
@@ -47,17 +53,22 @@
         type="password"
         class="form-control"
         required
-        minlength="6"
+        minlength="8"
+        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$"
         [(ngModel)]="user.password"
         name="password"
         #passwordField="ngModel">
 
       <div *ngIf="passwordField.invalid && (passwordField.dirty || passwordField.touched)" class="text-danger mt-1">
         <div *ngIf="passwordField.errors?.['required']">La contraseña es obligatoria</div>
-        <div *ngIf="passwordField.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</div>
+        <div *ngIf="passwordField.errors?.['minlength']">
+          Debe tener al menos 8 caracteres
+        </div>
+        <div *ngIf="passwordField.errors?.['pattern']">
+          Debe incluir mayúscula, minúscula, número y carácter especial
+        </div>
       </div>
     </div>
-
 
     <!-- CONFIRMAR PASSWORD -->
     <div class="mb-3">
@@ -66,47 +77,20 @@
         type="password"
         class="form-control"
         required
-        minlength="6"
         [(ngModel)]="user.confirmPassword"
         name="confirmPassword"
         #confirmPasswordField="ngModel">
 
       <div *ngIf="confirmPasswordField.invalid && (confirmPasswordField.dirty || confirmPasswordField.touched)" class="text-danger mt-1">
-        <div *ngIf="confirmPasswordField.errors?.['required']">Debes confirmar la contraseña</div>
-        <div *ngIf="confirmPasswordField.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</div>
+        Debes confirmar la contraseña
       </div>
 
-      <div *ngIf="user.password && user.confirmPassword && user.password !== user.confirmPassword && (confirmPasswordField.dirty || confirmPasswordField.touched)" class="text-danger mt-1">
+      <div *ngIf="user.password && user.confirmPassword 
+                  && user.password !== user.confirmPassword 
+                  && (confirmPasswordField.dirty || confirmPasswordField.touched)" 
+           class="text-danger mt-1">
         Las contraseñas no coinciden
       </div>
-    </div>
-
-
-
-    <!-- PERFIL DE APRENDIZAJE -->
-    <div class="mb-4">
-      <label class="form-label">¿Cómo quieres aprender?</label>
-      <select
-        class="form-select"
-        [(ngModel)]="user.learningProfile"
-        name="learningProfile"
-        required
-        #profileField="ngModel">
-
-        <option value="normal">Normal (recomendado)</option>
-        <option value="casual">Casual (repaso)</option>
-        <option value="intensive">Intensivo (rápido)</option>
-        <option value="automatic">Automático (adaptativo)</option>
-
-      </select>
-
-      <div *ngIf="profileField.invalid && (profileField.dirty || profileField.touched)" class="text-danger mt-1">
-        Selecciona un perfil de aprendizaje
-      </div>
-
-      <small class="text-muted d-block mt-1">
-        Puedes cambiar esto después en ajustes
-      </small>
     </div>
 
     <!-- ERROR GLOBAL -->
@@ -117,12 +101,14 @@
     <!-- SUBMIT -->
     <button
       class="btn btn-primary w-100"
-      [disabled]="loading || !form.valid">
+      [disabled]="loading || !form.valid || user.password !== user.confirmPassword">
 
       <span *ngIf="!loading">Crear cuenta</span>
       <span *ngIf="loading">Creando cuenta...</span>
     </button>
-
+    <div *ngIf="message" class="alert alert-success mt-4 text-center">
+      {{ message }}
+    </div>
   </form>
 
   <div class="text-center mt-4">

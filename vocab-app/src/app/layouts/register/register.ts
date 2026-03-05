@@ -27,7 +27,7 @@ export class Register {
 
   loading = false;
   error = '';
-
+  message = '';
   constructor(
     private router: Router,
     private authService: AuthService
@@ -48,8 +48,20 @@ export class Register {
       password_confirm: this.user.confirmPassword,
       learning_profile: this.user.learningProfile
     }).subscribe({
-      next: () => {
-        this.router.navigate(['/dashboard']);
+      next: (res) => {
+        if (res?.message) {
+          this.message = res.message;
+          this.loading = false;
+          this.user = {
+            name: '',
+            email: '',
+            password: '',
+            learningProfile: 'normal' ,
+            confirmPassword: '',
+          };
+          return;
+        }
+        
       },
       error: err => {
         console.error(err);

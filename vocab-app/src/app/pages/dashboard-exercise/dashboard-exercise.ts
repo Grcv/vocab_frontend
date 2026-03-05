@@ -62,7 +62,8 @@ export class DashboardExercise implements OnInit, AfterViewInit {
       contractions: 'Contracciones',
       pronunciation: 'Pronunciación',
       grammar: 'Gramática',
-      phrasal_verbs: 'Verbos Frasales'
+      phrasal_verbs: 'Verbos Frasales',
+      conversation: 'Conversación'
     };
 
     const types: any = {
@@ -74,7 +75,8 @@ export class DashboardExercise implements OnInit, AfterViewInit {
       'contractions': 'contractions',
       'pronunciation': 'pronunciation',
       'phrasal_verbs': 'phrasal_verbs',
-      'grammar': 'grammar'    
+      'grammar': 'grammar',
+      'conversation':'conversation'    
     }
 
     this.type = types[this.currentUrl ?? ''] ;

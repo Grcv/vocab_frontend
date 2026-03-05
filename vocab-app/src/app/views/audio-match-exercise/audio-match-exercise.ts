@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AudioMatchExercisePayload } from './audio-match.model';
+import { SettingsService } from '../../services/settings';
 
 interface AudioMatchState {
   selected?: string;
@@ -44,15 +45,32 @@ export class AudioMatchExercise implements OnChanges {
     isCorrect: false,
     playing: false
   };
-
+  speechRate = 1.0;
+  isPremium = false;
   private audio?: HTMLAudioElement;
+
+  constructor(
+    private settingsservice: SettingsService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['word']) {
+      this.loadData();
       this.resetState();
       this.autoPlayAudio();
     }
   }
+
+  loadData(): void {
+    this.settingsservice.getUserSettings().subscribe({
+      next: (data: any) => {
+        this.isPremium = data.premium;
+        this.speechRate = data.playback_speed;
+      },
+      error: err => console.error('Error loading settings', err)
+    });
+  }
+
 
   private resetState(): void {
     this.state = {
@@ -70,7 +88,7 @@ export class AudioMatchExercise implements OnChanges {
       const audioUrl = this.normalizeAudioUrl(this.word.audio);
       this.audio = new Audio(audioUrl);
       this.audio.volume = 1;
-      this.audio.playbackRate = 1;
+      this.audio.playbackRate = this.speechRate;
 
       // 🔊 eventos
       this.audio.onplay = () => {

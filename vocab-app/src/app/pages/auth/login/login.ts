@@ -50,4 +50,9 @@ export class Login {
       }
     });
   }
+
+  goToRecover(): void {
+    this.router.navigate(['/recover-password']);
+  }
+
 }

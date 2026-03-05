@@ -1,0 +1,57 @@
+<div class="conversation-wrapper">
+
+  <div class="conversation-card fade-in">
+
+    <span class="mode-badge">Conversación</span>
+
+    <!-- CHAT -->
+    <div class="chat-window">
+
+      <div
+        *ngFor="let msg of conversation"
+        class="chat-bubble"
+        [class.bot]="msg.role === 'assistant'"
+        [class.user]="msg.role === 'user'">
+
+        {{ msg.content }}
+
+        <button
+          *ngIf="msg.role === 'assistant'"
+          class="mini-play"
+          (click)="speak(msg.content)">
+          🔊
+        </button>
+
+      </div>
+
+      <!-- Indicador de carga -->
+      <div *ngIf="state.loading" class="chat-bubble bot typing">
+        Escribiendo...
+      </div>
+
+    </div>
+
+    <!-- MIC -->
+    <div class="mic-zone">
+      <div
+        class="mic-ring"
+        [class.listening]="state.listening"
+        [class.disabled]="state.loading"
+        (click)="startListening()">
+
+        <div class="mic-core">🎤</div>
+
+      </div>
+    </div>
+
+    <p class="hint">
+      {{ state.listening 
+          ? 'Escuchando...' 
+          : state.loading 
+              ? 'Esperando respuesta...' 
+              : 'Presiona el micrófono y responde' }}
+    </p>
+
+  </div>
+
+</div>

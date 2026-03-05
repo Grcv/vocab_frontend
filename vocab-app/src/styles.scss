@@ -1,6 +1,7 @@
 /* styles.scss */
 // Importar Bootstrap
-@import 'bootstrap/scss/bootstrap';
+@use "sass:color";
+@use "bootstrap/scss/bootstrap" as *;
 
 // Importar FontAwesome
 @import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -55,7 +56,7 @@ body.dark-theme {
   border: none;
   
   &:hover {
-    background: linear-gradient(135deg, darken(#4361ee, 10%), darken(#3a0ca3, 10%));
+    background: linear-gradient(135deg, color.adjust(#4361ee, $lightness: -10%), color.adjust(#3a0ca3, $lightness: -10%));
   }
 }
 

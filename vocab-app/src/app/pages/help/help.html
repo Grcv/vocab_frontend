@@ -1,42 +1,58 @@
 <div class="help-page">
 
-  <h1> Ayuda</h1>
+  <h1>Ayuda</h1>
   <p class="subtitle">
     Encuentra respuestas rápidas y consejos para aprovechar mejor la plataforma
   </p>
 
-  <!-- 📘 Guía rápida -->
   <section class="help-section">
-    <h2>📘 Guía rápida</h2>
+    <h2>Guía rápida</h2>
     <ul>
-      <li>📚 Estudia las palabras una por una</li>
-      <li>🔊 Escucha la pronunciación</li>
-      <li>✅ Marca las palabras que ya domines</li>
-      <li>📈 Revisa tu progreso en el dashboard</li>
+      <li>Estudia las palabras una por una</li>
+      <li>Escucha la pronunciación</li>
+      <li>Marca las palabras que ya domines</li>
+      <li>Revisa tu progreso en el dashboard</li>
     </ul>
   </section>
 
-  <!-- ❓ FAQ -->
   <section class="help-section">
     <h2>Preguntas frecuentes</h2>
-
     <div class="faq-item" *ngFor="let faq of faqs">
       <h3>{{ faq.question }}</h3>
       <p>{{ faq.answer }}</p>
     </div>
   </section>
 
-  <!-- 🆘 Soporte -->
+  <!-- Soporte -->
   <section class="help-section support">
-    <h2>🆘 Soporte</h2>
-    <p>
-      Si tienes algún problema técnico o duda, puedes contactar al soporte:
-    </p>
+    <h2>Soporte</h2>
+    <p>Si tienes algún problema, duda o sugerencia, envíanos un mensaje:</p>
 
-    <p class="contact">
-      📧 soporte@tudominio.com<br />
-      💬 WhatsApp: +52 55 0000 0000
-    </p>
+    <form (ngSubmit)="sendSupport()" #f="ngForm" class="support-form">
+
+      <!-- Topic -->
+      <select [(ngModel)]="supportForm.topic" name="topic" required>
+        <option value="">Selecciona un tema</option>
+        <option *ngFor="let t of topics" [value]="t.value">{{ t.label }}</option>
+      </select>
+
+      <!-- Subtopic dinámico -->
+      <select *ngIf="getCurrentSubtopics().length > 0" [(ngModel)]="supportForm.subtopic" name="subtopic">
+        <option value="">Selecciona un subtema</option>
+        <option *ngFor="let s of getCurrentSubtopics()" [value]="s">{{ s }}</option>
+      </select>
+
+      <!-- Mensaje -->
+      <textarea rows="5" placeholder="Escribe tu mensaje" [(ngModel)]="supportForm.message" name="message" required></textarea>
+
+      <button type="submit" [disabled]="loading">
+        <span *ngIf="!loading">Enviar mensaje</span>
+        <span *ngIf="loading">Enviando...</span>
+      </button>
+
+      <p *ngIf="successMessage" class="success-msg">{{ successMessage }}</p>
+      <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
+
+    </form>
   </section>
-
 </div>

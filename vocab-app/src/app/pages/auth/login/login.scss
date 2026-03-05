@@ -14,3 +14,17 @@
   border-radius: 16px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
+.forgot-password {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #4f46e5;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+  }
+}

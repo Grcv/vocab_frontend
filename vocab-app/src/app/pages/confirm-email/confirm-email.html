@@ -1,0 +1,19 @@
+<div class="confirm-container">
+
+  <div *ngIf="loading" class="loader">
+    Confirmando tu cuenta...
+  </div>
+
+  <div *ngIf="message" class="success-box">
+    <h2>¡Correo confirmado!</h2>
+    <p>{{ message }}</p>
+    <small>Redirigiendo al login...</small>
+  </div>
+
+  <div *ngIf="error" class="error-box">
+    <h2>Error</h2>
+    <p>{{ error }}</p>
+    <button routerLink="/login">Ir al login</button>
+  </div>
+
+</div>
