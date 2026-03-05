@@ -16,66 +16,88 @@
     @if (currentExercise === 'lesson') {
       <app-lesson-exercise
         [word]="currentWord"
+        [speechRate]="speechRate"
+        [isPremium]="isPremium"
         (completed)="onExerciseCompleted($event)" />
     }
 
     @if (currentExercise === 'lesson_grammar') {
       <app-lesson-grammar
         [grammar]="currentWord"
+        [speechRate]="speechRate"
+        [isPremium]="isPremium"
         (completed)="onExerciseCompleted($event)" />
     }
 
     @if (currentExercise === 'lesson_listening') {
       <app-lesson-listening
         [listening]="currentWord"
+        [speechRate]="speechRate"
+        [isPremium]="isPremium"
         (completed)="onExerciseCompleted($event)" />
     }
 
     @if (currentExercise === 'lesson_pronunciation') {
       <app-lesson-pronunciation
         [pronunciation]="currentWord"
+        [speechRate]="speechRate"
+        [isPremium]="isPremium"
         (completed)="onExerciseCompleted($event)" />
     }
 
     @if (currentExercise === 'translation') {
       <app-translation-exercise
         [word]="currentWord"
+        [speechRate]="speechRate"
+        [isPremium]="isPremium"
         (completed)="onExerciseCompleted($event)" />
     }
 
     @if (currentExercise === 'translation_phoneme') {
       <app-translation-phoneme-exercise
         [word]="currentWord"
+        [speechRate]="speechRate"
+        [isPremium]="isPremium"
         (completed)="onExerciseCompleted($event)" />
     }
 
     @if (currentExercise === 'audio') {
       <app-audio-match-exercise
         [word]="currentWord"
+        [speechRate]="speechRate"
+        [isPremium]="isPremium"
         (completed)="onExerciseCompleted($event)" />
     }
 
     @if (currentExercise === 'audio_phoneme') {
       <app-audio-match-phoneme-exercise
         [word]="currentWord"
+        [speechRate]="speechRate"
+        [isPremium]="isPremium"
         (completed)="onExerciseCompleted($event)" />
     }  
 
     @if (currentExercise === 'audiotoaudio') {
       <app-audio-to-audio-exercise
         [word]="currentWord"
+        [speechRate]="speechRate"
+        [isPremium]="isPremium"
         (completed)="onExerciseCompleted($event)" />
     }
 
     @if (currentExercise === 'pronunciation') {
       <app-pronunciation-exercise
         [word]="currentWord"
+        [speechRate]="speechRate"
+        [isPremium]="isPremium"
         (completed)="onExerciseCompleted($event)" />
     }
 
     @if (currentExercise === 'spelling') {
       <app-spelling-exercise
         [word]="currentWord"
+        [speechRate]="speechRate"
+        [isPremium]="isPremium"
         (completed)="onExerciseCompleted($event)" />
     }
 

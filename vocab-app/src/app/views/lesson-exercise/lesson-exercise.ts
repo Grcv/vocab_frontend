@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LessonExercisePayload } from './lesson-exercise.model';
+import { ProgressService } from '../../services/user-progress'
 
 @Component({
   selector: 'app-lesson-exercise',
@@ -20,6 +21,8 @@ export class LessonExerciseComponent implements OnChanges {
 
   @Input({ required: true })
   word!: LessonExercisePayload;
+  @Input({ required: true }) speechRate!: number;
+  @Input({ required: true }) isPremium!: boolean;
 
   @Output()
   completed = new EventEmitter<boolean>();
@@ -31,6 +34,8 @@ export class LessonExerciseComponent implements OnChanges {
 
   isPlaying = false;
   markedAsLearned = false;
+
+  constructor(private progressService: ProgressService){}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['word']) {
@@ -47,9 +52,10 @@ export class LessonExerciseComponent implements OnChanges {
     this.isPlaying = true;
 
     if (this.word.audio) {
-      const audioUrl = this.normalizeAudioUrl(this.word.audio);
+      const audioUrl = this.progressService.normalizeAudioUrl(this.word.audio);
       this.audio = new Audio(audioUrl);
       this.audio.volume = 1;
+      this.audio.playbackRate = this.speechRate;
 
       this.audio.play().catch(() => {
         console.warn('Autoplay bloqueado');
@@ -80,7 +86,7 @@ export class LessonExerciseComponent implements OnChanges {
     speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(this.word.word);
     utterance.lang = 'en-US';
-    utterance.rate = 0.9;
+    utterance.rate = this.speechRate;
     speechSynthesis.speak(utterance);
   }
 
@@ -102,8 +108,4 @@ export class LessonExerciseComponent implements OnChanges {
     this.completed.emit(true);
   }
 
-  private normalizeAudioUrl(path: string): string {
-    if (path.startsWith('http')) return path;
-    return `http://127.0.0.1:8000${path}`;
-  }
 }

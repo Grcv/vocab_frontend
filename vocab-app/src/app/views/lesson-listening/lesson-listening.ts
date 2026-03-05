@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LessonListeningExercisePayload } from './lesson-listening.model';
+import { ProgressService } from '../../services/user-progress'
 
 @Component({
   selector: 'app-lesson-listening',
@@ -19,6 +20,8 @@ import { LessonListeningExercisePayload } from './lesson-listening.model';
 export class LessonListening {
   @Input({ required: true })
   listening!: LessonListeningExercisePayload;
+  @Input({ required: true }) speechRate!: number;
+  @Input({ required: true }) isPremium!: boolean;
 
   @Output()
   completed = new EventEmitter<boolean>();
@@ -27,6 +30,8 @@ export class LessonListening {
 
   isPlaying = false;
   showTranslation = false;
+
+  constructor(private progressService: ProgressService){}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['listening']) {
@@ -40,8 +45,10 @@ export class LessonListening {
     if (!this.listening.audio) return;
 
     this.isPlaying = true;
-    const audioUrl = this.normalizeAudioUrl(this.listening.audio);
+    const audioUrl = this.progressService.normalizeAudioUrl(this.listening.audio);
     this.audio = new Audio(audioUrl);
+    this.audio.volume = 1;
+    this.audio.playbackRate = this.speechRate;
 
     this.audio.play().catch(() => {});
     this.audio.onended = () => this.isPlaying = false;
@@ -67,8 +74,4 @@ export class LessonListening {
     }
   }
 
-  private normalizeAudioUrl(path: string): string {
-    if (path.startsWith('http')) return path;
-    return `http://127.0.0.1:8000${path}`;
-  }
 }

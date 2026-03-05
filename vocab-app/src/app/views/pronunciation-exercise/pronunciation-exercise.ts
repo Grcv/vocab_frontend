@@ -23,6 +23,8 @@ export class PronunciationExercise implements OnChanges, OnDestroy {
 
   @Input({ required: true })
   word!: PronunciationExercisePayload;
+  @Input({ required: true }) speechRate!: number;
+  @Input({ required: true }) isPremium!: boolean;
 
   @Output()
   completed = new EventEmitter<boolean>();
@@ -51,6 +53,8 @@ export class PronunciationExercise implements OnChanges, OnDestroy {
   /* =======================
    * LIFECYCLE
    * ======================= */
+
+  
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['word']) {
@@ -84,9 +88,10 @@ export class PronunciationExercise implements OnChanges, OnDestroy {
 
     if (!this.word.audio) return;
 
-    const url = this.normalizeAudioUrl(this.word.audio);
+    const url = this.progressService.normalizeAudioUrl(this.word.audio);
     this.audio = new Audio(url);
     this.audio.volume = 1;
+    this.audio.playbackRate = this.speechRate;
     this.audio.play();
   }
 
@@ -97,11 +102,6 @@ export class PronunciationExercise implements OnChanges, OnDestroy {
     this.audio = undefined;
   }
 
-  private normalizeAudioUrl(path: string): string {
-    return path.startsWith('http')
-      ? path
-      : `http://127.0.0.1:8000${path}`;
-  }
 
   /* =======================
    * MICRÓFONO (TOGGLE REAL)

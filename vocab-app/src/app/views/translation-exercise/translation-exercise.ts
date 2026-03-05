@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslationExercisePayload } from './translation-exercise.model';
+import { ProgressService } from '../../services/user-progress'
 
 interface TranslationState {
   selected?: string;
@@ -28,7 +29,8 @@ export class TranslationExercise implements OnChanges {
    * ======================= */
   @Input({ required: true })
   word!: TranslationExercisePayload;
-
+  @Input({ required: true }) speechRate!: number ;
+  @Input({ required: true }) isPremium!: boolean ;
   /* =======================
    * OUTPUT
    * ======================= */
@@ -44,6 +46,9 @@ export class TranslationExercise implements OnChanges {
   };
   
   private audio?: HTMLAudioElement;
+
+  constructor(private progressService: ProgressService){}
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['word']) {
       this.resetState();
@@ -62,9 +67,10 @@ export class TranslationExercise implements OnChanges {
     this.stopAudio();
 
     if (this.word.audio) {
-      const audioUrl = this.normalizeAudioUrl(this.word.audio);
+      const audioUrl = this.progressService.normalizeAudioUrl(this.word.audio);
       this.audio = new Audio(audioUrl);
       this.audio.volume = 1;
+      this.audio.playbackRate = this.speechRate;
       this.audio.play().catch(() => {
         console.warn('Autoplay bloqueado por el navegador');
       });
@@ -92,7 +98,7 @@ export class TranslationExercise implements OnChanges {
     const utterance = new SpeechSynthesisUtterance(this.word.prompt);
     utterance.lang = 'en-US';
     utterance.rate = 0.9;
-    utterance.pitch = 1;
+    utterance.pitch = this.speechRate;;
 
     speechSynthesis.speak(utterance);
   }
@@ -100,12 +106,6 @@ export class TranslationExercise implements OnChanges {
   /* ============================
    * UTILS
    * ============================ */
-  private normalizeAudioUrl(path: string): string {
-    if (path.startsWith('http')) {
-      return path;
-    }
-    return `http://127.0.0.1:8000${path}`;
-  }
 
   selectOption(option: string): void {
     this.stopAudio();

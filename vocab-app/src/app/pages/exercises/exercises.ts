@@ -17,6 +17,7 @@ import {LessonListening} from '../../views/lesson-listening/lesson-listening';
 import {LessonPronunciation} from '../../views/lesson-pronunciation/lesson-pronunciation';
 import {TranslationPhonemeExercise} from '../../views/translation-phoneme-exercise/translation-phoneme-exercise'
 import {AudioMatchPhonemeExercise} from '../../views/audio-match-phoneme-exercise/audio-match-phoneme-exercise'
+import { SettingsService } from '../../services/settings'
 type ExerciseType =
   | 'lesson'
   | 'lesson_grammar'
@@ -60,54 +61,68 @@ export class Exercises implements OnInit {
   finished = false;
   type: string = '';
   seccion_type: string = '';
-  constructor(private progressService: ProgressService,private router: Router) {}
+  isPremium:boolean = false;
+  speechRate:number = 1;
+  constructor(private progressService: ProgressService,private router: Router,private settingsservice:SettingsService) {}
 
   ngOnInit(): void {
     console.log('Exercises init');
+    this.loadData();
     this.loadNextExercise();
     this.recover();
   }
 
-recover(): void {
-  const seccion_type = localStorage.getItem('section');
-  this.progressService.recoverStage(seccion_type)
+  recover(): void {
+    const seccion_type = localStorage.getItem('section');
+    this.progressService.recoverStage(seccion_type)
 
-}
+  }
 
-  /** 🔄 Pedir al backend el siguiente ejercicio */
-loadNextExercise(): void {
-  const seccion_type = localStorage.getItem('section');
-  this.loading = true;
-  this.progressService.getNextExercise(seccion_type).subscribe({
-    next: (data: any) => {
-      console.log('Respuesta backend:', data);
+  loadData(): void {
+    this.settingsservice.getUserSettings().subscribe({
+      next: (data: any) => {
+        this.isPremium = data.premium;
+        this.speechRate = data.playback_speed;
+      },
+      error: err => console.error('Error loading settings', err)
+    });
+  }
 
-      // 🔴 CASO FIN DE SESIÓN
-      if (data.finished === true) {
+
+    /** 🔄 Pedir al backend el siguiente ejercicio */
+  loadNextExercise(): void {
+    const seccion_type = localStorage.getItem('section');
+    this.loading = true;
+    this.progressService.getNextExercise(seccion_type).subscribe({
+      next: (data: any) => {
+        console.log('Respuesta backend:', data);
+
+        // 🔴 CASO FIN DE SESIÓN
+        if (data.finished === true) {
+          this.finished = true;
+          this.currentExercise = null;
+          this.currentWord = null;
+          this.loading = false;
+          return;
+        }
+
+        // 🟢 CASO EJERCICIO NORMAL
+        this.type= data.type
+        this.finished = false;
+        this.currentExercise = data.exercise as ExerciseType;
+        this.currentWord = data;
+
+        this.loading = false;
+      },
+      error: () => {
+        // fallback de seguridad
         this.finished = true;
         this.currentExercise = null;
         this.currentWord = null;
         this.loading = false;
-        return;
       }
-
-      // 🟢 CASO EJERCICIO NORMAL
-      this.type= data.type
-      this.finished = false;
-      this.currentExercise = data.exercise as ExerciseType;
-      this.currentWord = data;
-
-      this.loading = false;
-    },
-    error: () => {
-      // fallback de seguridad
-      this.finished = true;
-      this.currentExercise = null;
-      this.currentWord = null;
-      this.loading = false;
-    }
-  });
-}
+    });
+  }
 
   /** ✅ Cuando el usuario termina un ejercicio */
   onExerciseCompleted(correct: boolean): void {

@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SpellingExercisePayload } from './spelling-exercise.model';
+import { ProgressService } from '../../services/user-progress'
 
 @Component({
   selector: 'app-spelling-exercise',
@@ -25,6 +26,8 @@ export class SpellingExercise implements OnChanges {
    * ======================= */
   @Input({ required: true })
   word!: SpellingExercisePayload;
+  @Input({ required: true }) speechRate!: number ;
+  @Input({ required: true }) isPremium!: boolean ;
 
   @Output()
   completed = new EventEmitter<boolean>();
@@ -47,6 +50,8 @@ export class SpellingExercise implements OnChanges {
   };
 
   private audio?: HTMLAudioElement;
+
+  constructor(private progressService: ProgressService){}
 
   /* =======================
    * LIFECYCLE
@@ -81,8 +86,10 @@ export class SpellingExercise implements OnChanges {
     this.stopAudio();
 
     if (this.word.audio) {
-      const url = this.normalizeAudioUrl(this.word.audio);
+      const url = this.progressService.normalizeAudioUrl(this.word.audio);
       this.audio = new Audio(url);
+      this.audio.volume = 1;
+      this.audio.playbackRate = this.speechRate;
 
       this.audio.onplay = () => {
         this.state.playing = true;
@@ -129,18 +136,14 @@ export class SpellingExercise implements OnChanges {
 
     const u = new SpeechSynthesisUtterance(this.word.prompt);
     u.lang = 'en-US';
-
+    u.rate = this.speechRate;
+    u.pitch = 1;
     u.onend = () => {
       this.state.playing = false;
       this.focusInput();
     };
 
     speechSynthesis.speak(u);
-  }
-
-  private normalizeAudioUrl(path: string): string {
-    if (path.startsWith('http')) return path;
-    return `http://127.0.0.1:8000${path}`;
   }
 
   /* =======================

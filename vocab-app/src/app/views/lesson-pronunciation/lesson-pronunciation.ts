@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LessonPronunciationExercisePayload } from './lesson-pronunciation.model';
+import { ProgressService } from '../../services/user-progress'
 
 
 @Component({
@@ -20,6 +21,8 @@ import { LessonPronunciationExercisePayload } from './lesson-pronunciation.model
 export class LessonPronunciation {
   @Input({ required: true })
   pronunciation!: LessonPronunciationExercisePayload;
+  @Input({ required: true }) speechRate!: number;
+  @Input({ required: true }) isPremium!: boolean;
 
   @Output()
   completed = new EventEmitter<boolean>();
@@ -43,6 +46,7 @@ export class LessonPronunciation {
     'ɔː': ['or', 'aw', 'au'],
   };
 
+  constructor(private progressService: ProgressService){}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['pronunciation']) {
@@ -56,8 +60,10 @@ export class LessonPronunciation {
     if (!this.pronunciation.audio) return;
 
     this.isPlaying = true;
-    const audioUrl = this.normalizeAudioUrl(this.pronunciation.audio);
+    const audioUrl = this.progressService.normalizeAudioUrl(this.pronunciation.audio);
     this.audio = new Audio(audioUrl);
+    this.audio.volume = 1;
+    this.audio.playbackRate = this.speechRate;
 
     this.audio.play().catch(() => {});
     this.audio.onended = () => this.isPlaying = false;
@@ -79,10 +85,6 @@ export class LessonPronunciation {
     }
   }
 
-  private normalizeAudioUrl(path: string): string {
-    if (path.startsWith('http')) return path;
-    return `http://127.0.0.1:8000${path}`;
-  }
 
   private generatehighlightedIPA(): void {
     if (!this.pronunciation?.ipa || !this.pronunciation?.phoneme) {

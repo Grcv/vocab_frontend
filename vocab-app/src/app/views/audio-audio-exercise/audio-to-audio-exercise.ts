@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AudioToAudioExercisePayload } from './audio-to-audio-exercise.model';
+import { ProgressService } from '../../services/user-progress'
 
 interface AudioState {
   selected?: number;
@@ -25,11 +26,12 @@ interface AudioState {
   styleUrls: ['./audio-to-audio-exercise.scss']
 })
 export class AudioToAudioExercise
-  implements OnInit, OnDestroy, OnChanges {
+  implements  OnDestroy, OnChanges {
 
   @Input({ required: true })
   word!: AudioToAudioExercisePayload;
-
+  @Input({ required: true }) speechRate!: number;
+  @Input({ required: true }) isPremium!: boolean;
   @Output()
   completed = new EventEmitter<boolean>();
 
@@ -41,7 +43,8 @@ export class AudioToAudioExercise
 
   private audio?: HTMLAudioElement;
 
-  ngOnInit(): void {}
+  constructor(private progressService: ProgressService){}
+
 
   ngOnChanges(changes: SimpleChanges): void {
 
@@ -107,9 +110,10 @@ export class AudioToAudioExercise
     this.stopAudio();
 
     if (audioPath) {
-      const audioUrl = this.normalizeAudioUrl(audioPath);
+      const audioUrl = this.progressService.normalizeAudioUrl(audioPath);
       this.audio = new Audio(audioUrl);
       this.audio.volume = 1;
+      this.audio.playbackRate = this.speechRate;
 
       this.audio.play().catch(() => {
         console.warn('Autoplay bloqueado');
@@ -134,13 +138,9 @@ export class AudioToAudioExercise
     speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
-    utterance.rate = 0.9;
+    utterance.rate = this.speechRate;
     utterance.pitch = 1;
     speechSynthesis.speak(utterance);
   }
 
-  private normalizeAudioUrl(path: string): string {
-    if (path.startsWith('http')) return path;
-    return `http://127.0.0.1:8000${path}`;
-  }
 }

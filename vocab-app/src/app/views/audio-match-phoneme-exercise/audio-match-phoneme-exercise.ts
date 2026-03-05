@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AudioMatchPhonemeExercisePayload } from './audio-match-phoneme.model';
-import { SettingsService } from '../../services/settings';
+import { ProgressService } from '../../services/user-progress'
 
 interface AudioMatchState {
   selected?: string;
@@ -29,7 +29,8 @@ export class AudioMatchPhonemeExercise implements OnChanges{
    * ======================= */
   @Input({ required: true })
   word!: AudioMatchPhonemeExercisePayload;
-
+  @Input({ required: true }) speechRate!: number;
+  @Input({ required: true }) isPremium!: boolean;
   /* =======================
    * OUTPUT
    * ======================= */
@@ -44,31 +45,20 @@ export class AudioMatchPhonemeExercise implements OnChanges{
     isCorrect: false,
     playing: false
   };
-  speechRate = 1.0;
-  isPremium = false;
+
   private audio?: HTMLAudioElement;
 
   constructor(
-    private settingsservice: SettingsService
+    private progressservice: ProgressService
   ) {}  
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['word']) {
-      this.loadData();
       this.resetState();
       this.autoPlayAudio();
     }
   }
 
-  loadData(): void {
-    this.settingsservice.getUserSettings().subscribe({
-      next: (data: any) => {
-        this.isPremium = data.premium;
-        this.speechRate = data.playback_speed;
-      },
-      error: err => console.error('Error loading settings', err)
-    });
-  }
 
   private resetState(): void {
     this.state = {
@@ -83,10 +73,10 @@ export class AudioMatchPhonemeExercise implements OnChanges{
     this.stopAudio();
 
     if (this.word.audio) {
-      const audioUrl = this.normalizeAudioUrl(this.word.audio);
+      const audioUrl = this.progressservice.normalizeAudioUrl(this.word.audio);
       this.audio = new Audio(audioUrl);
       this.audio.volume = 1;
-      this.audio.playbackRate = 1;
+      this.audio.playbackRate = this.speechRate;
 
       // 🔊 eventos
       this.audio.onplay = () => {
@@ -135,7 +125,7 @@ export class AudioMatchPhonemeExercise implements OnChanges{
 
     const utterance = new SpeechSynthesisUtterance(this.word.prompt);
     utterance.lang = 'en-US';
-    utterance.rate = 0.9;
+    utterance.rate = this.speechRate;
     utterance.pitch = 1;
 
     utterance.onstart = () => {

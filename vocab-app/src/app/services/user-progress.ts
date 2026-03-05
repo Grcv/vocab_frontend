@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import {environment  } from '../environment/environment'
 /* =========================
    MODELOS
    ========================= */
@@ -72,7 +72,7 @@ export type NextExerciseResponse =
 export class ProgressService {
 
   private readonly baseUrl = '/api/progress';
-
+  private url = environment.mediaUrl;
   constructor(private http: HttpClient) {}
 
   /* =========================
@@ -185,6 +185,12 @@ compareAudio(
     return this.http.get<SummaryResponse[]>(
       `${this.baseUrl}/general/`
     );
+  }
+
+  normalizeAudioUrl(path: string): string {
+    console.log(path)
+    if (path.startsWith('http')) return path;
+    return `${this.url}${path}`;
   }
 
 }

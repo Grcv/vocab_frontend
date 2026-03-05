@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LessonGrammarExercisePayload } from './lesson-grammar.model';
-
+import { ProgressService } from '../../services/user-progress'
 
 @Component({
   selector: 'app-lesson-grammar',
@@ -20,6 +20,9 @@ import { LessonGrammarExercisePayload } from './lesson-grammar.model';
 export class LessonGrammar {
   @Input({ required: true })
   grammar!: LessonGrammarExercisePayload;
+  @Input({ required: true }) speechRate!: number;
+  @Input({ required: true }) isPremium!: boolean;
+
 
   @Output()
   completed = new EventEmitter<boolean>();
@@ -31,6 +34,8 @@ export class LessonGrammar {
 
   isPlaying = false;
   markedAsLearned = false;
+
+  constructor(private progressService: ProgressService){}
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log("grammar:",this.grammar)
@@ -44,8 +49,10 @@ export class LessonGrammar {
     this.isPlaying = true;
 
     if (this.grammar.audio) {
-      const audioUrl = this.normalizeAudioUrl(this.grammar.audio);
+      const audioUrl = this.progressService.normalizeAudioUrl(this.grammar.audio);
       this.audio = new Audio(audioUrl);
+      this.audio.volume = 1;
+      this.audio.playbackRate = this.speechRate;
       this.audio.play().catch(() => {});
       this.audio.onended = () => this.isPlaying = false;
     } else {
@@ -72,7 +79,7 @@ export class LessonGrammar {
     speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(this.grammar.word);
     utterance.lang = 'en-US';
-    utterance.rate = 0.9;
+    utterance.rate = this.speechRate;
     speechSynthesis.speak(utterance);
   }
 
@@ -87,8 +94,4 @@ export class LessonGrammar {
     this.completed.emit(true);
   }
 
-  private normalizeAudioUrl(path: string): string {
-    if (path.startsWith('http')) return path;
-    return `http://127.0.0.1:8000/${path}`;
-  }
 }
