@@ -7,7 +7,7 @@ COPY . .
 RUN npm install
 
 
-RUN npm run build
+RUN npm run build --prod
 
 # 2. Servidor nginx
 FROM nginx:alpine
