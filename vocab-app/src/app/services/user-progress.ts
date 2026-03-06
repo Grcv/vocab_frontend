@@ -188,7 +188,6 @@ compareAudio(
   }
 
   normalizeAudioUrl(path: string): string {
-    console.log(path)
     if (path.startsWith('http')) return path;
     return `${this.url}${path}`;
   }
