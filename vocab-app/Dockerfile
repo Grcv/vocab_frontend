@@ -12,7 +12,7 @@ RUN npm run build --prod
 # 2. Servidor nginx
 FROM nginx:alpine
 
-COPY --from=builder /app/pronuncia_frontend/dist/vocab_app/browser /usr/share/nginx/html
+COPY --from=builder /app/pronuncia_frontend/dist/vocab-app/browser /usr/share/nginx/html
 
 EXPOSE 80
 
