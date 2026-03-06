@@ -30,6 +30,5 @@ RUN npm install --only=production
 # Exponer el puerto
 EXPOSE 4000
 
-RUN ls -l ./dist/server/
 # Comando para iniciar el servidor
 ENTRYPOINT  ["node", "dist/server/server.mjs"]
