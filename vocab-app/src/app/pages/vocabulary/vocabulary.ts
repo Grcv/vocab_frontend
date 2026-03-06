@@ -7,8 +7,8 @@ import { DashboardExercise } from '../dashboard-exercise/dashboard-exercise';
   selector: 'app-vocabulary',
   standalone: true,
   imports: [CommonModule,DashboardExercise],
-  templateUrl: './Vocabulary.html',
-  styleUrls: ['./Vocabulary.scss']
+  templateUrl: './vocabulary.html',
+  styleUrls: ['./vocabulary.scss']
 })
 
 export class Vocabulary  {
