@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
 
-  private API = 'http://localhost:8000/api/auth';
+  private API = '/api/auth';
 
   
   private authState = new BehaviorSubject<boolean>(this.hasToken());
