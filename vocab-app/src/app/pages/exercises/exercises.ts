@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { ProgressService } from '../../services/user-progress';
 
@@ -35,7 +35,6 @@ type ExerciseType =
   selector: 'app-exercises',
   standalone: true,
   imports: [
-    CommonModule,
     TranslationExercise,
     AudioMatchExercise,
     AudioToAudioExercise,
@@ -48,7 +47,7 @@ type ExerciseType =
     LessonPronunciation,
     TranslationPhonemeExercise,
     AudioMatchPhonemeExercise
-  ],
+],
   templateUrl: './exercises.html',
   styleUrls: ['./exercises.scss']
 })

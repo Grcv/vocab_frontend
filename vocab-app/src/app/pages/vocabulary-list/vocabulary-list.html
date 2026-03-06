@@ -18,89 +18,97 @@
     <!-- FILTROS DINÁMICOS -->
     <div class="filters-row">
 
-      <ng-container *ngFor="let filter of filters | keyvalue">
+      @for (filter of filters | keyvalue; track filter) {
         <input
           class="filter-input"
           [placeholder]="filter.key | titlecase"
           [(ngModel)]="filters[filter.key]"
           (input)="applyFilters()">
-      </ng-container>
+        }
 
-      <button class="clear-btn" (click)="resetFilters()">
-        Limpiar
+        <button class="clear-btn" (click)="resetFilters()">
+          Limpiar
+        </button>
+
+      </div>
+
+      <!-- TABLA DINÁMICA -->
+      <div class="table-wrapper">
+        <table class="modern-table">
+
+          <thead>
+            <tr>
+              @for (column of columns; track column) {
+                <th>
+                  {{ column | titlecase }}
+                </th>
+              }
+              <th class="text-center">✔</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (item of paginatedWords; track item) {
+              <tr>
+                @for (column of columns; track column) {
+                  <td>
+                    {{ item[column] }}
+                  </td>
+                }
+                <td class="text-center">
+                  @if (item.id) {
+                    <input
+                      type="checkbox"
+                      class="modern-checkbox"
+                      [checked]="selectedWordIds.has(item.id)"
+                      (change)="toggleWord(item.id, $event)">
+                  }
+                </td>
+              </tr>
+            }
+
+            @if (paginatedWords.length === 0) {
+              <tr>
+                <td [attr.colspan]="columns.length + 1" class="empty-state">
+                  No hay resultados
+                </td>
+              </tr>
+            }
+
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+
+    <!-- PAGINACIÓN -->
+    <div class="pagination-bar">
+
+      <div class="page-size">
+        <span>Mostrar</span>
+        <select [(ngModel)]="pageSize" (change)="changePageSize()">
+          @for (size of pageSizes; track size) {
+            <option [value]="size">
+              {{ size }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <div class="pager">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">←</button>
+        <span>Página {{ currentPage }} de {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">→</button>
+      </div>
+
+      <button
+        class="save-btn"
+        (click)="saveProgress()"
+        [disabled]="selectedWordIds.size === 0">
+        Guardar cambios
       </button>
 
     </div>
 
-    <!-- TABLA DINÁMICA -->
-    <div class="table-wrapper">
-      <table class="modern-table">
-
-        <thead>
-          <tr>
-            <th *ngFor="let column of columns">
-              {{ column | titlecase }}
-            </th>
-            <th class="text-center">✔</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr *ngFor="let item of paginatedWords">
-
-            <td *ngFor="let column of columns">
-              {{ item[column] }}
-            </td>
-
-            <td class="text-center">
-              <input
-                *ngIf="item.id"
-                type="checkbox"
-                class="modern-checkbox"
-                [checked]="selectedWordIds.has(item.id)"
-                (change)="toggleWord(item.id, $event)">
-            </td>
-
-          </tr>
-
-          <tr *ngIf="paginatedWords.length === 0">
-            <td [attr.colspan]="columns.length + 1" class="empty-state">
-              No hay resultados
-            </td>
-          </tr>
-
-        </tbody>
-
-      </table>
-    </div>
-
   </div>
-
-  <!-- PAGINACIÓN -->
-  <div class="pagination-bar">
-
-    <div class="page-size">
-      <span>Mostrar</span>
-      <select [(ngModel)]="pageSize" (change)="changePageSize()">
-        <option *ngFor="let size of pageSizes" [value]="size">
-          {{ size }}
-        </option>
-      </select>
-    </div>
-
-    <div class="pager">
-      <button (click)="prevPage()" [disabled]="currentPage === 1">←</button>
-      <span>Página {{ currentPage }} de {{ totalPages }}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages">→</button>
-    </div>
-
-    <button
-      class="save-btn"
-      (click)="saveProgress()"
-      [disabled]="selectedWordIds.size === 0">
-      Guardar cambios
-    </button>
-
-  </div>
-
-</div>

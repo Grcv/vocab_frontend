@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ProgressService } from '../../services/user-progress';
 import { RouterModule } from '@angular/router';
 
@@ -21,7 +21,7 @@ export interface Data {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule,RouterModule],
+  imports: [RouterModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })

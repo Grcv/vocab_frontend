@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ChatService, ChatMessage } from '../../services/chat';
 
 declare var webkitSpeechRecognition: any;
@@ -7,7 +7,7 @@ declare var webkitSpeechRecognition: any;
 @Component({
   selector: 'app-conversation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './conversation.html',
   styleUrl: './conversation.scss',
 })

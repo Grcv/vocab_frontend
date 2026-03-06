@@ -1,5 +1,5 @@
 import { Component, OnInit,Input,OnChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ProgressService } from '../../services/user-progress';
 
 interface StageStats {
@@ -27,7 +27,7 @@ interface WordStat {
 @Component({
   selector: 'app-progress',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './progress.html',
   styleUrls: ['./progress.scss']
 })

@@ -3,15 +3,14 @@
   <!-- CONTENT -->
   <div class="tabs-content">
 
-    <button
-      *ngFor="let tab of tabs"
-      class="tab-btn"
-      [class.active]="activeTab === tab.value"
-      (click)="setTab(tab.value)">
-
-      {{ tab.label }}
-
-    </button>
+    @for (tab of tabs; track tab) {
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === tab.value"
+        (click)="setTab(tab.value)">
+        {{ tab.label }}
+      </button>
+    }
     <app-vocabulary-list
       [type]="activeTab">
     </app-vocabulary-list>

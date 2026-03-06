@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sound-breakdown',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './sound-breakdown.html',
   styleUrls: ['./sound-breakdown.scss']
 })

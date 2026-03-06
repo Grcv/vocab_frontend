@@ -8,7 +8,7 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { AudioToAudioExercisePayload } from './audio-to-audio-exercise.model';
 import { ProgressService } from '../../services/user-progress'
 
@@ -21,7 +21,7 @@ interface AudioState {
 @Component({
   selector: 'app-audio-to-audio-exercise',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './audio-to-audio-exercise.html',
   styleUrls: ['./audio-to-audio-exercise.scss']
 })

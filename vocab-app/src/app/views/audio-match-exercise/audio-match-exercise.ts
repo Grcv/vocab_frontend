@@ -6,7 +6,7 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { AudioMatchExercisePayload } from './audio-match.model';
 import { ProgressService } from '../../services/user-progress'
 
@@ -19,7 +19,7 @@ interface AudioMatchState {
 @Component({
   selector: 'app-audio-match-exercise',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './audio-match-exercise.html',
   styleUrls: ['./audio-match-exercise.scss'],
 })

@@ -6,14 +6,14 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LessonListeningExercisePayload } from './lesson-listening.model';
 import { ProgressService } from '../../services/user-progress'
 
 @Component({
   selector: 'app-lesson-listening',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './lesson-listening.html',
   styleUrl: './lesson-listening.scss',
 })

@@ -1,42 +1,39 @@
-<div *ngIf="word" class="lesson-card fade-in">
-
-  <span class="badge">Vocabulary</span>
-
-  <h2 class="english-word">
-    {{ word.word }}
-  </h2>
-
-  <p class="ipa" *ngIf="word.ipa">
-    /{{ word.ipa }}/
-  </p>
-
-  <div class="image-container" *ngIf="word.image">
-    <img [src]="word.image" alt="word image" />
+@if (word) {
+  <div class="lesson-card fade-in">
+    <span class="badge">Vocabulary</span>
+    <h2 class="english-word">
+      {{ word.word }}
+    </h2>
+    @if (word.ipa) {
+      <p class="ipa">
+        /{{ word.ipa }}/
+      </p>
+    }
+    @if (word.image) {
+      <div class="image-container">
+        <img [src]="word.image" alt="word image" />
+      </div>
+    }
+    <!-- Translation Box -->
+    <div class="translation-box">
+      {{ word.translation }}
+    </div>
+    <!-- AUDIO -->
+    <button
+      class="audio-btn"
+      [class.playing]="isPlaying"
+      (click)="playAudio()">
+      🔊 Escuchar pronunciación
+    </button>
+    <!-- MARCAR -->
+    <button
+      class="learned-btn"
+      [class.active]="markedAsLearned"
+      (click)="markAsLearned()">
+      ✔ {{ markedAsLearned ? 'Aprendida' : 'Marcar como aprendida' }}
+    </button>
+    <button class="continue-btn" (click)="continue()">
+      Continuar →
+    </button>
   </div>
-
-  <!-- Translation Box -->
-  <div class="translation-box">
-    {{ word.translation }}
-  </div>
-
-  <!-- AUDIO -->
-  <button
-    class="audio-btn"
-    [class.playing]="isPlaying"
-    (click)="playAudio()">
-    🔊 Escuchar pronunciación
-  </button>
-
-  <!-- MARCAR -->
-  <button
-    class="learned-btn"
-    [class.active]="markedAsLearned"
-    (click)="markAsLearned()">
-    ✔ {{ markedAsLearned ? 'Aprendida' : 'Marcar como aprendida' }}
-  </button>
-
-  <button class="continue-btn" (click)="continue()">
-    Continuar →
-  </button>
-
-</div>
+}

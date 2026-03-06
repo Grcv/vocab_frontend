@@ -11,9 +11,11 @@
   </p>
 
   <div class="sounds">
-    <span class="sound-chip" *ngFor="let sound of soundGroups">
-      {{ sound }}
-    </span>
+    @for (sound of soundGroups; track sound) {
+      <span class="sound-chip">
+        {{ sound }}
+      </span>
+    }
   </div>
 
   <button class="btn btn-primary mt-4" (click)="goBack()">

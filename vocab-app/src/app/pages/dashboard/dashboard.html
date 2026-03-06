@@ -17,7 +17,7 @@
 
       <div class="progress-bar">
         <div class="progress"
-             [style.width.%]="globalProgress">
+          [style.width.%]="globalProgress">
         </div>
       </div>
     </div>
@@ -25,35 +25,32 @@
 
   <!-- MODULES -->
   <div class="modules-grid">
-    <div class="module-card" *ngFor="let module of modules">
-
-      <div class="card-top">
-        <div class="icon">{{ module.icon }}</div>
-        <div class="title-block">
-          <h2>{{ module.title }}</h2>
-          <span class="mini-progress">
-            {{ progress(module) }}%
-          </span>
+    @for (module of modules; track module) {
+      <div class="module-card">
+        <div class="card-top">
+          <div class="icon">{{ module.icon }}</div>
+          <div class="title-block">
+            <h2>{{ module.title }}</h2>
+            <span class="mini-progress">
+              {{ progress(module) }}%
+            </span>
+          </div>
         </div>
-      </div>
-
-      <div class="stats">
-        <span>{{ module.completed }}</span>
-        <span class="divider">/</span>
-        <span>{{ module.total }}</span>
-      </div>
-
-      <div class="progress-bar small">
-        <div class="progress"
-             [style.width.%]="progress(module)">
+        <div class="stats">
+          <span>{{ module.completed }}</span>
+          <span class="divider">/</span>
+          <span>{{ module.total }}</span>
         </div>
+        <div class="progress-bar small">
+          <div class="progress"
+            [style.width.%]="progress(module)">
+          </div>
+        </div>
+        <a [routerLink]="['/', module.route]" class="go-dashboard-btn">
+          Abrir módulo →
+        </a>
       </div>
-
-      <a [routerLink]="['/', module.route]" class="go-dashboard-btn">
-        Abrir módulo →
-      </a>
-
-    </div>
+    }
   </div>
 
 </div>

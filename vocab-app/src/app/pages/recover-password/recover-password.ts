@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth'
 
 @Component({
   selector: 'app-recover-password',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [FormsModule],
   templateUrl: './recover-password.html',
   styleUrl: './recover-password.scss',
 })

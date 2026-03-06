@@ -17,10 +17,12 @@
 
   <section class="help-section">
     <h2>Preguntas frecuentes</h2>
-    <div class="faq-item" *ngFor="let faq of faqs">
-      <h3>{{ faq.question }}</h3>
-      <p>{{ faq.answer }}</p>
-    </div>
+    @for (faq of faqs; track faq) {
+      <div class="faq-item">
+        <h3>{{ faq.question }}</h3>
+        <p>{{ faq.answer }}</p>
+      </div>
+    }
   </section>
 
   <!-- Soporte -->
@@ -33,25 +35,39 @@
       <!-- Topic -->
       <select [(ngModel)]="supportForm.topic" name="topic" required>
         <option value="">Selecciona un tema</option>
-        <option *ngFor="let t of topics" [value]="t.value">{{ t.label }}</option>
+        @for (t of topics; track t) {
+          <option [value]="t.value">{{ t.label }}</option>
+        }
       </select>
 
       <!-- Subtopic dinámico -->
-      <select *ngIf="getCurrentSubtopics().length > 0" [(ngModel)]="supportForm.subtopic" name="subtopic">
-        <option value="">Selecciona un subtema</option>
-        <option *ngFor="let s of getCurrentSubtopics()" [value]="s">{{ s }}</option>
-      </select>
+      @if (getCurrentSubtopics().length > 0) {
+        <select [(ngModel)]="supportForm.subtopic" name="subtopic">
+          <option value="">Selecciona un subtema</option>
+          @for (s of getCurrentSubtopics(); track s) {
+            <option [value]="s">{{ s }}</option>
+          }
+        </select>
+      }
 
       <!-- Mensaje -->
       <textarea rows="5" placeholder="Escribe tu mensaje" [(ngModel)]="supportForm.message" name="message" required></textarea>
 
       <button type="submit" [disabled]="loading">
-        <span *ngIf="!loading">Enviar mensaje</span>
-        <span *ngIf="loading">Enviando...</span>
+        @if (!loading) {
+          <span>Enviar mensaje</span>
+        }
+        @if (loading) {
+          <span>Enviando...</span>
+        }
       </button>
 
-      <p *ngIf="successMessage" class="success-msg">{{ successMessage }}</p>
-      <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
+      @if (successMessage) {
+        <p class="success-msg">{{ successMessage }}</p>
+      }
+      @if (errorMessage) {
+        <p class="error-msg">{{ errorMessage }}</p>
+      }
 
     </form>
   </section>

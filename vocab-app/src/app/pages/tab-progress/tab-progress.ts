@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Progress } from '../progress/progress';
 
 type TabType = 'vocabulary' | 'verbs' | 'pronunciation' | 'phrasal_verbs' | 'grammar' | 'contractions' | 'connected_speech' | 'idioms' | 'listening';
@@ -7,7 +7,7 @@ type TabType = 'vocabulary' | 'verbs' | 'pronunciation' | 'phrasal_verbs' | 'gra
 @Component({
   selector: 'app-tab-progress',
   standalone: true,
-  imports: [CommonModule, Progress],
+  imports: [Progress],
   templateUrl: './tab-progress.html',
   styleUrl: './tab-progress.scss',
 })

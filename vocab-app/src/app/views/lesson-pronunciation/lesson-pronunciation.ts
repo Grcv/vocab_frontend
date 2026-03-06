@@ -6,7 +6,7 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LessonPronunciationExercisePayload } from './lesson-pronunciation.model';
 import { ProgressService } from '../../services/user-progress'
 
@@ -14,7 +14,7 @@ import { ProgressService } from '../../services/user-progress'
 @Component({
   selector: 'app-lesson-pronunciation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './lesson-pronunciation.html',
   styleUrl: './lesson-pronunciation.scss',
 })

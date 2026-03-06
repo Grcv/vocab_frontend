@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbDropdownModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
@@ -11,13 +11,12 @@ import { Logo } from '../../shared/logo/logo'
   selector: 'app-private-layout',
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     FontAwesomeModule,
     NgbDropdownModule,
     NgbCollapseModule,
     Logo
-  ],
+],
   templateUrl: './private-layout.html',
   styleUrls: ['./private-layout.scss']
 })

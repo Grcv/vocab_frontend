@@ -19,105 +19,139 @@
         name="name"
         #nameField="ngModel">
 
-      <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="text-danger mt-1">
-        <div *ngIf="nameField.errors?.['required']">El nombre es obligatorio</div>
-        <div *ngIf="nameField.errors?.['minlength']">Debe tener al menos 2 caracteres</div>
-        <div *ngIf="nameField.errors?.['pattern']">
-          Solo se permiten letras y espacios
+        @if (nameField.invalid && (nameField.dirty || nameField.touched)) {
+          <div class="text-danger mt-1">
+            @if (nameField.errors?.['required']) {
+              <div>El nombre es obligatorio</div>
+            }
+            @if (nameField.errors?.['minlength']) {
+              <div>Debe tener al menos 2 caracteres</div>
+            }
+            @if (nameField.errors?.['pattern']) {
+              <div>
+                Solo se permiten letras y espacios
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- EMAIL -->
+      <div class="mb-3">
+        <label class="form-label">Correo electrónico</label>
+        <input
+          type="email"
+          class="form-control"
+          required
+          email
+          [(ngModel)]="user.email"
+          name="email"
+          #emailField="ngModel">
+
+          @if (emailField.invalid && (emailField.dirty || emailField.touched)) {
+            <div class="text-danger mt-1">
+              @if (emailField.errors?.['required']) {
+                <div>El email es obligatorio</div>
+              }
+              @if (emailField.errors?.['email']) {
+                <div>Email inválido</div>
+              }
+            </div>
+          }
         </div>
-      </div>
-    </div>
 
-    <!-- EMAIL -->
-    <div class="mb-3">
-      <label class="form-label">Correo electrónico</label>
-      <input
-        type="email"
-        class="form-control"
-        required
-        email
-        [(ngModel)]="user.email"
-        name="email"
-        #emailField="ngModel">
+        <!-- PASSWORD -->
+        <div class="mb-3">
+          <label class="form-label">Contraseña</label>
+          <input
+            type="password"
+            class="form-control"
+            required
+            minlength="8"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$"
+            [(ngModel)]="user.password"
+            name="password"
+            #passwordField="ngModel">
 
-      <div *ngIf="emailField.invalid && (emailField.dirty || emailField.touched)" class="text-danger mt-1">
-        <div *ngIf="emailField.errors?.['required']">El email es obligatorio</div>
-        <div *ngIf="emailField.errors?.['email']">Email inválido</div>
-      </div>
-    </div>
+            @if (passwordField.invalid && (passwordField.dirty || passwordField.touched)) {
+              <div class="text-danger mt-1">
+                @if (passwordField.errors?.['required']) {
+                  <div>La contraseña es obligatoria</div>
+                }
+                @if (passwordField.errors?.['minlength']) {
+                  <div>
+                    Debe tener al menos 8 caracteres
+                  </div>
+                }
+                @if (passwordField.errors?.['pattern']) {
+                  <div>
+                    Debe incluir mayúscula, minúscula, número y carácter especial
+                  </div>
+                }
+              </div>
+            }
+          </div>
 
-    <!-- PASSWORD -->
-    <div class="mb-3">
-      <label class="form-label">Contraseña</label>
-      <input
-        type="password"
-        class="form-control"
-        required
-        minlength="8"
-        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$"
-        [(ngModel)]="user.password"
-        name="password"
-        #passwordField="ngModel">
+          <!-- CONFIRMAR PASSWORD -->
+          <div class="mb-3">
+            <label class="form-label">Confirmar Contraseña</label>
+            <input
+              type="password"
+              class="form-control"
+              required
+              [(ngModel)]="user.confirmPassword"
+              name="confirmPassword"
+              #confirmPasswordField="ngModel">
 
-      <div *ngIf="passwordField.invalid && (passwordField.dirty || passwordField.touched)" class="text-danger mt-1">
-        <div *ngIf="passwordField.errors?.['required']">La contraseña es obligatoria</div>
-        <div *ngIf="passwordField.errors?.['minlength']">
-          Debe tener al menos 8 caracteres
+              @if (confirmPasswordField.invalid && (confirmPasswordField.dirty || confirmPasswordField.touched)) {
+                <div class="text-danger mt-1">
+                  Debes confirmar la contraseña
+                </div>
+              }
+
+              @if (user.password && user.confirmPassword
+                && user.password !== user.confirmPassword
+                && (confirmPasswordField.dirty || confirmPasswordField.touched)) {
+                <div
+                  class="text-danger mt-1">
+                  Las contraseñas no coinciden
+                </div>
+              }
+            </div>
+
+            <!-- ERROR GLOBAL -->
+            @if (error) {
+              <div class="alert alert-danger">
+                {{ error }}
+              </div>
+            }
+
+            <!-- SUBMIT -->
+            <button
+              class="btn btn-primary w-100"
+              [disabled]="loading || !form.valid || user.password !== user.confirmPassword">
+
+              @if (!loading) {
+                <span>Crear cuenta</span>
+              }
+              @if (loading) {
+                <span>Creando cuenta...</span>
+              }
+            </button>
+            @if (message) {
+              <div class="alert alert-success mt-4 text-center">
+                {{ message }}
+              </div>
+            }
+          </form>
+
+          <div class="text-center mt-4">
+            <small class="text-muted">
+              ¿Ya tienes cuenta?
+              <a routerLink="/login" class="fw-semibold">
+                Inicia sesión
+              </a>
+            </small>
+          </div>
+
         </div>
-        <div *ngIf="passwordField.errors?.['pattern']">
-          Debe incluir mayúscula, minúscula, número y carácter especial
-        </div>
-      </div>
-    </div>
-
-    <!-- CONFIRMAR PASSWORD -->
-    <div class="mb-3">
-      <label class="form-label">Confirmar Contraseña</label>
-      <input
-        type="password"
-        class="form-control"
-        required
-        [(ngModel)]="user.confirmPassword"
-        name="confirmPassword"
-        #confirmPasswordField="ngModel">
-
-      <div *ngIf="confirmPasswordField.invalid && (confirmPasswordField.dirty || confirmPasswordField.touched)" class="text-danger mt-1">
-        Debes confirmar la contraseña
-      </div>
-
-      <div *ngIf="user.password && user.confirmPassword 
-                  && user.password !== user.confirmPassword 
-                  && (confirmPasswordField.dirty || confirmPasswordField.touched)" 
-           class="text-danger mt-1">
-        Las contraseñas no coinciden
-      </div>
-    </div>
-
-    <!-- ERROR GLOBAL -->
-    <div *ngIf="error" class="alert alert-danger">
-      {{ error }}
-    </div>
-
-    <!-- SUBMIT -->
-    <button
-      class="btn btn-primary w-100"
-      [disabled]="loading || !form.valid || user.password !== user.confirmPassword">
-
-      <span *ngIf="!loading">Crear cuenta</span>
-      <span *ngIf="loading">Creando cuenta...</span>
-    </button>
-    <div *ngIf="message" class="alert alert-success mt-4 text-center">
-      {{ message }}
-    </div>
-  </form>
-
-  <div class="text-center mt-4">
-    <small class="text-muted">
-      ¿Ya tienes cuenta?
-      <a routerLink="/login" class="fw-semibold">
-        Inicia sesión
-      </a>
-    </small>
-  </div>
-
-</div>

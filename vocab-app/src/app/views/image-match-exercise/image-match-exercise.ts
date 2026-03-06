@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ImageMatchQuestion, ImageMatchState } from './image-match.model';
 
 @Component({
   selector: 'app-image-match-exercise',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './image-match-exercise.html',
   styleUrl: './image-match-exercise.scss',
 })

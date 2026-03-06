@@ -6,7 +6,7 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TranslationPhonemeExercisePayload } from './translation-phoneme-exercise.model';
 import { ProgressService } from '../../services/user-progress'
 
@@ -18,7 +18,7 @@ interface TranslationState {
 @Component({
   selector: 'app-translation-phoneme-exercise',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './translation-phoneme-exercise.html',
   styleUrl: './translation-phoneme-exercise.scss',
 })

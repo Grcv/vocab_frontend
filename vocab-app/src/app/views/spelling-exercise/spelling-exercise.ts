@@ -8,14 +8,14 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { SpellingExercisePayload } from './spelling-exercise.model';
 import { ProgressService } from '../../services/user-progress'
 
 @Component({
   selector: 'app-spelling-exercise',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './spelling-exercise.html',
   styleUrl: './spelling-exercise.scss',
 })

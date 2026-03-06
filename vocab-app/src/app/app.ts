@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 import { PublicLayout } from './layouts/public-layout/public-layout';
 import { PrivateLayout } from './layouts/private-layout/private-layout';
@@ -8,10 +8,9 @@ import { AuthService } from './services/auth';
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule,
     PublicLayout,
     PrivateLayout
-  ],
+],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })

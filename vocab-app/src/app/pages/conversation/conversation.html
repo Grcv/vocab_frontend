@@ -7,27 +7,28 @@
     <!-- CHAT -->
     <div class="chat-window">
 
-      <div
-        *ngFor="let msg of conversation"
-        class="chat-bubble"
-        [class.bot]="msg.role === 'assistant'"
-        [class.user]="msg.role === 'user'">
-
-        {{ msg.content }}
-
-        <button
-          *ngIf="msg.role === 'assistant'"
-          class="mini-play"
-          (click)="speak(msg.content)">
-          🔊
-        </button>
-
-      </div>
+      @for (msg of conversation; track msg) {
+        <div
+          class="chat-bubble"
+          [class.bot]="msg.role === 'assistant'"
+          [class.user]="msg.role === 'user'">
+          {{ msg.content }}
+          @if (msg.role === 'assistant') {
+            <button
+              class="mini-play"
+              (click)="speak(msg.content)">
+              🔊
+            </button>
+          }
+        </div>
+      }
 
       <!-- Indicador de carga -->
-      <div *ngIf="state.loading" class="chat-bubble bot typing">
-        Escribiendo...
-      </div>
+      @if (state.loading) {
+        <div class="chat-bubble bot typing">
+          Escribiendo...
+        </div>
+      }
 
     </div>
 
@@ -45,11 +46,11 @@
     </div>
 
     <p class="hint">
-      {{ state.listening 
-          ? 'Escuchando...' 
-          : state.loading 
-              ? 'Esperando respuesta...' 
-              : 'Presiona el micrófono y responde' }}
+      {{ state.listening
+      ? 'Escuchando...'
+      : state.loading
+      ? 'Esperando respuesta...'
+      : 'Presiona el micrófono y responde' }}
     </p>
 
   </div>

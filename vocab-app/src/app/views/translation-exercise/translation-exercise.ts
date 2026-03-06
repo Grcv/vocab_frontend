@@ -6,7 +6,7 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TranslationExercisePayload } from './translation-exercise.model';
 import { ProgressService } from '../../services/user-progress'
 
@@ -18,7 +18,7 @@ interface TranslationState {
 @Component({
   selector: 'app-translation-exercise',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './translation-exercise.html',
   styleUrls: ['./translation-exercise.scss'],
 })

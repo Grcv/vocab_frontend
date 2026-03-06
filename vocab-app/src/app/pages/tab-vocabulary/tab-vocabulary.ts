@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { VocabularyList } from '../vocabulary-list/vocabulary-list';
 
 type TabType = 'vocabulary' | 'verbs' | 'pronunciation' | 'phrasal_verbs' | 'grammar' | 'contractions' | 'connected_speech' | 'idioms' | 'listening';
@@ -7,7 +7,7 @@ type TabType = 'vocabulary' | 'verbs' | 'pronunciation' | 'phrasal_verbs' | 'gra
 @Component({
   selector: 'app-tab-vocabulary',
   standalone: true,
-  imports: [CommonModule, VocabularyList],
+  imports: [VocabularyList],
   templateUrl: './tab-vocabulary.html',
   styleUrl: './tab-vocabulary.scss',
 })

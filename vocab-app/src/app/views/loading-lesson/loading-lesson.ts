@@ -1,8 +1,8 @@
 import { Component,Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-loading-lesson',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './loading-lesson.html',
   styleUrl: './loading-lesson.scss',
 })

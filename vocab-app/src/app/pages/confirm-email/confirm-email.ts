@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-confirm-email',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './confirm-email.html',
   styleUrl: './confirm-email.scss',
 })

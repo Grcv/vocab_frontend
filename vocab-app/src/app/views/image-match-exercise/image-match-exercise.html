@@ -2,17 +2,17 @@
   <img
     [src]="currentQuestion.imageUrl"
     alt="Image match" />
-</div>
+  </div>
 
-<div class="options">
-  <button
-    *ngFor="let option of currentQuestion.options"
-    class="option-btn"
-    [class.selected]="state.selected === option"
-    [class.correct]="state.isCorrect && option === currentQuestion.correctWord"
-    [class.wrong]="state.selected === option && !state.isCorrect"
-    (click)="selectOption(option)">
-    
-    {{ option }}
-  </button>
-</div>
+  <div class="options">
+    @for (option of currentQuestion.options; track option) {
+      <button
+        class="option-btn"
+        [class.selected]="state.selected === option"
+        [class.correct]="state.isCorrect && option === currentQuestion.correctWord"
+        [class.wrong]="state.selected === option && !state.isCorrect"
+        (click)="selectOption(option)">
+        {{ option }}
+      </button>
+    }
+  </div>

@@ -6,7 +6,7 @@
       <app-logo size="md"></app-logo>
     </a>
   </div>
-  
+
   <!-- RIGHT -->
   <div class="right-section">
 
@@ -25,28 +25,27 @@
         class="menu-panel shadow-lg"
         container="body">
 
-        <button
-          class="menu-item"
-          *ngFor="let page of [
-            ['dashboard','tachometer-alt','Dashboard'],
-            ['vocabulary','book','Vocabulario'],
-            ['pronunciation','volume-up','Pronunciación'],
-            ['grammar','pencil-alt','Gramática'],
-            ['verbs','exchange-alt','Verbos'],
-            ['phrasal_verbs','random','Verbos frasales'],
-            ['contractions','compress-alt','Contracciones'],
-            ['connected-speech','link','Connected Speech'],
-            ['idioms','comments','Idioms'],
-            ['listening','headphones','Listening']
-          ]"
-          routerLink="/{{ page[0] }}"
-          routerLinkActive="active"
-          ngbDropdownItem>
-
-          <i class="fas fa-{{ page[1] }}"></i>
-          {{ page[2] }}
-
-        </button>
+        @for (page of [
+          ['dashboard','tachometer-alt','Dashboard'],
+          ['vocabulary','book','Vocabulario'],
+          ['pronunciation','volume-up','Pronunciación'],
+          ['grammar','pencil-alt','Gramática'],
+          ['verbs','exchange-alt','Verbos'],
+          ['phrasal_verbs','random','Verbos frasales'],
+          ['contractions','compress-alt','Contracciones'],
+          ['connected-speech','link','Connected Speech'],
+          ['idioms','comments','Idioms'],
+          ['listening','headphones','Listening']
+          ]; track page) {
+          <button
+            class="menu-item"
+            routerLink="/{{ page[0] }}"
+            routerLinkActive="active"
+            ngbDropdownItem>
+            <i class="fas fa-{{ page[1] }}"></i>
+            {{ page[2] }}
+          </button>
+        }
 
       </div>
     </div>

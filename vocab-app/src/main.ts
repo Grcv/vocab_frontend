@@ -1,3 +1,4 @@
+import { provideZoneChangeDetection } from "@angular/core";
 import 'zone.js'; 
 // main.ts
 import { bootstrapApplication } from '@angular/platform-browser';
@@ -11,5 +12,5 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 // Agregar todos los iconos sólidos
 library.add(fas);
 
-bootstrapApplication(App, appConfig)
+bootstrapApplication(App, {...appConfig, providers: [provideZoneChangeDetection(), ...appConfig.providers]})
   .catch((err) => console.error(err));

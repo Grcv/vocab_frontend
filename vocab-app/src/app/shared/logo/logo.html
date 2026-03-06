@@ -8,8 +8,10 @@
     </div>
   </div>
 
-  <div class="logo-text" *ngIf="showText">
-    Pronuncia Inglés
-  </div>
+  @if (showText) {
+    <div class="logo-text">
+      Pronuncia Inglés
+    </div>
+  }
 
 </div>

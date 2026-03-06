@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, ActivatedRoute, UrlSegment } from '@angular/router';
 import { ProgressService } from '../../services/user-progress';
 import { Chart } from 'chart.js/auto';
@@ -23,7 +23,7 @@ interface VocabularyResponse extends WordStat {}
 @Component({
   selector: 'app-dashboard-exercise',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './dashboard-exercise.html',
   styleUrl: './dashboard-exercise.scss',
 })

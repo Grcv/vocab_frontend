@@ -17,31 +17,28 @@
 
   <!-- OPCIONES -->
   <div class="options">
-    <div
-      *ngFor="let option of word.audio_options; let i = index"
-      class="option-card"
-      [class.selected]="state.selected === i"
-      [class.correct]="state.selected !== undefined && i === word.correct_index"
-      [class.wrong]="state.selected === i && i !== word.correct_index">
-
-      <button
-        class="option-play-btn"
-        (click)="previewOption(i)">
-        🔊
-      </button>
-
-      <span class="option-label">
-        Opción {{ i + 1 }}
-      </span>
-
-      <button
-        class="confirm-btn"
-        [disabled]="state.isCorrect"
-        (click)="confirmOption(i)">
-        ✔
-      </button>
-
-    </div>
+    @for (option of word.audio_options; track option; let i = $index) {
+      <div
+        class="option-card"
+        [class.selected]="state.selected === i"
+        [class.correct]="state.selected !== undefined && i === word.correct_index"
+        [class.wrong]="state.selected === i && i !== word.correct_index">
+        <button
+          class="option-play-btn"
+          (click)="previewOption(i)">
+          🔊
+        </button>
+        <span class="option-label">
+          Opción {{ i + 1 }}
+        </span>
+        <button
+          class="confirm-btn"
+          [disabled]="state.isCorrect"
+          (click)="confirmOption(i)">
+          ✔
+        </button>
+      </div>
+    }
   </div>
 
 </div>

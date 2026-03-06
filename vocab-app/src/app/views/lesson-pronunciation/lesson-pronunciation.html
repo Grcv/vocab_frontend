@@ -1,38 +1,29 @@
 
-<div *ngIf="pronunciation" class="lesson-card fade-in">
-
-  <span class="badge">
-    Pronunciation
-  </span>
-
-  <div class="english-word">
-    {{ pronunciation.word }}
+@if (pronunciation) {
+  <div class="lesson-card fade-in">
+    <span class="badge">
+      Pronunciation
+    </span>
+    <div class="english-word">
+      {{ pronunciation.word }}
+    </div>
+    <h2 class="ipa" [innerHTML]="highlightedIPA">
+    </h2>
+    <!-- IPA -->
+    @if (pronunciation.phoneme) {
+      <div class="translation-box">
+        {{ pronunciation.translation }}
+      </div>
+    }
+    <!-- AUDIO -->
+    <button
+      class="audio-btn"
+      [class.playing]="isPlaying"
+      (click)="playAudio()">
+      🔊 Escuchar sonido
+    </button>
+    <button class="continue-btn" (click)="continue()">
+      Continuar →
+    </button>
   </div>
-  
-
-  <h2 class="ipa" [innerHTML]="highlightedIPA">
-  </h2>
-
-
-  <!-- IPA -->
-  <div class="translation-box" *ngIf="pronunciation.phoneme">
-    {{ pronunciation.translation }}
-  </div>
-
-
-
-  <!-- AUDIO -->
-  <button
-    class="audio-btn"
-    [class.playing]="isPlaying"
-    (click)="playAudio()">
-    🔊 Escuchar sonido
-  </button>
-
-
-
-  <button class="continue-btn" (click)="continue()">
-    Continuar →
-  </button>
-
-</div>
+}

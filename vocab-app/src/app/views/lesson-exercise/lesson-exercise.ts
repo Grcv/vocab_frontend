@@ -6,14 +6,14 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LessonExercisePayload } from './lesson-exercise.model';
 import { ProgressService } from '../../services/user-progress'
 
 @Component({
   selector: 'app-lesson-exercise',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './lesson-exercise.html',
   styleUrls: ['./lesson-exercise.scss'],
 })

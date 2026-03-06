@@ -1,12 +1,12 @@
 // shared/word-card-lesson.ts
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Word } from '../../models/word.model';
 
 @Component({
   selector: 'app-word-card-lesson',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './word-card-lesson.html',
   styleUrls: ['./word-card-lesson.scss']
 })

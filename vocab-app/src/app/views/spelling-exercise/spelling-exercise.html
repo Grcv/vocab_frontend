@@ -16,19 +16,22 @@
   </div>
 
   <!-- TARJETA DE LETRAS -->
-  <div class="letters-card" (click)="focusInput()" *ngIf="letters.length">
-    <div class="letters">
-      <div
-        class="letter-box"
-        *ngFor="let letter of letters; let i = index"
-        [class.filled]="state.input[i]"
-        [class.active]="i === state.input.length && !state.isCorrect"
-        [class.correct]="state.isCorrect"
-        [class.wrong]="!state.isCorrect && state.input.length === letters.length">
-        {{ state.input[i] || '' }}
+  @if (letters.length) {
+    <div class="letters-card" (click)="focusInput()">
+      <div class="letters">
+        @for (letter of letters; track letter; let i = $index) {
+          <div
+            class="letter-box"
+            [class.filled]="state.input[i]"
+            [class.active]="i === state.input.length && !state.isCorrect"
+            [class.correct]="state.isCorrect"
+            [class.wrong]="!state.isCorrect && state.input.length === letters.length">
+            {{ state.input[i] || '' }}
+          </div>
+        }
       </div>
     </div>
-  </div>
+  }
 
   <!-- INPUT INVISIBLE -->
   <input
@@ -43,15 +46,16 @@
     [attr.maxlength]="letters.length"
     (input)="onInputChange($any($event.target).value)"
     [disabled]="state.isCorrect"
-  />
+    />
 
-  <!-- FEEDBACK -->
-  <p
-    class="feedback"
-    *ngIf="state.input.length === letters.length"
-    [class.correct]="state.isCorrect"
-    [class.wrong]="!state.isCorrect">
-    {{ state.isCorrect ? '¡Correcto!' : 'Intenta de nuevo' }}
-  </p>
+    <!-- FEEDBACK -->
+    @if (state.input.length === letters.length) {
+      <p
+        class="feedback"
+        [class.correct]="state.isCorrect"
+        [class.wrong]="!state.isCorrect">
+        {{ state.isCorrect ? '¡Correcto!' : 'Intenta de nuevo' }}
+      </p>
+    }
 
-</div>
+  </div>

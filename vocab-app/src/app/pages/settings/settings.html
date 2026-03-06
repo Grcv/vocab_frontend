@@ -22,126 +22,136 @@
           disabled
           class="input readonly"
           (ngModelChange)="onChange()"
-        />
-      </div>
-    </section>
+          />
+        </div>
+      </section>
 
-    <!-- PLAN -->
-    <section class="modern-card premium-card" [class.active]="isPremium">
-      <div class="card-header">
-        <h2>Plan</h2>
+      <!-- PLAN -->
+      <section class="modern-card premium-card" [class.active]="isPremium">
+        <div class="card-header">
+          <h2>Plan</h2>
 
-        <span class="plan-badge" [class.premium]="isPremium">
-          {{ isPremium ? '⭐ Premium' : 'Free' }}
-        </span>
-      </div>
+          <span class="plan-badge" [class.premium]="isPremium">
+            {{ isPremium ? '⭐ Premium' : 'Free' }}
+          </span>
+        </div>
 
-      <p class="plan-description" [class.muted]="!isPremium">
-        {{ isPremium
+        <p class="plan-description" [class.muted]="!isPremium">
+          {{ isPremium
           ? 'Acceso completo a todos los niveles y ejercicios'
           : 'Estás usando la versión gratuita' }}
-      </p>
+        </p>
 
-      <button
-        *ngIf="!isPremium"
-        class="upgrade-btn"
-        (click)="goPremium()"
-        [disabled]="isLoading">
+        @if (!isPremium) {
+          <button
+            class="upgrade-btn"
+            (click)="goPremium()"
+            [disabled]="isLoading">
+            @if (!isLoading) {
+              <span>Mejorar a Premium</span>
+            }
+            @if (isLoading) {
+              <span>Procesando...</span>
+            }
+          </button>
+        }
 
-        <span *ngIf="!isLoading">Mejorar a Premium</span>
-        <span *ngIf="isLoading">Procesando...</span>
+        @if (errorMessage) {
+          <p class="error-msg">
+            {{ errorMessage }}
+          </p>
+        }
 
-      </button>
+        @if (isPremium) {
+          <button
+            class="downgrade-btn"
+            (click)="cancelPremium()">
+            Cancelar suscripción
+          </button>
+        }
+      </section>
 
-      <p *ngIf="errorMessage" class="error-msg">
-        {{ errorMessage }}
-      </p>
+      <!-- MODO DE APRENDIZAJE -->
+      <section class="modern-card">
+        <div class="card-header">
+          <h2>Modo de aprendizaje</h2>
+        </div>
 
-      <button
-        *ngIf="isPremium"
-        class="downgrade-btn"
-        (click)="cancelPremium()">
-        Cancelar suscripción
-      </button>
-    </section>
+        <select class="input" [(ngModel)]="learningProfile" (ngModelChange)="onChange()">
+          <option value="casual">Casual (repaso)</option>
+          <option value="normal">Normal (recomendado)</option>
+          <option value="intensive">Intensivo (rápido)</option>
+          <option value="automatic">Automático (adaptativo)</option>
+        </select>
 
-    <!-- MODO DE APRENDIZAJE -->
-    <section class="modern-card">
-      <div class="card-header">
-        <h2>Modo de aprendizaje</h2>
-      </div>
-
-      <select class="input" [(ngModel)]="learningProfile" (ngModelChange)="onChange()">
-        <option value="casual">Casual (repaso)</option>
-        <option value="normal">Normal (recomendado)</option>
-        <option value="intensive">Intensivo (rápido)</option>
-        <option value="automatic">Automático (adaptativo)</option>
-      </select>
-
-      <small class="hint">
-        El modo automático se adapta a tus errores y aciertos
-      </small>
-    </section>
-
-    <!-- AUDIO -->
-    <section class="modern-card">
-      <div class="card-header">
-        <h2>Audio</h2>
-      </div>
-
-      <div class="toggle-row">
-        <span>Reproducir audio automáticamente</span>
-        <label class="switch">
-          <input type="checkbox" [(ngModel)]="autoPlayAudio" (ngModelChange)="onChange()" >
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <div class="form-group">
-        <label>
-          Velocidad de pronunciación
-          <span class="hint">{{ speechRate }}x</span>
-        </label>
-
-        <input
-          type="range"
-          min="0.6"
-          max="1.2"
-          step="0.1"
-          [(ngModel)]="speechRate"
-          [disabled]="!isPremium"
-          class="range"
-          (ngModelChange)="onChange()"
-        />
-
-        <small *ngIf="!isPremium" class="muted">
-          Disponible solo para usuarios premium
+        <small class="hint">
+          El modo automático se adapta a tus errores y aciertos
         </small>
+      </section>
+
+      <!-- AUDIO -->
+      <section class="modern-card">
+        <div class="card-header">
+          <h2>Audio</h2>
+        </div>
+
+        <div class="toggle-row">
+          <span>Reproducir audio automáticamente</span>
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="autoPlayAudio" (ngModelChange)="onChange()" >
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label>
+            Velocidad de pronunciación
+            <span class="hint">{{ speechRate }}x</span>
+          </label>
+
+          <input
+            type="range"
+            min="0.6"
+            max="1.2"
+            step="0.1"
+            [(ngModel)]="speechRate"
+            [disabled]="!isPremium"
+            class="range"
+            (ngModelChange)="onChange()"
+            />
+
+            @if (!isPremium) {
+              <small class="muted">
+                Disponible solo para usuarios premium
+              </small>
+            }
+          </div>
+        </section>
+
+        <!-- NIVEL -->
+        <section class="modern-card">
+          <div class="card-header">
+            <h2>Nivel</h2>
+          </div>
+
+          <select class="input" [(ngModel)]="cefrLevel" (ngModelChange)="onChange()">
+            <option value="A1">A1 – Básico</option>
+            <option value="A2">A2 – Básico avanzado</option>
+            <option value="B1">B1 – Intermedio</option>
+            <option value="B2">B2 – Intermedio alto</option>
+            <option value="C1">C1 – Avanzado</option>
+          </select>
+        </section>
+
+        <!-- SAVE -->
+        <button class="save-btn" (click)="save() " [disabled]="!isPremium || !hasChanges">
+          Guardar cambios
+        </button>
+        <!-- Leyenda Premium -->
+        @if (!isPremium) {
+          <p class="premium-legend">
+            🔒 Solo los usuarios Premium pueden modificar la configuración.
+          </p>
+        }
       </div>
-    </section>
-
-    <!-- NIVEL -->
-    <section class="modern-card">
-      <div class="card-header">
-        <h2>Nivel</h2>
-      </div>
-
-      <select class="input" [(ngModel)]="cefrLevel" (ngModelChange)="onChange()">
-        <option value="A1">A1 – Básico</option>
-        <option value="A2">A2 – Básico avanzado</option>
-        <option value="B1">B1 – Intermedio</option>
-        <option value="B2">B2 – Intermedio alto</option>
-        <option value="C1">C1 – Avanzado</option>
-      </select>
-    </section>
-
-    <!-- SAVE -->
-    <button class="save-btn" (click)="save() " [disabled]="!isPremium || !hasChanges">
-      Guardar cambios
-    </button>
-    <!-- Leyenda Premium -->
-    <p *ngIf="!isPremium" class="premium-legend">
-      🔒 Solo los usuarios Premium pueden modificar la configuración.
-    </p>
-  </div>
-</div>
+    </div>
