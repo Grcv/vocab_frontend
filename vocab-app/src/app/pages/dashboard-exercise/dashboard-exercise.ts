@@ -3,6 +3,7 @@ import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, UrlSegment } from '@angular/router';
 import { ProgressService } from '../../services/user-progress';
 import { Chart } from 'chart.js/auto';
+import { AudioService } from '../../services/audio';
 
 interface StageStats {
   [key: string]: number;
@@ -47,7 +48,8 @@ export class DashboardExercise implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private progressService: ProgressService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private audioService: AudioService
   ) {}
 
   ngOnInit(): void {
@@ -155,6 +157,7 @@ export class DashboardExercise implements OnInit, AfterViewInit {
   }
 
   startLesson(): void {
+    this.audioService.unlockAudio();
     this.router.navigate(['/exercises']);
     localStorage.setItem('section', this.type);
 
