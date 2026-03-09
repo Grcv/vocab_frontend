@@ -8,14 +8,20 @@ export class AudioService {
 
   private unlocked = false;
 
-  unlockAudio() {
-    if (this.unlocked) return;
+  unlockAudio(): Promise<void> {
+    if (this.unlocked) return Promise.resolve();
 
-    const audio = new Audio();
-    audio.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEA'; 
-    audio.play().catch(() => {});
+    const audio = new Audio(
+      "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA="
+    );
 
-    this.unlocked = true;
+    audio.volume = 0;
+
+    return audio.play()
+      .then(() => {
+        this.unlocked = true;
+      })
+      .catch(() => {});
   }
 
   play(url: string) {

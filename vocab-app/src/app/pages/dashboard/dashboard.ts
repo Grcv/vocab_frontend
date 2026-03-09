@@ -128,7 +128,7 @@ export class Dashboard implements OnInit{
       total: 0,
       completed: 0
     };
-    this.modules.push(module);      
+    //this.modules.push(module);      
 
   }
 
