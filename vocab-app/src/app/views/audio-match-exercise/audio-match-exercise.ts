@@ -9,6 +9,8 @@ import {
 
 import { AudioMatchExercisePayload } from './audio-match.model';
 import { ProgressService } from '../../services/user-progress'
+import { AudioService } from '../../services/audio';
+
 
 interface AudioMatchState {
   selected?: string;
@@ -50,7 +52,8 @@ export class AudioMatchExercise implements OnChanges {
   private audio?: HTMLAudioElement;
 
   constructor(
-    private progressservice: ProgressService
+    private progressservice: ProgressService,
+    private audioService:AudioService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -76,32 +79,8 @@ export class AudioMatchExercise implements OnChanges {
 
     if (this.word.audio) {
       const audioUrl = this.progressservice.normalizeAudioUrl(this.word.audio);
-      this.audio = new Audio(audioUrl);
-      this.audio.volume = 1;
-      this.audio.playbackRate = this.speechRate;
+      this.audioService.play(audioUrl,1,this.speechRate);
 
-      // 🔊 eventos
-      this.audio.onplay = () => {
-        this.state.playing = true;
-      };
-
-      this.audio.onended = () => {
-        this.state.playing = false;
-      };
-
-      this.audio.onpause = () => {
-        this.state.playing = false;
-      };
-
-      this.audio.onerror = () => {
-        this.state.playing = false;
-        console.warn('Error reproduciendo audio');
-      };
-
-      this.audio.play().catch(() => {
-        this.state.playing = false;
-        console.warn('Autoplay bloqueado por el navegador');
-      });
     } else {
       this.fallbackTTS();
     }
@@ -113,8 +92,7 @@ export class AudioMatchExercise implements OnChanges {
 
   private stopAudio(): void {
     if (this.audio) {
-      this.audio.pause();
-      this.audio.currentTime = 0;
+      this.audioService.stop()
       this.audio = undefined;
     }
      this.state.playing = false;

@@ -11,6 +11,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { PronunciationExercisePayload } from './pronunciation-exercise.model';
 import { ProgressService } from '../../services/user-progress';
+import { AudioService } from '../../services/audio';
 
 @Component({
   selector: 'app-pronunciation-exercise',
@@ -47,7 +48,8 @@ export class PronunciationExercise implements OnChanges, OnDestroy {
 
   constructor(
     private progressService: ProgressService,
-    private zone: NgZone
+    private zone: NgZone,
+    private audioService:AudioService
   ) {}
 
   /* =======================
@@ -89,10 +91,7 @@ export class PronunciationExercise implements OnChanges, OnDestroy {
     if (!this.word.audio) return;
 
     const url = this.progressService.normalizeAudioUrl(this.word.audio);
-    this.audio = new Audio(url);
-    this.audio.volume = 1;
-    this.audio.playbackRate = this.speechRate;
-    this.audio.play();
+    this.audioService.play(url,1,this.speechRate);
   }
 
   private stopAudio(): void {

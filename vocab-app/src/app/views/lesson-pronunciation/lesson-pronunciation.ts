@@ -9,6 +9,7 @@ import {
 
 import { LessonPronunciationExercisePayload } from './lesson-pronunciation.model';
 import { ProgressService } from '../../services/user-progress'
+import { AudioService } from '../../services/audio';
 
 
 @Component({
@@ -46,7 +47,7 @@ export class LessonPronunciation {
     'ɔː': ['or', 'aw', 'au'],
   };
 
-  constructor(private progressService: ProgressService){}
+  constructor(private progressService: ProgressService,private audioService:AudioService){}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['pronunciation']) {
@@ -61,12 +62,7 @@ export class LessonPronunciation {
 
     this.isPlaying = true;
     const audioUrl = this.progressService.normalizeAudioUrl(this.pronunciation.audio);
-    this.audio = new Audio(audioUrl);
-    this.audio.volume = 1;
-    this.audio.playbackRate = this.speechRate;
-
-    this.audio.play().catch(() => {});
-    this.audio.onended = () => this.isPlaying = false;
+    this.audioService.play(audioUrl,1,this.speechRate);
   }
 
   playAudio(): void {
@@ -79,8 +75,7 @@ export class LessonPronunciation {
 
   private stopAudio(): void {
     if (this.audio) {
-      this.audio.pause();
-      this.audio.currentTime = 0;
+      this.audioService.stop()
       this.audio = undefined;
     }
   }

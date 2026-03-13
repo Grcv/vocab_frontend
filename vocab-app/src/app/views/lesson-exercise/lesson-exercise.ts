@@ -8,7 +8,8 @@ import {
 } from '@angular/core';
 
 import { LessonExercisePayload } from './lesson-exercise.model';
-import { ProgressService } from '../../services/user-progress'
+import { ProgressService } from '../../services/user-progress';
+import { AudioService } from '../../services/audio';
 
 @Component({
   selector: 'app-lesson-exercise',
@@ -35,7 +36,7 @@ export class LessonExerciseComponent implements OnChanges {
   isPlaying = false;
   markedAsLearned = false;
 
-  constructor(private progressService: ProgressService){}
+  constructor(private progressService: ProgressService,private audioService:AudioService){}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['word']) {
@@ -53,15 +54,7 @@ export class LessonExerciseComponent implements OnChanges {
 
     if (this.word.audio) {
       const audioUrl = this.progressService.normalizeAudioUrl(this.word.audio);
-      this.audio = new Audio(audioUrl);
-      this.audio.volume = 1;
-      this.audio.playbackRate = this.speechRate;
-
-      this.audio.play().catch(() => {
-        console.warn('Autoplay bloqueado');
-      });
-
-      this.audio.onended = () => this.isPlaying = false;
+      this.audioService.play(audioUrl,1,this.speechRate);
     } else {
       this.fallbackTTS();
       setTimeout(() => this.isPlaying = false, 1200);
@@ -74,8 +67,7 @@ export class LessonExerciseComponent implements OnChanges {
 
   private stopAudio(): void {
     if (this.audio) {
-      this.audio.pause();
-      this.audio.currentTime = 0;
+      this.audioService.stop()
       this.audio = undefined;
     }
   }

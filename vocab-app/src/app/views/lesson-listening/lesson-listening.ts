@@ -9,6 +9,7 @@ import {
 
 import { LessonListeningExercisePayload } from './lesson-listening.model';
 import { ProgressService } from '../../services/user-progress'
+import { AudioService } from '../../services/audio';
 
 @Component({
   selector: 'app-lesson-listening',
@@ -31,7 +32,7 @@ export class LessonListening {
   isPlaying = false;
   showTranslation = false;
 
-  constructor(private progressService: ProgressService){}
+  constructor(private progressService: ProgressService,private audioService:AudioService){}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['listening']) {
@@ -46,12 +47,7 @@ export class LessonListening {
 
     this.isPlaying = true;
     const audioUrl = this.progressService.normalizeAudioUrl(this.listening.audio);
-    this.audio = new Audio(audioUrl);
-    this.audio.volume = 1;
-    this.audio.playbackRate = this.speechRate;
-
-    this.audio.play().catch(() => {});
-    this.audio.onended = () => this.isPlaying = false;
+    this.audioService.play(audioUrl,1,this.speechRate);
   }
 
   playAudio(): void {
@@ -68,8 +64,7 @@ export class LessonListening {
 
   private stopAudio(): void {
     if (this.audio) {
-      this.audio.pause();
-      this.audio.currentTime = 0;
+      this.audioService.stop()
       this.audio = undefined;
     }
   }

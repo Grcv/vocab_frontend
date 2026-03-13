@@ -11,6 +11,7 @@ import {
 
 import { SpellingExercisePayload } from './spelling-exercise.model';
 import { ProgressService } from '../../services/user-progress'
+import { AudioService } from '../../services/audio';
 
 @Component({
   selector: 'app-spelling-exercise',
@@ -51,7 +52,7 @@ export class SpellingExercise implements OnChanges {
 
   private audio?: HTMLAudioElement;
 
-  constructor(private progressService: ProgressService){}
+  constructor(private progressService: ProgressService,private audioService:AudioService){}
 
   /* =======================
    * LIFECYCLE
@@ -87,28 +88,7 @@ export class SpellingExercise implements OnChanges {
 
     if (this.word.audio) {
       const url = this.progressService.normalizeAudioUrl(this.word.audio);
-      this.audio = new Audio(url);
-      this.audio.volume = 1;
-      this.audio.playbackRate = this.speechRate;
-
-      this.audio.onplay = () => {
-        this.state.playing = true;
-      };
-
-      this.audio.onended = () => {
-        this.state.playing = false;
-        this.focusInput();
-      };
-
-      this.audio.onerror = () => {
-        this.state.playing = false;
-        this.fallbackTTS();
-      };
-
-      this.audio.play().catch(() => {
-        this.state.playing = false;
-        this.fallbackTTS();
-      });
+      this.audioService.play(url,1,this.speechRate);
 
     } else {
       this.fallbackTTS();

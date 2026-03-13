@@ -9,6 +9,7 @@ import {
 
 import { TranslationPhonemeExercisePayload } from './translation-phoneme-exercise.model';
 import { ProgressService } from '../../services/user-progress'
+import { AudioService } from '../../services/audio';
 
 interface TranslationState {
   selected?: string;
@@ -47,7 +48,7 @@ export class TranslationPhonemeExercise {
   
   private audio?: HTMLAudioElement;
 
-  constructor(private progressService: ProgressService){}
+  constructor(private progressService: ProgressService,private audioService:AudioService){}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['word']) {
@@ -84,8 +85,7 @@ export class TranslationPhonemeExercise {
   }
   private stopAudio(): void {
     if (this.audio) {
-      this.audio.pause();
-      this.audio.currentTime = 0;
+      this.audioService.stop()
       this.audio = undefined;
     }
   }

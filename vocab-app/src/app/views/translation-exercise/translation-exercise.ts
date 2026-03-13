@@ -9,6 +9,7 @@ import {
 
 import { TranslationExercisePayload } from './translation-exercise.model';
 import { ProgressService } from '../../services/user-progress'
+import { AudioService } from '../../services/audio';
 
 interface TranslationState {
   selected?: string;
@@ -47,7 +48,7 @@ export class TranslationExercise implements OnChanges {
   
   private audio?: HTMLAudioElement;
 
-  constructor(private progressService: ProgressService){}
+  constructor(private progressService: ProgressService,private audioService:AudioService){}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['word']) {
@@ -68,12 +69,7 @@ export class TranslationExercise implements OnChanges {
 
     if (this.word.audio) {
       const audioUrl = this.progressService.normalizeAudioUrl(this.word.audio);
-      this.audio = new Audio(audioUrl);
-      this.audio.volume = 1;
-      this.audio.playbackRate = this.speechRate;
-      this.audio.play().catch(() => {
-        console.warn('Autoplay bloqueado por el navegador');
-      });
+      this.audioService.play(audioUrl,1,this.speechRate);
     } else {
       this.fallbackTTS();
     }
@@ -84,8 +80,7 @@ export class TranslationExercise implements OnChanges {
   }
   private stopAudio(): void {
     if (this.audio) {
-      this.audio.pause();
-      this.audio.currentTime = 0;
+      this.audioService.stop()
       this.audio = undefined;
     }
   }

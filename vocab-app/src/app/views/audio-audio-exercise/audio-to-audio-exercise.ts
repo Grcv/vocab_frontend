@@ -11,6 +11,7 @@ import {
 
 import { AudioToAudioExercisePayload } from './audio-to-audio-exercise.model';
 import { ProgressService } from '../../services/user-progress'
+import { AudioService } from '../../services/audio';
 
 interface AudioState {
   selected?: number;
@@ -43,7 +44,7 @@ export class AudioToAudioExercise
 
   private audio?: HTMLAudioElement;
 
-  constructor(private progressService: ProgressService){}
+  constructor(private progressService: ProgressService,private audioService:AudioService){}
 
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -111,14 +112,7 @@ export class AudioToAudioExercise
 
     if (audioPath) {
       const audioUrl = this.progressService.normalizeAudioUrl(audioPath);
-      this.audio = new Audio(audioUrl);
-      this.audio.volume = 1;
-      this.audio.playbackRate = this.speechRate;
-
-      this.audio.play().catch(() => {
-        console.warn('Autoplay bloqueado');
-        this.fallbackTTS(fallbackText);
-      });
+      this.audioService.play(audioUrl,1,this.speechRate);
     } else {
       this.fallbackTTS(fallbackText);
     }
@@ -126,8 +120,7 @@ export class AudioToAudioExercise
 
   private stopAudio(): void {
     if (this.audio) {
-      this.audio.pause();
-      this.audio.currentTime = 0;
+      this.audioService.stop()
       this.audio = undefined;
     }
   }

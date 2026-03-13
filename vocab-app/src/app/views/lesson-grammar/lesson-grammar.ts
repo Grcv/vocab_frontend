@@ -9,6 +9,7 @@ import {
 
 import { LessonGrammarExercisePayload } from './lesson-grammar.model';
 import { ProgressService } from '../../services/user-progress'
+import { AudioService } from '../../services/audio';
 
 @Component({
   selector: 'app-lesson-grammar',
@@ -35,7 +36,7 @@ export class LessonGrammar {
   isPlaying = false;
   markedAsLearned = false;
 
-  constructor(private progressService: ProgressService){}
+  constructor(private progressService: ProgressService,private audioService:AudioService){}
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log("grammar:",this.grammar)
@@ -50,11 +51,7 @@ export class LessonGrammar {
 
     if (this.grammar.audio) {
       const audioUrl = this.progressService.normalizeAudioUrl(this.grammar.audio);
-      this.audio = new Audio(audioUrl);
-      this.audio.volume = 1;
-      this.audio.playbackRate = this.speechRate;
-      this.audio.play().catch(() => {});
-      this.audio.onended = () => this.isPlaying = false;
+      this.audioService.play(audioUrl,1,this.speechRate);
     } else {
       this.fallbackTTS();
       setTimeout(() => this.isPlaying = false, 1500);
@@ -67,8 +64,7 @@ export class LessonGrammar {
 
   private stopAudio(): void {
     if (this.audio) {
-      this.audio.pause();
-      this.audio.currentTime = 0;
+      this.audioService.stop()
       this.audio = undefined;
     }
   }
