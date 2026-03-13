@@ -8,21 +8,16 @@ export class AudioService {
 
   private unlocked = false;
 
-  unlockAudio(): Promise<void> {
-    if (this.unlocked) return Promise.resolve();
+unlockAudio(): Promise<void> {
+  if (this.unlocked) return Promise.resolve();
 
-    const audio = new Audio(
-      "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA="
-    );
+  const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+  const context = new AudioContextClass();
 
-    audio.volume = 0;
-
-    return audio.play()
-      .then(() => {
-        this.unlocked = true;
-      })
-      .catch(() => {});
-  }
+  return context.resume().then(() => {
+    this.unlocked = true;
+  });
+}
 
   play(url: string) {
     const audio = new Audio(url);
