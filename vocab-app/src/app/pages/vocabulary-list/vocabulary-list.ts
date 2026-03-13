@@ -1,13 +1,12 @@
-import { Component, OnInit, Input,OnChanges, SimpleChanges  } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProgressService } from '../../services/user-progress';
 
 interface Word {
   id: number;
-  word: string;
-  translation: string;
-  [key: string]: any; // 👈 agrega esto
+  status?: boolean;
+  [key: string]: any;
 }
 
 @Component({
@@ -20,74 +19,113 @@ interface Word {
   templateUrl: './vocabulary-list.html',
   styleUrls: ['./vocabulary-list.scss']
 })
+export class VocabularyList implements OnChanges {
 
-export class VocabularyList implements OnChanges  {
-  @Input() type!: 'vocabulary' | 'verbs' | 'pronunciation' | 'phrasal_verbs' | 'grammar' | 'contractions' | 'connected_speech' | 'idioms' | 'listening';
+  @Input() type!: 
+    'vocabulary' |
+    'verbs' |
+    'pronunciation' |
+    'phrasal_verbs' |
+    'grammar' |
+    'contractions' |
+    'connected_speech' |
+    'idioms' |
+    'listening';
 
   words: Word[] = [];
   filteredWords: Word[] = [];
+
   selectedWordIds = new Set<number>();
 
   filters: Record<string, string> = {};
+
   columns: string[] = [];
-  // ✅ paginación configurable
+
   pageSizes = [10, 20, 50, 100];
   pageSize = 10;
+
   currentPage = 1;
 
   constructor(private progressService: ProgressService) {}
 
-
   ngOnChanges(): void {
-    this.filters = {}
-    console.log("type:",this.type)
+    this.filters = {};
     this.loadPendingWords();
   }
 
   initializeColumns(data: any[]) {
+
     if (!data?.length) return;
 
-    this.columns = Object.keys(data[0]).filter(key => key !== 'id');
-    console.log("columns:",this.columns)
+    this.columns = Object.keys(data[0]).filter(
+      key => key !== 'id' && key !== 'status'
+    );
+
   }
 
   loadPendingWords(): void {
+
     this.progressService.getPending(this.type).subscribe({
+
       next: (data: any) => {
-        console.log("data.pending_words:",data.pending_words[0])
-        Object.entries(data.pending_words[0]).forEach(([key]) => {
-          this.filters[key] = '';
-        });
+
         this.words = data.pending_words ?? [];
+
+        this.initializeColumns(this.words);
+
+        this.filters = {};
+        this.columns.forEach(col => this.filters[col] = '');
+
+        // limpiar selección
         this.selectedWordIds.clear();
+
+        // marcar checkboxes si status = true
+        this.words.forEach(word => {
+          if (word.status === true) {
+            this.selectedWordIds.add(word.id);
+          }
+        });
+
         this.applyFilters();
+
       }
+
     });
+
   }
 
   applyFilters(): void {
+
     this.filteredWords = this.words.filter(word => {
 
       return Object.keys(this.filters).every(key => {
 
-        const filterValue = (this.filters[key] ?? '').toString().toLowerCase().trim();
+        const filterValue =
+          (this.filters[key] ?? '').toString().toLowerCase().trim();
 
-        // Si el filtro está vacío, no filtra
         if (!filterValue) return true;
 
-        const wordValue = (word[key] ?? '').toString().toLowerCase();
+        const wordValue =
+          (word[key] ?? '').toString().toLowerCase();
 
         return wordValue.includes(filterValue);
+
       });
 
     });
-    this.initializeColumns(this.words);
+
     this.currentPage = 1;
+
   }
 
   resetFilters(): void {
-    //this.filters = { word: '', translation: '', cefr: '', pos: '', category: '' };
+
+    Object.keys(this.filters).forEach(key => {
+      this.filters[key] = '';
+    });
+
     this.applyFilters();
+
   }
 
   changePageSize(): void {
@@ -95,35 +133,61 @@ export class VocabularyList implements OnChanges  {
   }
 
   get paginatedWords(): Word[] {
+
     const start = (this.currentPage - 1) * this.pageSize;
-    return this.filteredWords.slice(start, start + this.pageSize);
+
+    return this.filteredWords.slice(
+      start,
+      start + this.pageSize
+    );
+
   }
 
   get totalPages(): number {
-    return Math.ceil(this.filteredWords.length / this.pageSize);
+
+    return Math.ceil(
+      this.filteredWords.length / this.pageSize
+    );
+
   }
 
   nextPage(): void {
-    if (this.currentPage < this.totalPages) this.currentPage++;
+
+    if (this.currentPage < this.totalPages)
+      this.currentPage++;
+
   }
 
   prevPage(): void {
-    if (this.currentPage > 1) this.currentPage--;
+
+    if (this.currentPage > 1)
+      this.currentPage--;
+
   }
 
   toggleWord(wordId: number, event: Event): void {
+
     const checked = (event.target as HTMLInputElement).checked;
-    checked
-      ? this.selectedWordIds.add(wordId)
-      : this.selectedWordIds.delete(wordId);
+
+    if (checked)
+      this.selectedWordIds.add(wordId);
+    else
+      this.selectedWordIds.delete(wordId);
+
   }
 
   saveProgress(): void {
+
     const ids = [...this.selectedWordIds];
+
     if (!ids.length) return;
 
     this.progressService.submitMark(ids).subscribe({
+
       next: () => this.loadPendingWords()
+
     });
+
   }
+
 }

@@ -15,71 +15,78 @@
   <!-- MAIN CARD -->
   <div class="modern-card">
 
-    <!-- FILTROS DINÁMICOS -->
-    <div class="filters-row">
+    <!-- TABLA -->
+    <div class="table-wrapper">
+      <table class="modern-table">
 
-      @for (filter of filters | keyvalue; track filter) {
-        <input
-          class="filter-input"
-          [placeholder]="filter.key | titlecase"
-          [(ngModel)]="filters[filter.key]"
-          (input)="applyFilters()">
-        }
+        <thead>
 
-        <button class="clear-btn" (click)="resetFilters()">
-          Limpiar
-        </button>
+          <!-- HEADER COLUMNAS -->
+          <tr>
+            @for (column of columns; track column) {
+              <th>
+                {{ column | titlecase }}
+              </th>
+            }
+            <th class="text-center">✔</th>
+          </tr>
 
-      </div>
+          <!-- FILTROS -->
+          <tr class="filter-row">
 
-      <!-- TABLA DINÁMICA -->
-      <div class="table-wrapper">
-        <table class="modern-table">
+            @for (filter of filters | keyvalue; track filter) {
+              <th>
+                <input
+                  class="filter-input"
+                  placeholder="Filtrar"
+                  [(ngModel)]="filters[filter.key]"
+                  (input)="applyFilters()">
+              </th>
+            }
 
-          <thead>
+            <th>
+              <button class="clear-btn" (click)="resetFilters()">
+                ✕
+              </button>
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for (item of paginatedWords; track item.id) {
             <tr>
+
               @for (column of columns; track column) {
-                <th>
-                  {{ column | titlecase }}
-                </th>
+                <td>
+                  {{ item[column] }}
+                </td>
               }
-              <th class="text-center">✔</th>
+
+              <td class="text-center">
+                <input
+                  type="checkbox"
+                  class="modern-checkbox"
+                  [checked]="selectedWordIds.has(item.id)"
+                  (change)="toggleWord(item.id, $event)">
+              </td>
+
             </tr>
-          </thead>
+          }
 
-          <tbody>
-            @for (item of paginatedWords; track item) {
-              <tr>
-                @for (column of columns; track column) {
-                  <td>
-                    {{ item[column] }}
-                  </td>
-                }
-                <td class="text-center">
-                  @if (item.id) {
-                    <input
-                      type="checkbox"
-                      class="modern-checkbox"
-                      [checked]="selectedWordIds.has(item.id)"
-                      (change)="toggleWord(item.id, $event)">
-                  }
-                </td>
-              </tr>
-            }
+          @if (paginatedWords.length === 0) {
+            <tr>
+              <td [attr.colspan]="columns.length + 1" class="empty-state">
+                No hay resultados
+              </td>
+            </tr>
+          }
 
-            @if (paginatedWords.length === 0) {
-              <tr>
-                <td [attr.colspan]="columns.length + 1" class="empty-state">
-                  No hay resultados
-                </td>
-              </tr>
-            }
+        </tbody>
 
-          </tbody>
-
-        </table>
-      </div>
-
+      </table>
     </div>
 
     <!-- PAGINACIÓN -->
@@ -87,6 +94,7 @@
 
       <div class="page-size">
         <span>Mostrar</span>
+
         <select [(ngModel)]="pageSize" (change)="changePageSize()">
           @for (size of pageSizes; track size) {
             <option [value]="size">
@@ -94,6 +102,7 @@
             </option>
           }
         </select>
+
       </div>
 
       <div class="pager">
@@ -112,3 +121,5 @@
     </div>
 
   </div>
+
+</div>
