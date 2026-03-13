@@ -156,9 +156,9 @@ export class DashboardExercise implements OnInit, AfterViewInit {
     return Math.round((this.stats.learned / this.stats.total) * 100);
   }
 
-  async startLesson(): Promise<void> {
+  startLesson(): void {
 
-    await this.audioService.unlockAudio();
+    this.audioService.unlockAudio();
 
     localStorage.setItem('section', this.type);
 
