@@ -43,11 +43,13 @@ export class LessonListening {
 
   autoPlay(): void {
     this.stopAudio();
-    if (!this.listening.audio) return;
-
-    this.isPlaying = true;
-    const audioUrl = this.progressService.normalizeAudioUrl(this.listening.audio);
-    this.audioService.play(audioUrl,1,this.speechRate);
+    if (this.listening.audio){
+      this.isPlaying = true;
+      const audioUrl = this.progressService.normalizeAudioUrl(this.listening.audio);
+      this.audioService.play(audioUrl,1,this.speechRate);
+    }else {
+      this.fallbackTTS();
+    }
   }
 
   playAudio(): void {
@@ -68,5 +70,19 @@ export class LessonListening {
       this.audio = undefined;
     }
   }
+
+  private fallbackTTS(): void {
+    if (!('speechSynthesis' in window)) return;
+
+    speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(this.listening.word);
+    utterance.lang = 'en-US';
+    utterance.rate = this.speechRate;;
+    utterance.pitch = 1;
+
+    speechSynthesis.speak(utterance);
+  }
+
 
 }

@@ -69,12 +69,7 @@ export class TranslationPhonemeExercise {
 
     if (this.word.audio) {
       const audioUrl = this.progressService.normalizeAudioUrl(this.word.audio);
-      this.audio = new Audio(audioUrl);
-      this.audio.volume = 1;
-      this.audio.playbackRate = this.speechRate;
-      this.audio.play().catch(() => {
-        console.warn('Autoplay bloqueado por el navegador');
-      });
+       this.audioService.play(audioUrl,1,this.speechRate);
     } else {
       this.fallbackTTS();
     }

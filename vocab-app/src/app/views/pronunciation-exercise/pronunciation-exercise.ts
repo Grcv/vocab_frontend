@@ -88,10 +88,13 @@ export class PronunciationExercise implements OnChanges, OnDestroy {
   playAudio(): void {
     this.stopAudio();
 
-    if (!this.word.audio) return;
+    if (this.word.audio){
 
-    const url = this.progressService.normalizeAudioUrl(this.word.audio);
-    this.audioService.play(url,1,this.speechRate);
+      const url = this.progressService.normalizeAudioUrl(this.word.audio);
+      this.audioService.play(url,1,this.speechRate);
+    } else{
+      this.fallbackTTS();
+    }
   }
 
   private stopAudio(): void {
@@ -200,4 +203,19 @@ export class PronunciationExercise implements OnChanges, OnDestroy {
         error: err => console.error('❌ Error backend', err)
       });
   }
+
+  private fallbackTTS(): void {
+    if (!('speechSynthesis' in window)) return;
+
+    speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(this.word.prompt);
+    utterance.lang = 'en-US';
+    utterance.rate = this.speechRate;;
+    utterance.pitch = 1;
+
+    speechSynthesis.speak(utterance);
+  }
+
+
 }

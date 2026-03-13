@@ -58,11 +58,14 @@ export class LessonPronunciation {
 
   autoPlay(): void {
     this.stopAudio();
-    if (!this.pronunciation.audio) return;
+    if (this.pronunciation.audio){
+      this.isPlaying = true;
+      const audioUrl = this.progressService.normalizeAudioUrl(this.pronunciation.audio);
+      this.audioService.play(audioUrl,1,this.speechRate);
+    } else {
+      this.fallbackTTS();
+    }
 
-    this.isPlaying = true;
-    const audioUrl = this.progressService.normalizeAudioUrl(this.pronunciation.audio);
-    this.audioService.play(audioUrl,1,this.speechRate);
   }
 
   playAudio(): void {
@@ -112,5 +115,18 @@ export class LessonPronunciation {
 
     this.highlightedIPA = highlighted;
   }
+
+    private fallbackTTS(): void {
+      if (!('speechSynthesis' in window)) return;
+
+      speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(this.pronunciation.word);
+      utterance.lang = 'en-US';
+      utterance.rate = this.speechRate;;
+      utterance.pitch = 1;
+
+      speechSynthesis.speak(utterance);
+    }
 
 }

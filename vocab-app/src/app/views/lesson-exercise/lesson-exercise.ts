@@ -79,6 +79,7 @@ export class LessonExerciseComponent implements OnChanges {
     const utterance = new SpeechSynthesisUtterance(this.word.word);
     utterance.lang = 'en-US';
     utterance.rate = this.speechRate;
+    utterance.pitch = 1;
     speechSynthesis.speak(utterance);
   }
 

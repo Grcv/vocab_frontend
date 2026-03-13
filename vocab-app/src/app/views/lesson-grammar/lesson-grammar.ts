@@ -76,6 +76,7 @@ export class LessonGrammar {
     const utterance = new SpeechSynthesisUtterance(this.grammar.word);
     utterance.lang = 'en-US';
     utterance.rate = this.speechRate;
+    utterance.pitch = 1;
     speechSynthesis.speak(utterance);
   }
 

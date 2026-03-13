@@ -118,12 +118,6 @@ export class AudioMatchPhonemeExercise implements OnChanges{
   /* ============================
    * UTILS
    * ============================ */
-  private normalizeAudioUrl(path: string): string {
-    if (path.startsWith('http')) {
-      return path;
-    }
-    return `http://127.0.0.1:8000${path}`;
-  }
 
   selectOption(option: string): void {
     if (this.state.selected) return;
