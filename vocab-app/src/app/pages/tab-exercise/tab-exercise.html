@@ -1,0 +1,19 @@
+<div class="tabs-container">
+
+  <!-- CONTENT -->
+  <div class="tabs-content">
+    @for (tab of tabs; track tab) {
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === tab.value"
+        (click)="setTab(tab.value)">
+        {{ tab.label }}
+      </button>
+    }
+    <app-exercise-settings
+      [type]="activeTab">
+    </app-exercise-settings>
+
+  </div>
+
+</div>

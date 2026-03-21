@@ -30,6 +30,9 @@ export class PronunciationExercise implements OnChanges, OnDestroy {
   @Output()
   completed = new EventEmitter<boolean>();
 
+  @Output()
+  cancel = new EventEmitter<boolean>();
+
   readonly MAX_ATTEMPTS = 2;
 
   state = {
@@ -215,6 +218,13 @@ export class PronunciationExercise implements OnChanges, OnDestroy {
     utterance.pitch = 1;
 
     speechSynthesis.speak(utterance);
+  }
+
+  onCancel(): void {
+    this.stopAudio();
+    speechSynthesis.cancel();
+
+    this.cancel.emit();
   }
 
 

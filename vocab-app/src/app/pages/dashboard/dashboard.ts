@@ -83,8 +83,8 @@ export class Dashboard implements OnInit{
     const titles: Record<string, string> = {
       vocabulary: 'Vocabulario',
       verbs: 'Verbos',
-      'connected-speech': 'Connected Speech',
-      idioms: 'Idioms',
+      'connected-speech': 'Habla conectada',
+      idioms: 'Expresiones Idiomáticas',
       listening: 'Listening',
       contractions: 'Contracciones',
       pronunciation: 'Pronunciación',

@@ -13,6 +13,7 @@ export const routes: Routes = [
   { path: 'listening', loadComponent: () => import('./pages/listening/listening').then(m => m.Listening), canActivate: [authGuard] },
   { path: 'phrasal_verbs', loadComponent: () => import('./pages/phrasal-verbs/phrasal-verbs').then(m => m.PhrasalVerbs), canActivate: [authGuard] },
   { path: 'vocabulary_settings', loadComponent: () => import('./pages/tab-vocabulary/tab-vocabulary').then(m => m.TabVocabulary), canActivate: [authGuard] },
+  { path: 'exercise_settings', loadComponent: () => import('./pages/tab-exercise/tab-exercise').then(m => m.TabExercise), canActivate: [authGuard] },
   { path: 'exercises', loadComponent: () => import('./pages/exercises/exercises').then(m => m.Exercises) , canActivate: [authGuard]},
   { path: 'pronunciation', loadComponent: () => import('./pages/pronunciation/pronunciation').then(m => m.Pronunciation), canActivate: [authGuard] },
   { path: 'sound', loadComponent: () => import('./views/sound-breakdown/sound-breakdown').then(m => m.SoundBreakdown), canActivate: [authGuard] },

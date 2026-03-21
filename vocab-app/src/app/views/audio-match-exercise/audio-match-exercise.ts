@@ -39,7 +39,8 @@ export class AudioMatchExercise implements OnChanges {
    * ======================= */
   @Output()
   completed = new EventEmitter<boolean>();
-
+  @Output()
+  cancel = new EventEmitter<boolean>();
   /* =======================
    * STATE
    * ======================= */
@@ -133,4 +134,12 @@ export class AudioMatchExercise implements OnChanges {
       this.completed.emit(this.state.isCorrect);
     }, 600);
   }
+
+  onCancel(): void {
+    this.stopAudio();
+    speechSynthesis.cancel();
+
+    this.cancel.emit(true);
+  }  
+
 }

@@ -134,30 +134,43 @@ export class Exercises implements OnInit {
       });
   }
 
-restartSession() {
-  this.restart()
-}
-
-restart() {
-  this.progressService.resetSession().subscribe(() => {
-    this.finished = false;
-    this.loadNextExercise();
-  });
-}
-
-goToDashboard() {
-  const sectionType = localStorage.getItem('section');
-  console.log("sectionType:",sectionType)
-  localStorage.removeItem('section');
-
-  if (sectionType) {
-    this.router.navigate([`/${sectionType}`]);
-  } else {
-    this.router.navigate(['/dashboard']);
+  onExerciseCancel(status: boolean): void{
+    console.log("status:",status)
+    if (status)
+     {
+      this.progressService.resetSession()
+      this.goToDashboard()
+     }
   }
 
-  console.log('Go to dashboard');
-}
+  restartSession() {
+    this.restart()
+  }
 
+  restart() {
+    this.progressService.resetSession().subscribe(() => {
+      this.finished = false;
+      this.loadNextExercise();
+    });
+  }
+
+  goToDashboard() {
+    const sectionType = localStorage.getItem('section');
+    console.log("sectionType:",sectionType)
+    localStorage.removeItem('section');
+
+    if (sectionType) {
+      this.router.navigate([`/${sectionType}`]);
+    } else {
+      this.router.navigate(['/dashboard']);
+    }
+
+    console.log('Go to dashboard');
+  }
+
+  onmarkedLearned(id: number){
+    let ids = [id]
+    this.progressService.submitMark(ids)
+  }
   
 }

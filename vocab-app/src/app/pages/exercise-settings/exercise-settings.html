@@ -1,0 +1,111 @@
+<div class="settings-wrapper">
+
+  <div class="settings-card">
+
+    <div class="header">
+      <h2>⚙️ Configuración</h2>
+      <span class="type">{{ type | titlecase }}</span>
+    </div>
+
+    @if (loading) {
+      <div class="loading">
+        <div class="spinner"></div>
+        <span>Cargando configuración...</span>
+      </div>
+    } @else {
+
+      <div class="settings-grid">
+
+        <!-- 🔥 ORDEN PRINCIPAL -->
+        @for (item of orderedSettings; track item.key) {
+          <div class="setting-item" [class.blocked]="isBlocked(item.key)">
+
+            <label class="setting-label">
+              {{ formatLabel(item.key) }}
+            </label>
+
+            <!-- BOOLEAN -->
+            @if (typeof item.value === 'boolean') {
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  [(ngModel)]="settings[item.key]"
+                  [disabled]="isBlocked(item.key)"
+                />
+                <span class="slider"></span>
+              </label>
+            }
+
+            <!-- STRING -->
+            @if (typeof item.value === 'string') {
+              <input
+                class="input"
+                type="text"
+                [(ngModel)]="settings[item.key]"
+                [disabled]="isBlocked(item.key)"
+                [readonly]="isBlocked(item.key)"
+              />
+            }
+
+            <!-- NUMBER -->
+            @if (typeof item.value === 'number') {
+              <input
+                class="input"
+                type="number"
+                [(ngModel)]="settings[item.key]"
+                [disabled]="isBlocked(item.key)"
+                [readonly]="isBlocked(item.key)"
+              />
+            }
+
+          </div>
+        }
+
+        <!-- 🔹 OTROS SETTINGS -->
+        @for (item of otherSettings; track item.key) {
+        <div class="setting-item" [class.blocked]="isBlocked(item.key)">
+
+            <label class="setting-label">
+            {{ formatLabel(item.key) }}
+            </label>
+
+            @if (typeof item.value === 'boolean') {
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  [(ngModel)]="settings[item.key]"
+                />
+                <span class="slider"></span>
+              </label>
+            }
+
+            @if (typeof item.value === 'string') {
+              <input
+                class="input"
+                type="text"
+                [(ngModel)]="settings[item.key]"
+              />
+            }
+
+            @if (typeof item.value === 'number') {
+              <input
+                class="input"
+                type="number"
+                [(ngModel)]="settings[item.key]"
+              />
+            }
+
+          </div>
+        }
+
+      </div>
+
+      <button class="save-btn" (click)="save()" [disabled]="loading">
+        💾 Guardar cambios
+      </button>
+
+    }
+
+  </div>
+
+</div>

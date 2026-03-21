@@ -1,42 +1,110 @@
 @if (listening) {
   <div class="lesson-card fade-in">
+    <!-- BOTÓN CERRAR -->
+    <button class="close-btn" (click)="onCancel()">
+      ✕
+    </button>
     <span class="badge">
       Listening • {{ listening.cefr }}
     </span>
+
     <h2 class="theme">
       {{ listening.theme }}
     </h2>
+
     <p class="meta">
       {{ listening.situation }} • {{ listening.story_type }}
     </p>
-    <!-- AUDIO PLAYER -->
-    <button
-      class="audio-btn"
-      [class.playing]="isPlaying"
-      (click)="playAudio()">
-      🎧 Escuchar audio
-    </button>
-    <!-- TEXT -->
-    <div class="text-box">
-      {{ listening.word }}
+
+    <!-- AUDIO CONTROLS -->
+  <div class="player">
+
+    <!-- CONTROLES EN LÍNEA -->
+    <div class="controls-row">
+
+      <button
+        class="audio-btn small"
+        [class.playing]="isPlaying"
+        (click)="toggleAudio()">
+
+        {{ isPlaying ? '⏸' : '▶' }}
+
+      </button>
+
+      <div class="speed-control">
+
+        <button class="speed-btn" (click)="toggleSpeedMenu()">
+          {{ playbackRate }}x
+        </button>
+
+        @if (showSpeedMenu) {
+          <div class="speed-menu">
+            @for (rate of speedOptions; track rate) {
+              <button
+                class="speed-option"
+                [class.active]="rate === playbackRate"
+                (click)="setSpeed(rate)">
+                {{ rate }}x
+              </button>
+            }
+          </div>
+        }
+
+      </div>
+
     </div>
-    <!-- IPA -->
-    @if (listening.ipa) {
+
+
+      <!-- PROGRESS BAR -->
+      <input
+        type="range"
+        min="0"
+        [max]="duration"
+        [value]="currentTime"
+        (input)="seek($event)"
+        class="progress-bar"
+      />
+
+      <div class="time">
+        {{ formatTime(currentTime) }} / {{ formatTime(duration) }}
+      </div>
+
+    </div>
+
+    <!-- TOGGLES -->
+    <button class="toggle-btn" (click)="toggleText()">
+      {{ showText ? 'Ocultar texto' : 'Mostrar texto (EN)' }}
+    </button>
+
+    @if (showText) {
+      <div class="text-box">
+        {{ listening.word }}
+      </div>
+    }
+
+    <button class="toggle-btn" (click)="toggleIPA()">
+      {{ showIPA ? 'Ocultar IPA' : 'Mostrar IPA' }}
+    </button>
+
+    @if (showIPA && listening.ipa) {
       <div class="ipa-box">
         {{ listening.ipa }}
       </div>
     }
-    <!-- TRANSLATION -->
+
     <button class="toggle-btn" (click)="toggleTranslation()">
       {{ showTranslation ? 'Ocultar traducción' : 'Mostrar traducción' }}
     </button>
+
     @if (showTranslation) {
       <div class="translation-box">
         {{ listening.translation }}
       </div>
     }
+
     <button class="continue-btn" (click)="continue()" [disabled]="isPlaying">
       Continuar →
     </button>
+
   </div>
 }

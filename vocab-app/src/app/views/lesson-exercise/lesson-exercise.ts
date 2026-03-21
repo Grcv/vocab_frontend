@@ -29,7 +29,10 @@ export class LessonExerciseComponent implements OnChanges {
   completed = new EventEmitter<boolean>();
 
   @Output()
-  markedLearned = new EventEmitter<number>(); // 🔥 para backend
+  markedLearned = new EventEmitter<number>(); 
+
+  @Output()
+  cancel = new EventEmitter<boolean>();
 
   private audio?: HTMLAudioElement;
 
@@ -100,5 +103,13 @@ export class LessonExerciseComponent implements OnChanges {
   continue(): void {
     this.completed.emit(true);
   }
+
+
+  onCancel(): void {
+  this.stopAudio();
+  speechSynthesis.cancel();
+
+  this.cancel.emit(true);
+}
 
 }

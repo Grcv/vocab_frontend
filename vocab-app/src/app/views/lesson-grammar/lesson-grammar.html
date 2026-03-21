@@ -1,5 +1,9 @@
 @if (grammar) {
   <div class="lesson-card fade-in">
+    <!-- BOTÓN CERRAR -->
+    <button class="close-btn" (click)="onCancel()">
+      ✕
+    </button>
     <span class="badge">{{ grammar.cefr }}</span>
     <h2 class="grammar-title">
       {{ grammar.theme }}

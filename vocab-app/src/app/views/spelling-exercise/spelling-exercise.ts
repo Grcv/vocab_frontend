@@ -33,6 +33,9 @@ export class SpellingExercise implements OnChanges {
   @Output()
   completed = new EventEmitter<boolean>();
 
+  @Output()
+  cancel = new EventEmitter<boolean>();
+
   @ViewChild('spellingInput')
   spellingInput!: ElementRef<HTMLInputElement>;
 
@@ -168,4 +171,13 @@ export class SpellingExercise implements OnChanges {
       this.focusInput();
     }, 900);
   }
+
+  onCancel(): void {
+    this.stopAudio();
+    speechSynthesis.cancel();
+
+    this.cancel.emit();
+  }
+  
+
 }

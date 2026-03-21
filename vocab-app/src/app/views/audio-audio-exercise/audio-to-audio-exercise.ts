@@ -35,7 +35,8 @@ export class AudioToAudioExercise
   @Input({ required: true }) isPremium!: boolean;
   @Output()
   completed = new EventEmitter<boolean>();
-
+  @Output()
+  cancel = new EventEmitter<boolean>();
   state: AudioState = {
     selected: undefined,
     previewIndex: undefined,
@@ -134,6 +135,15 @@ export class AudioToAudioExercise
     utterance.rate = this.speechRate;
     utterance.pitch = 1;
     speechSynthesis.speak(utterance);
+  }
+
+  onCancel(): void {
+    console.log("Cancel")
+    this.stopAudio();
+    speechSynthesis.cancel();
+    console.log("Cancel button")
+    this.cancel.emit(true);
+    
   }
 
 }

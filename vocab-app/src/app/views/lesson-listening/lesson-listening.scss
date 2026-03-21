@@ -126,3 +126,164 @@ button {
   box-shadow: none;
   transform: none;
 }
+
+.player {
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  width: 100%;
+  margin-top: .6rem;
+  appearance: none;
+  height: 6px;
+  border-radius: 10px;
+  background: #dee2e6;
+  outline: none;
+}
+
+.progress-bar::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fd7e14;
+  cursor: pointer;
+}
+
+.time {
+  font-size: .85rem;
+  color: #6c757d;
+  margin-top: .3rem;
+}
+
+.speed-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  margin-top: .6rem;
+}
+
+.speed-btn {
+  padding: .4rem .8rem;
+  border-radius: 12px;
+  border: 2px solid #6c757d;
+  background: transparent;
+  color: #6c757d;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.speed-label {
+  font-size: .9rem;
+  font-weight: 600;
+  color: #343a40;
+}
+
+.speed-control {
+  position: relative;
+  display: inline-block;
+  margin-top: .6rem;
+}
+
+.speed-menu {
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.1);
+  padding: .4rem;
+  z-index: 10;
+  min-width: 100px;
+}
+
+.speed-option {
+  width: 100%;
+  padding: .5rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 10px;
+  font-weight: 600;
+  color: #495057;
+  transition: .2s;
+}
+
+.speed-option:hover {
+  background: #f1f3f5;
+}
+
+.speed-option.active {
+  background: #fd7e14;
+  color: white;
+}
+
+/* Fila de controles */
+.controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  margin-bottom: .6rem;
+}
+
+/* Botón más pequeño */
+.audio-btn.small {
+  width: auto;
+  padding: .45rem .7rem;
+  font-size: .9rem;
+  border-radius: 12px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ajuste para que no ocupe todo el ancho */
+.audio-btn {
+  width: 100%;
+}
+
+.audio-btn.small {
+  width: auto;
+}
+
+/* Speed control alineado */
+.speed-control {
+  position: relative;
+  display: inline-block;
+  margin-top: 0;
+}
+
+/* BOTÓN CERRAR */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+
+  border: none;
+  background: rgba(0,0,0,0.05);
+  color: #6c757d;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all .2s ease;
+}
+
+.close-btn:hover {
+  background: #f8d7da;
+  color: #dc3545;
+  transform: rotate(90deg) scale(1.1);
+}

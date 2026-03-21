@@ -29,7 +29,10 @@ export class LessonGrammar {
   completed = new EventEmitter<boolean>();
 
   @Output()
-  markedLearned = new EventEmitter<void>();
+  markedLearned = new EventEmitter<number>();
+
+  @Output()
+  cancel = new EventEmitter<boolean>();
 
   private audio?: HTMLAudioElement;
 
@@ -83,12 +86,19 @@ export class LessonGrammar {
   markAsLearned(): void {
     this.markedAsLearned = !this.markedAsLearned;
     if (this.markedAsLearned) {
-      this.markedLearned.emit();
+      this.markedLearned.emit(this.grammar.word_id);
     }
   }
 
   continue(): void {
     this.completed.emit(true);
+  }
+
+  onCancel(): void {
+    this.stopAudio();
+    speechSynthesis.cancel();
+
+    this.cancel.emit(true);
   }
 
 }

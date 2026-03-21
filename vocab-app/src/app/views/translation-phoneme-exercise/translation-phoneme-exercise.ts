@@ -37,7 +37,8 @@ export class TranslationPhonemeExercise {
    * ======================= */
   @Output()
   completed = new EventEmitter<boolean>();
-
+  @Output()
+  cancel = new EventEmitter<boolean>();
   /* =======================
    * STATE
    * ======================= */
@@ -112,6 +113,13 @@ export class TranslationPhonemeExercise {
     setTimeout(() => {
       this.completed.emit(this.state.isCorrect);
     }, 600);
+  }
+
+  onCancel(): void {
+    this.stopAudio();
+    speechSynthesis.cancel();
+
+    this.cancel.emit(true);
   }
 
 }

@@ -1,5 +1,9 @@
 @if (word) {
   <div class="lesson-card fade-in">
+    <!-- BOTÓN CERRAR -->
+    <button class="close-btn" (click)="onCancel()">
+      ✕
+    </button>
     <span class="badge">Vocabulary</span>
     <h2 class="english-word">
       {{ word.word }}

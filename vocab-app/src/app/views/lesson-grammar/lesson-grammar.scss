@@ -123,3 +123,34 @@ button {
   color: white;
   border: none;
 }
+
+/* BOTÓN CERRAR */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+
+  border: none;
+  background: rgba(0,0,0,0.05);
+  color: #6c757d;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all .2s ease;
+}
+
+.close-btn:hover {
+  background: #f8d7da;
+  color: #dc3545;
+  transform: rotate(90deg) scale(1.1);
+}

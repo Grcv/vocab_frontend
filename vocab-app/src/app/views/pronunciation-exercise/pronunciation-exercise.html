@@ -1,6 +1,10 @@
 @if (word) {
   <div class="pronunciation-exercise">
     <div class="exercise-card fade-in">
+      <!-- BOTÓN CERRAR -->
+      <button class="close-btn" (click)="onCancel()">
+        ✕
+      </button>
       <span class="mode-badge">Pronunciación</span>
       <!-- INSTRUCCIÓN -->
       <p class="instruction instruction--emphasis">

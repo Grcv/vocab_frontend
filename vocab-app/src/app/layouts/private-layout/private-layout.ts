@@ -50,22 +50,22 @@ export class PrivateLayout implements OnInit {
 
 
   goToVocabularySettings(): void {
-    //alert('Vista de progreso en desarrollo');
     this.router.navigate(['/vocabulary_settings']);
   }
 
+  goToExerciseSettings(): void {
+    this.router.navigate(['/exercise_settings']);
+  }
+
   goToSettings(): void {
-    //alert('Vista de progreso en desarrollo');
     this.router.navigate(['/settings']);
   }
 
   viewProgress(): void {
-    //alert('Vista de progreso en desarrollo');
     this.router.navigate(['/progress']);
   }
 
   openHelp(): void {
-    //alert('Centro de ayuda en desarrollo');
     this.router.navigate(['/help']);
   }
 

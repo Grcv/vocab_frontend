@@ -27,6 +27,8 @@ export class LessonPronunciation {
 
   @Output()
   completed = new EventEmitter<boolean>();
+  @Output()
+  cancel = new EventEmitter<boolean>();
 
   private audio?: HTMLAudioElement;
 
@@ -116,17 +118,24 @@ export class LessonPronunciation {
     this.highlightedIPA = highlighted;
   }
 
-    private fallbackTTS(): void {
-      if (!('speechSynthesis' in window)) return;
+  private fallbackTTS(): void {
+    if (!('speechSynthesis' in window)) return;
 
-      speechSynthesis.cancel();
+    speechSynthesis.cancel();
 
-      const utterance = new SpeechSynthesisUtterance(this.pronunciation.word);
-      utterance.lang = 'en-US';
-      utterance.rate = this.speechRate;;
-      utterance.pitch = 1;
+    const utterance = new SpeechSynthesisUtterance(this.pronunciation.word);
+    utterance.lang = 'en-US';
+    utterance.rate = this.speechRate;;
+    utterance.pitch = 1;
 
-      speechSynthesis.speak(utterance);
-    }
+    speechSynthesis.speak(utterance);
+  }
+
+  onCancel(): void {
+    this.stopAudio();
+    speechSynthesis.cancel();
+
+    this.cancel.emit(true);
+  }
 
 }

@@ -38,6 +38,9 @@ export class AudioMatchPhonemeExercise implements OnChanges{
   @Output()
   completed = new EventEmitter<boolean>();
 
+  @Output()
+  cancel = new EventEmitter<boolean>();
+
   /* =======================
    * STATE
    * ======================= */
@@ -128,6 +131,13 @@ export class AudioMatchPhonemeExercise implements OnChanges{
     setTimeout(() => {
       this.completed.emit(this.state.isCorrect);
     }, 600);
+  }
+
+  onCancel(): void {
+    this.stopAudio();
+    speechSynthesis.cancel();
+
+    this.cancel.emit();
   }
 
 }

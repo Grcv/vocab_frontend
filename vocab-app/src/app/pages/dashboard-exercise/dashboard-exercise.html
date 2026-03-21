@@ -1,5 +1,20 @@
 <div class="dashboard">
 
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+
+    <span class="crumb home" (click)="goHome()">
+      <span>Inicio</span>
+    </span>
+
+    <span class="separator">›</span>
+
+    <span class="crumb current">
+      {{ sectionTitle }}
+    </span>
+
+  </div>
+
   <!-- HEADER -->
   <div class="header">
     <div class="header-left">

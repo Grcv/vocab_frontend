@@ -14,6 +14,33 @@ export interface UserSettings {
   audio_autoplay?: boolean;
 }
 
+export interface FlowSettings {
+  user: string;
+  lesson?: boolean;
+  meaning?: boolean;
+  audio_recognition?: boolean;
+  audio_discrimination?: boolean;
+  pronunciation: boolean;
+  spelling: boolean;
+  lesson_pronunciation?: boolean;
+  meaning_phoneme?: boolean;
+  audio_recognition_phoneme?: boolean;
+  lesson_listening?: boolean;
+  lesson_grammar?: boolean;
+  lesson_present?: boolean;
+  lesson_past?: boolean;
+  lesson_past_participle?: boolean;
+  meaning_present?: boolean;
+  meaning_past?: boolean;
+  meaning_past_participle?: boolean;
+  audio_recognition_present?: boolean;
+  audio_recognition_past?: boolean;
+  audio_recognition_past_participle?: boolean;
+  audio_discrimination_present?: boolean;
+  audio_discrimination_past?: boolean;
+  audio_discrimination_past_participle?: boolean;
+}
+
 export interface Form {
   email: string;
   topic: string ;
@@ -43,6 +70,20 @@ export class SettingsService {
   getUserSettings(): Observable<UserSettings> {
     return this.http.get<UserSettings>(
       `${this.authBaseUrl}/get_user_settings`
+    );
+  }
+
+  getFlowSettings(type: string): Observable<FlowSettings> {
+    return this.http.post<FlowSettings>(
+      `${this.authBaseUrl}/get_flow_settings`,
+      { type: type }
+    );
+  }
+
+  updateFlowSettings(type: string,settings: Partial<FlowSettings>): Observable<FlowSettings> {
+    return this.http.post<FlowSettings>(
+      `${this.authBaseUrl}/update_profile`,
+      settings
     );
   }
 

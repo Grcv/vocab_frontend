@@ -52,7 +52,6 @@ export class Progress implements OnChanges {
     this.progressService.getSummary(this.type).subscribe({
       next: res => {
         this.data = res;
-
         this.stats = {
           user_name: res.user_name,
           cefr: res.cefr,
