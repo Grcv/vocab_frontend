@@ -138,10 +138,8 @@ export class AudioToAudioExercise
   }
 
   onCancel(): void {
-    console.log("Cancel")
     this.stopAudio();
     speechSynthesis.cancel();
-    console.log("Cancel button")
     this.cancel.emit(true);
     
   }

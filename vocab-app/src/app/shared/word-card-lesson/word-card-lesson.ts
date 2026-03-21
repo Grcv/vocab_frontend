@@ -16,7 +16,6 @@ export class WordCardLessonComponent implements OnChanges {
   @Output() toggleLearned = new EventEmitter<number>();
   private audio?: HTMLAudioElement;
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("this.word:",this.word)
     if (changes['word'] && this.word) {
       this.autoPlayAudio();
     }

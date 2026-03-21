@@ -100,7 +100,6 @@ export class ExerciseSettings {
     if (!key) return false;
 
     const normalized = key.toLowerCase();
-    console.log("normalized:",normalized)
     return this.BLOCKED_KEYS.some(word => normalized.includes(word));
   }
 

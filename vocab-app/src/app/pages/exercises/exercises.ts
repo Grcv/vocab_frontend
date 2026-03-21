@@ -65,7 +65,6 @@ export class Exercises implements OnInit {
   constructor(private progressService: ProgressService,private router: Router,private settingsservice:SettingsService) {}
 
   ngOnInit(): void {
-    console.log('Exercises init');
     this.loadData();
     this.loadNextExercise();
     this.recover();
@@ -135,7 +134,6 @@ export class Exercises implements OnInit {
   }
 
   onExerciseCancel(status: boolean): void{
-    console.log("status:",status)
     if (status)
      {
       this.progressService.resetSession()
@@ -156,7 +154,6 @@ export class Exercises implements OnInit {
 
   goToDashboard() {
     const sectionType = localStorage.getItem('section');
-    console.log("sectionType:",sectionType)
     localStorage.removeItem('section');
 
     if (sectionType) {

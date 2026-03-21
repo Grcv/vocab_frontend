@@ -28,7 +28,6 @@ export class TabProgress {
   activeTab: TabType = this.tabs[0].value;
 
   setTab(tab: TabType) {
-    console.log(tab)
     this.activeTab = tab;
   }
 

@@ -95,11 +95,6 @@ export class Settings {
       next: () => {
         this.isPremium = true;
         this.isLoading = false;
-
-        // opcional: redirigir
-        // this.router.navigate(['/dashboard']);
-
-        console.log("Premium activado correctamente");
       },
       error: (err) => {
         this.isLoading = false;

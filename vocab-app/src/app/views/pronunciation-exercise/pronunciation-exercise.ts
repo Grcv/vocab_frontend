@@ -186,7 +186,6 @@ export class PronunciationExercise implements OnChanges, OnDestroy {
     const file = new File([blob], 'audio.webm', {
       type: 'audio/webm'
     });
-    console.log(this.word.audio)
     this.progressService.compareAudio(file, this.word.word_id)
       .subscribe({
         next: data => {

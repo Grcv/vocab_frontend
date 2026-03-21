@@ -42,7 +42,6 @@ export class LessonGrammar {
   constructor(private progressService: ProgressService,private audioService:AudioService){}
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("grammar:",this.grammar)
     if (changes['grammar']) {
       this.markedAsLearned = false;
     }
